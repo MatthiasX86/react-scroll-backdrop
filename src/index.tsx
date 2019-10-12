@@ -1,6 +1,6 @@
 import React from 'react';
 import globalColorClass from './logic';
-import { generalChildrenType } from '../types';
+import { generalChildrenType } from './types';
 import shortid from 'shortid';
 
 /* ======= React Color Component ========

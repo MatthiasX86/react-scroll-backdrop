@@ -1,0 +1,60 @@
+Arguments: 
+  /usr/local/Cellar/node/12.11.1/bin/node /usr/local/Cellar/yarn/1.19.1/libexec/bin/yarn.js install
+
+PATH: 
+  /Users/matthew/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Library/Apple/bin:/opt/X11/bin:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/lib:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/heroku:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/pip:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/lein:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/command-not-found:/Users/matthew/.antigen/bundles/wwilsman/zsh-clean-project:/Users/matthew/.antigen/bundles/chrissicool/zsh-256color:/Users/matthew/.antigen/bundles/zsh-users/zsh-syntax-highlighting:/Users/matthew/.fzf/bin
+
+Yarn version: 
+  1.19.1
+
+Node version: 
+  12.11.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/matthew/Documents/React-backdrop/package.json: Unexpected token } in JSON at position 740
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.19.1/libexec/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.19.1/libexec/lib/cli.js:304:30)
+      at /usr/local/Cellar/yarn/1.19.1/libexec/lib/cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "React-backdrop",
+    "version": "0.1.0",
+    "description": "React backdrop is a context based React component that transitions/animates the background one user scroll.",
+    "main": "index.js",
+    "repository": "https://github.com/MatthiasX86/React-backdrop.git",
+    "author": "MatthiasX86",
+    "license": "MIT",
+    "dependencies": {
+      "browser-sync": "^2.26.3",
+      "browserify": "^16.2.3",
+      "tsify": "^4.0.1",
+      "tslint": "^5.13.1",
+      "typescript": "^3.3.3333"
+    },
+    "devDependencies": {
+      "gulp": "^4.0.0",
+      "gulp-buffer": "^0.0.2",
+      "gulp-load-plugins": "^1.5.0",
+      "gulp-rename": "^1.4.0",
+      "gulp-sourcemaps": "2.6.5",
+      "gulp-tap": "^1.0.1",
+      "gulp-typescript": "^5.0.0",
+      "gulp-uglify": "3.0.2",
+    },
+    "scripts": {
+      "load": "nvim -S Session.vim",
+      "start": "gulp",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
