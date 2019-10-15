@@ -1,43 +1,44 @@
 /* ======= Color Container ========
  * =============================*/
 
+type CCB = (color: string, theme: string) => void;
+type ZCB = (state: string) => void;
+
 interface zoneObj {
   element: HTMLDivElement;
-  top: number;
-  bottom: number;
+  theme: string;
   color: string;
+  callback: ZCB;
 }
 
-interface containerObj {
-  element: HTMLDivElement;
-  callback: () => void;
-}
-
-type CCB = (color: string) => void;
-
-class globalColorClass {
+class globalBackdrop {
+  /* state & storage */
   public colorCollections: zoneObj[] = [];
-  private colorContainers: containerObj[] = [];
   public currentColor: string;
+  public currentTheme: string;
 
   /* arguments */
+  private fromTop: number;
   private defaultColor: string;
+  private defaultTheme: string;
   private setColorCallback: CCB;
   private containerEl?: HTMLDivElement;
-  private isScroll?: boolean;
 
   constructor(
+    fromTop: number,
     defaultColor: string,
+    defaultTheme: string,
     setColorCallback: CCB,
-    containerEl: HTMLDivElement,
-    isScroll: boolean = false,
+    containerEl: HTMLDivElement
   ) {
+    this.fromTop = fromTop;
     this.defaultColor = defaultColor;
+    this.defaultTheme = defaultTheme;
     this.setColorCallback = setColorCallback;
-    this.isScroll = isScroll;
     this.containerEl = containerEl;
 
     this.currentColor = this.defaultColor;
+    this.currentTheme = this.defaultTheme;
     this.registerColor = this.registerColor.bind(this);
     this.init();
   }
@@ -45,9 +46,9 @@ class globalColorClass {
   /*
    * */
   public init() {
-    const windowOrContainer = this.isScroll ? this.containerEl : window;
+    this.setColorCallback(this.defaultColor, this.defaultTheme);
 
-    windowOrContainer.addEventListener('scroll', () => {
+    window.addEventListener('scroll', () => {
       window.requestAnimationFrame(() => {
         this.logic();
       });
@@ -57,56 +58,57 @@ class globalColorClass {
   /*
    * */
   private logic() {
-    const windowPosition = this.isScroll
-      ? ( this.containerEl.clientHeight * 0.7  ) + this.containerEl.scrollTop
-      : ( window.innerHeight * 0.7 ) + window.scrollY;
-
-    const isNotDefaultColor = this.currentColor != this.defaultColor;
     let inZoneRange = false;
 
     this.colorCollections.forEach((colorItem: zoneObj) => {
-      const isAtZoneTop = windowPosition >= colorItem.top;
-      const isAtZoneBottom = windowPosition <= colorItem.bottom;
-      const isNotCurrentColor = this.currentColor != colorItem.color;
+      const el = colorItem.element.getBoundingClientRect();
 
-      if (isAtZoneTop && isAtZoneBottom) {
+      if (el.top <= this.fromTop && el.bottom >= this.fromTop) {
         inZoneRange = true;
-        isNotCurrentColor && this.setColor(colorItem.color);
+        if (this.currentColor != colorItem.color) {
+          this.setColor(colorItem.color, colorItem.theme);
+        }
       }
+
+      colorItem.callback(this.currentColor);
     });
 
-    !inZoneRange && isNotDefaultColor && this.setColor(this.defaultColor);
+    /* if not in any backdrop registered zone and the current color
+     * is not the default color set color and theme back to their default */
+    if (!inZoneRange && ( this.currentColor != this.defaultColor )) {
+      this.setColor(this.defaultColor, this.defaultTheme);
+    }
   }
 
   /*
    * */
-  private setColor(newColor: string) {
+  private setColor(newColor: string, newTheme: string) {
     this.currentColor = newColor;
-    this.setColorCallback(this.currentColor);
+    this.currentTheme = newTheme;
+    this.setColorCallback(this.currentColor, this.currentTheme);
   }
 
-  /* TODO: re-register logic is node moves
+  /*
    * */
-  public registerColor(domRef: HTMLDivElement, color: string): void {
-    const element = domRef;
-    const elementDim = element.getBoundingClientRect();
-
+  public registerColor(
+    color: string = this.defaultColor,
+    theme: string = this.defaultTheme,
+    instant: boolean,
+    domRef: HTMLDivElement,
+    zoneCallback: ZCB
+  ): void {
     this.colorCollections.push({
-      element: domRef,
-      top: this.containerEl ? element.offsetTop : elementDim.top,
-      bottom: this.containerEl ? ( element.offsetTop + element.offsetHeight) : elementDim.bottom,
       color: color,
-    });
-  }
-
-  /* 
-   * */
-  private registerColorContainer<T>(domRef: HTMLDivElement, activeCallback: T) {
-    this.colorContainers.push({
       element: domRef,
-      callback: activeCallback,
+      callback: zoneCallback,
+      theme: theme,
     });
+
+    if (instant) {
+      this.setColor(color, theme);
+      zoneCallback(color);
+    }
   }
 }
 
-export default globalColorClass;
+export default globalBackdrop;

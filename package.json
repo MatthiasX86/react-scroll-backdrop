@@ -11,6 +11,7 @@
     "browser-sync": "^2.26.3",
     "browserify": "^16.2.3",
     "react": "16.10.2",
+    "react-dom": "16.10.2",
     "shortid": "2.2.15",
     "tsify": "^4.0.1",
     "tslint": "^5.13.1",
@@ -31,8 +32,10 @@
     "eslint-plugin-standard": "4.0.1",
     "gulp": "^4.0.0",
     "gulp-buffer": "^0.0.2",
+    "gulp-if": "3.0.0",
     "gulp-load-plugins": "^1.5.0",
     "gulp-rename": "^1.4.0",
+    "gulp-sass": "4.0.2",
     "gulp-sourcemaps": "2.6.5",
     "gulp-tap": "^1.0.1",
     "gulp-typescript": "^5.0.0",
@@ -40,6 +43,7 @@
   },
   "scripts": {
     "load": "nvim -S Session.vim",
-    "start": "gulp"
+    "develop": "gulp develop",
+    "build": "gulp build"
   }
 }

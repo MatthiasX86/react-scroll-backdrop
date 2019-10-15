@@ -1,7 +1,5 @@
 import React from 'react';
-import globalColorClass from './logic';
-import { generalChildrenType } from './types';
-import shortid from 'shortid';
+import globalBackdrop from './logic';
 
 /* ======= React Color Component ========
  * ======================================*/
@@ -10,33 +8,37 @@ import shortid from 'shortid';
  * */
 interface CCmembers {
   registerColor: any;
-  registerColorContainer: any;
+  currentColor: any;
+  currentTheme: any;
 }
 
-const ColorContext = React.createContext<CCmembers>({
+const BackdropContext = React.createContext<CCmembers>({
   registerColor: undefined,
-  registerColorContainer: undefined,
+  currentColor: undefined,
+  currentTheme: undefined,
 });
 
 /* ======= React Color Component ========
  * ======================================*/
 
-interface CCProps {
-  children: generalChildrenType;
-  defaultColor: string;
-  scroll?: boolean;
+interface BDProps {
+  children: any;
+  defaultColor?: string;
+  defaultTheme?: string;
+  fromTop?: number;
 }
 
-interface CCState {
+interface BDState {
   activeColor: undefined | string;
+  activeTheme: undefined | string;
   isLoaded: boolean;
 }
 
-class ColorContainer extends React.Component<CCProps, CCState> {
-  private colorState: undefined | globalColorClass;
+class BackdropContainer extends React.Component<BDProps, BDState> {
+  private colorState: undefined | globalBackdrop;
   private DOMref: React.RefObject<HTMLDivElement>;
 
-  constructor(props: CCProps) {
+  constructor(props: BDProps) {
     super(props);
 
     this.DOMref = React.createRef<HTMLDivElement>();
@@ -45,103 +47,142 @@ class ColorContainer extends React.Component<CCProps, CCState> {
 
     this.state = {
       activeColor: undefined,
+      activeTheme: undefined,
       isLoaded: false,
     };
   }
 
-  setColor(newColor: string) {
+  setColor(newColor: string, newTheme: string) {
     this.setState({
       activeColor: newColor,
+      activeTheme: newTheme,
     });
   }
 
   componentDidMount() {
-    const { defaultColor, scroll } = this.props;
+    const {
+      defaultColor = 'transparent',
+      defaultTheme = 'default',
+      fromTop = 0,
+    } = this.props;
+
     const { isLoaded } = this.state;
 
-    if(isLoaded != true) {
-      this.colorState = new globalColorClass(
+    if (isLoaded != true) {
+      this.colorState = new globalBackdrop(
+        fromTop,
         defaultColor,
+        defaultTheme,
         this.setColor,
-        this.DOMref.current,
-        scroll,
+        this.DOMref.current
       );
 
-      this.setState({ 
+      this.setState({
         activeColor: this.colorState.currentColor,
-        isLoaded: true 
+        activeTheme: this.colorState.currentTheme,
+        isLoaded: true,
       });
     }
   }
 
   render() {
-    const { children, scroll } = this.props;
-    const { isLoaded } = this.state;
+    const { children } = this.props;
+    const { isLoaded, activeTheme } = this.state;
 
     var styleObj = {
-      transition: `all 1.5s ease-out`,
+      willChange: `background-color`,
+      transition: `all .6s ease-out`,
       backgroundColor: `${this.state.activeColor}`,
     };
 
-    if(scroll) {
-      Object.defineProperties(styleObj,  {
-        position: { value: `relative`, enumerable: true },
-        overflow: { value: `scroll`, enumerable: true },
-        height: { value: `100%`, enumerable: true },
-      })
-    }
-
     const contextValues = {
       registerColor: isLoaded ? this.colorState.registerColor : undefined,
-      registerColorContainer: isLoaded ? this.colorState.registerColor : undefined,
+      currentColor: isLoaded ? this.state.activeColor : undefined,
+      currentTheme: isLoaded ? this.state.activeTheme : undefined,
     };
 
     return (
-      <div style={styleObj} ref={this.DOMref}>
-        <ColorContext.Provider value={{...contextValues}}>
-            {children}
-        </ColorContext.Provider>
+      <div className={activeTheme} style={styleObj} ref={this.DOMref}>
+        <BackdropContext.Provider value={{ ...contextValues }}>
+          {children}
+        </BackdropContext.Provider>
       </div>
     );
   }
 }
 
-
 /* ======= color consumer component ========
  * =========================================*/
 
-interface CZProps {
-  children: generalChildrenType;
+interface BDZProps {
+  children: HTMLDivElement;
   color: string;
-  registerColor?: (element, HTMLDivElement, color: string) => void;
+  theme?: string;
+  off?: boolean;
+  instant?: boolean;
 }
 
-interface CZState {
+interface BDZState {
   didRender: boolean;
   hasRegistered: boolean;
+  isActiveZone: boolean;
 }
 
-class ColorZone extends React.Component<CZProps, CZState> {
-  static contextType = ColorContext;
+class BackdropZone extends React.Component<BDZProps, BDZState> {
+  static contextType = BackdropContext;
   private DOMRef: React.RefObject<HTMLDivElement>;
 
-  constructor(props: CZProps) {
+  constructor(props: BDZProps) {
     super(props);
     this.state = {
       didRender: false,
       hasRegistered: false,
+      isActiveZone: false,
     };
     this.DOMRef = React.createRef<HTMLDivElement>();
+    this.setZoneActiveState = this.setZoneActiveState.bind(this);
+  }
+
+  setZoneActiveState(currentColor: string) {
+    const { color } = this.props;
+    const { isActiveZone } = this.state;
+
+    if (color !== currentColor) {
+      if (isActiveZone !== false) {
+        this.setState({ isActiveZone: false });
+      }
+    }
+
+    if (color === currentColor) {
+      if (isActiveZone !== true) {
+        this.setState({ isActiveZone: true });
+      }
+    }
   }
 
   componentDidUpdate() {
-    const { color } = this.props;
-    const { hasRegistered } = this.state;
-    const sendColor = this.props.registerColor || this.context.registerColor;
+    const {
+      color,
+      off = false,
+      instant = false,
+      theme = 'default',
+    } = this.props;
 
-    if (hasRegistered != true) {
-      sendColor(this.DOMRef.current, color);
-      this.setState({ hasRegistered: true });
+    const { hasRegistered } = this.state;
+    const { registerColor } = this.context;
+
+    if (hasRegistered != true && off != true) {
+      if (typeof registerColor === 'function') {
+        registerColor(
+          color,
+          theme,
+          instant,
+          this.DOMRef.current,
+          this.setZoneActiveState
+        );
+
+        this.setState({ hasRegistered: true });
+      }
     }
   }
 
@@ -153,12 +194,15 @@ class ColorZone extends React.Component<CZProps, CZState> {
 
   render() {
     const { children } = this.props;
-    const { didRender } = this.state;
+    const { didRender, isActiveZone } = this.state;
 
     return (
       <>
         {didRender && (
-          <div key={shortid.generate()} ref={this.DOMRef}>
+          <div
+            className={isActiveZone ? 'zoneActive' : ''}
+            ref={this.DOMRef}
+          >
             {children}
           </div>
         )}
@@ -167,4 +211,4 @@ class ColorZone extends React.Component<CZProps, CZState> {
   }
 }
 
-export { ColorContainer, ColorZone };
+export { BackdropContainer, BackdropZone, BackdropContext };
