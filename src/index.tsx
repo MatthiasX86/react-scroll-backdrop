@@ -102,7 +102,11 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
     };
 
     return (
-      <div className={activeTheme} style={styleObj} ref={this.DOMref}>
+      <div
+        className={activeTheme}
+        style={styleObj}
+        ref={this.DOMref}
+      >
         <BackdropContext.Provider value={{ ...contextValues }}>
           {children}
         </BackdropContext.Provider>
@@ -115,7 +119,7 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
  * =========================================*/
 
 interface BDZProps {
-  children: HTMLDivElement;
+  children: any;
   color: string;
   theme?: string;
   off?: boolean;
@@ -168,8 +172,15 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
       theme = 'default',
     } = this.props;
 
-    const { hasRegistered } = this.state;
-    const { registerColor } = this.context;
+    const {
+      hasRegistered,
+    } = this.state;
+
+    const {
+      registerColor,
+      currentColor,
+      currentTheme
+    } = this.context;
 
     if (hasRegistered != true && off != true) {
       if (typeof registerColor === 'function') {
@@ -184,6 +195,8 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
         this.setState({ hasRegistered: true });
       }
     }
+
+    this.setZoneActiveState(currentColor);
   }
 
   componentDidMount() {

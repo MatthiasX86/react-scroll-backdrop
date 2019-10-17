@@ -1,6 +1,260 @@
 @import './reset.scss';
 
-.something {
-  background-color:green;
-  text-align:center;
+/* variables */
+
+$lightGreen: #a5c0ba;
+
+/* base styles */
+
+section {
+  position:relative;
+  // padding:400px 0;
+  height:120vh;
+  min-height:600px;
+}
+
+.layout {
+  overflow:hidden;
+  padding-bottom:500px;
+}
+
+
+/* sections styles */
+
+.demo {
+
+  /*------------------------
+   * layout components
+   *-----------------------*/
+
+  &__container {
+    margin:0 auto;
+    min-width:900px;
+    max-width:1200px;
+    width:75%;
+    position:relative;
+    overflow:hidden;
+
+    &.center {
+      position:absolute;
+      top:50%;
+      right:0;
+      left:0;
+      transform:translateY(-50%);
+    }
+  }
+
+  &__imageFrame {
+
+    $size:700px;
+
+    &_container {
+      padding-top:80px;
+      position:relative;
+
+      &.left {
+        padding-right:80px;
+        float:left;
+      }
+
+      &.right {
+        padding-left:80px;
+        float:right;
+      }
+
+      &:before {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      &:after {
+        content:'';
+        height:$size;
+        
+        border:10px solid black;
+        display:block;
+        position:absolute;
+        top:0;
+        z-index:0;
+        width:85%;
+      }
+
+      &.right:after { 
+        left:auto;
+        right:80px;
+      }
+      &.left:after {
+        right:auto;
+        left:80px;
+      }
+    }
+
+    &_image {
+      position:relative;
+      z-index:10;
+      height:$size;
+
+      box-shadow:
+        0px 2px 3px rgba(0, 0, 0, 0.25), -10px 10px 5px rgba(0, 0, 0, 0.12);
+
+      @at-root .right & { float:right }
+      @at-root .left & { float:left }
+    }
+  }
+
+  /*------------------------
+   * initial splash screen
+   *-----------------------*/
+
+  &__splash {
+
+    &_container {
+      text-align: center;
+    }
+
+    &_title {
+      display:block;
+      text-shadow: 0px 8px 5px rgba(0, 0, 0, 0.74);
+      font-family: "Playfair Display", "Playfair Display", serif;
+      color: #fde0d9;
+      font-size: 80px;
+      letter-spacing: 0px;
+      line-height: 1.2;
+      font-weight: 700;
+      font-style: normal;
+      margin-bottom:50px;
+    }
+
+  }
+
+  /*------------------------
+   * plant screen
+   *-----------------------*/
+
+  &__plant {
+    position:relative;
+
+    &_textBox {
+      width:45%;
+      margin-bottom:15px;
+      margin-left:10px;
+    }
+
+    &_smallHeader {
+      text-transform:uppercase;
+      font-family: "Open Sans", "Open Sans", sans-serif;
+      color: #e9da0c;
+      font-size: 16px;
+      letter-spacing: 2px;
+      line-height: 1;
+      font-weight: 800;
+      font-style: normal;
+      margin-bottom:180px;
+    }
+
+    &_title {
+
+      font-family: "Ramaraja", "Ramaraja", serif;
+      color: #6c7f7b;
+      font-size: 120px;
+      letter-spacing: 0px;
+      line-height: 0.6;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    &_subtitle {
+      font-family: "Ramaraja", "Ramaraja", serif;
+      text-transform:uppercase;
+      color: #6c7f7b;
+      font-size: 24px;
+      letter-spacing: 2px;
+      line-height: 1;
+      font-weight: 400;
+      font-style: normal;
+      margin-bottom:50px;
+    }
+
+    &_body {
+      font-family: "TimesNewRomanPS-BoldMT", "Times New Roman", serif;
+      color: #ffffff;
+      font-size: 22px;
+      letter-spacing: 1px;
+      line-height: 1.4;
+      margin-bottom:120px;
+    }
+
+    &_button {
+      text-align:center;
+      background-color: #fce0d9;
+      border-radius: 20px;
+      box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+      padding:12px 0;
+      width:150px;
+      text-transform:uppercase;
+      font-family: "Open Sans", "Open Sans", sans-serif;
+      color: #849f99;
+      font-size: 12px;
+      letter-spacing: 1px;
+      line-height: 1;
+      font-weight: 700;
+      font-style: normal;
+      cursor:pointer;
+      transition:all 0.2s ease-out;
+
+      &:hover {
+        transform:
+          scale(1.02);
+        box-shadow: 0px 8px 5px 0px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    &_img {
+      height:100%;
+      position:absolute;
+      top:0;
+      left:60%;
+    }
+  }
+
+  /*------------------------
+   * pink bricks screen
+   *-----------------------*/
+
+  &__pinkBricks {
+
+    &_container {
+
+    }
+
+    &_textBox {
+      text-align:left;
+      float:right;
+      width:45%;
+      position:absolute;
+      right:0;
+      top:50%;
+      transform:
+        translateY(-50%);
+    }
+
+    &_title {
+      color:#fff;
+      font-family: 'Permanent Marker', cursive;
+      font-size:70px;
+      margin-bottom:60px;
+
+    }
+
+    &_body {
+      font-family: "Open Sans", "Open Sans", sans-serif;
+      color: #f5e50a;
+      font-size: 20px;
+      letter-spacing: 3px;
+      line-height: 1.2;
+      font-weight: 700;
+      font-style: normal;
+    }
+  }
 }

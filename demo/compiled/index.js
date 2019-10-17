@@ -2889,13 +2889,14 @@ var BackdropZone = /** @class */ (function (_super) {
     BackdropZone.prototype.componentDidUpdate = function () {
         var _a = this.props, color = _a.color, _b = _a.off, off = _b === void 0 ? false : _b, _c = _a.instant, instant = _c === void 0 ? false : _c, _d = _a.theme, theme = _d === void 0 ? 'default' : _d;
         var hasRegistered = this.state.hasRegistered;
-        var registerColor = this.context.registerColor;
+        var _e = this.context, registerColor = _e.registerColor, currentColor = _e.currentColor, currentTheme = _e.currentTheme;
         if (hasRegistered != true && off != true) {
             if (typeof registerColor === 'function') {
                 registerColor(color, theme, instant, this.DOMRef.current, this.setZoneActiveState);
                 this.setState({ hasRegistered: true });
             }
         }
+        this.setZoneActiveState(currentColor);
     };
     BackdropZone.prototype.componentDidMount = function () {
         this.setState({
@@ -2955,7 +2956,6 @@ var globalBackdrop = /** @class */ (function () {
                     _this.setColor(colorItem.color, colorItem.theme);
                 }
             }
-            colorItem.callback(_this.currentColor);
         });
         /* if not in any backdrop registered zone and the current color
          * is not the default color set color and theme back to their default */

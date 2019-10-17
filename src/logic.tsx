@@ -69,8 +69,6 @@ class globalBackdrop {
           this.setColor(colorItem.color, colorItem.theme);
         }
       }
-
-      colorItem.callback(this.currentColor);
     });
 
     /* if not in any backdrop registered zone and the current color
