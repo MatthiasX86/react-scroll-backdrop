@@ -1,44 +1,44 @@
 /* ======= Color Container ========
  * =============================*/
 
-type CCB = (color: string, theme: string) => void;
-type ZCB = (state: string) => void;
+interface VT {
+  value: string;
+  type: string;
+}
+
+type CCB = (valueType: VT, theme: string) => void;
+type ZCB = (valueTypeState: VT) => void;
 
 interface zoneObj {
   element: HTMLDivElement;
   theme: string;
-  color: string;
+  valueType: VT;
   callback: ZCB;
 }
 
 class globalBackdrop {
   /* state & storage */
   public colorCollections: zoneObj[] = [];
-  public currentColor: string;
+  public currentValueType: VT;
   public currentTheme: string;
 
   /* arguments */
   private fromTop: number;
-  private defaultColor: string;
+  private defaultValueType: VT;
   private defaultTheme: string;
-  private setColorCallback: CCB;
-  private containerEl?: HTMLDivElement;
+  private setValueCallback: CCB;
 
   constructor(
     fromTop: number,
-    defaultColor: string,
+    defaultValueType: VT,
     defaultTheme: string,
-    setColorCallback: CCB,
-    containerEl: HTMLDivElement
+    setValueCallback: CCB,
   ) {
     this.fromTop = fromTop;
-    this.defaultColor = defaultColor;
+    this.defaultValueType = defaultValueType;
     this.defaultTheme = defaultTheme;
-    this.setColorCallback = setColorCallback;
-    this.containerEl = containerEl;
+    this.setValueCallback = setValueCallback;
 
-    this.currentColor = this.defaultColor;
-    this.currentTheme = this.defaultTheme;
     this.registerColor = this.registerColor.bind(this);
     this.init();
   }
@@ -46,7 +46,9 @@ class globalBackdrop {
   /*
    * */
   public init() {
-    this.setColorCallback(this.defaultColor, this.defaultTheme);
+    this.currentValueType = this.defaultValueType;
+    this.currentTheme = this.defaultTheme;
+    this.setValueCallback(this.currentValueType, this.currentTheme);
 
     window.addEventListener('scroll', () => {
       window.requestAnimationFrame(() => {
@@ -65,46 +67,46 @@ class globalBackdrop {
 
       if (el.top <= this.fromTop && el.bottom >= this.fromTop) {
         inZoneRange = true;
-        if (this.currentColor != colorItem.color) {
-          this.setColor(colorItem.color, colorItem.theme);
+        if (JSON.stringify(this.currentValueType) !== JSON.stringify(colorItem.valueType)) {
+          this.setValue(colorItem.valueType, colorItem.theme);
         }
       }
     });
 
     /* if not in any backdrop registered zone and the current color
      * is not the default color set color and theme back to their default */
-    if (!inZoneRange && ( this.currentColor != this.defaultColor )) {
-      this.setColor(this.defaultColor, this.defaultTheme);
+    if (!inZoneRange && (JSON.stringify(this.currentValueType) !== JSON.stringify(this.defaultValueType)) ) {
+      this.setValue(this.defaultValueType, this.defaultTheme);
     }
   }
 
   /*
    * */
-  private setColor(newColor: string, newTheme: string) {
-    this.currentColor = newColor;
+  private setValue(newValueType: VT, newTheme: string) {
+    this.currentValueType = newValueType;
     this.currentTheme = newTheme;
-    this.setColorCallback(this.currentColor, this.currentTheme);
+    this.setValueCallback(this.currentValueType, this.currentTheme);
   }
 
   /*
    * */
   public registerColor(
-    color: string = this.defaultColor,
+    valueType: VT = this.defaultValueType,
     theme: string = this.defaultTheme,
     instant: boolean,
     domRef: HTMLDivElement,
     zoneCallback: ZCB
   ): void {
     this.colorCollections.push({
-      color: color,
       element: domRef,
-      callback: zoneCallback,
       theme: theme,
+      valueType: valueType,
+      callback: zoneCallback,
     });
 
     if (instant) {
-      this.setColor(color, theme);
-      zoneCallback(color);
+      this.setValue(valueType, theme);
+      zoneCallback(valueType);
     }
   }
 }

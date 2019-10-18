@@ -8,13 +8,18 @@ import globalBackdrop from './logic';
  * */
 interface CCmembers {
   registerColor: any;
-  currentColor: any;
+  currentValueType: any;
   currentTheme: any;
+}
+
+interface VT {
+  value: string;
+  type: string;
 }
 
 const BackdropContext = React.createContext<CCmembers>({
   registerColor: undefined,
-  currentColor: undefined,
+  currentValueType: undefined,
   currentTheme: undefined,
 });
 
@@ -23,45 +28,42 @@ const BackdropContext = React.createContext<CCmembers>({
 
 interface BDProps {
   children: any;
-  defaultColor?: string;
+  defaultValueType?: VT;
   defaultTheme?: string;
   fromTop?: number;
 }
 
 interface BDState {
-  activeColor: undefined | string;
+  activeValueType: undefined | VT;
   activeTheme: undefined | string;
   isLoaded: boolean;
 }
 
 class BackdropContainer extends React.Component<BDProps, BDState> {
   private colorState: undefined | globalBackdrop;
-  private DOMref: React.RefObject<HTMLDivElement>;
 
   constructor(props: BDProps) {
     super(props);
-
-    this.DOMref = React.createRef<HTMLDivElement>();
     this.setColor = this.setColor.bind(this);
     this.colorState = undefined;
 
     this.state = {
-      activeColor: undefined,
+      activeValueType: undefined,
       activeTheme: undefined,
       isLoaded: false,
     };
   }
 
-  setColor(newColor: string, newTheme: string) {
+  setColor(newValueType: VT, newTheme: string) {
     this.setState({
-      activeColor: newColor,
+      activeValueType: newValueType,
       activeTheme: newTheme,
     });
   }
 
   componentDidMount() {
     const {
-      defaultColor = 'transparent',
+      defaultValueType = {value: 'transparent', type: 'color'},
       defaultTheme = 'default',
       fromTop = 0,
     } = this.props;
@@ -71,14 +73,13 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
     if (isLoaded != true) {
       this.colorState = new globalBackdrop(
         fromTop,
-        defaultColor,
+        defaultValueType,
         defaultTheme,
         this.setColor,
-        this.DOMref.current
       );
 
       this.setState({
-        activeColor: this.colorState.currentColor,
+        activeValueType: this.colorState.currentValueType,
         activeTheme: this.colorState.currentTheme,
         isLoaded: true,
       });
@@ -87,26 +88,24 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
 
   render() {
     const { children } = this.props;
-    const { isLoaded, activeTheme } = this.state;
+    const { isLoaded, activeValueType, activeTheme } = this.state;
 
     var styleObj = {
       willChange: `background-color`,
       transition: `all .6s ease-out`,
-      backgroundColor: `${this.state.activeColor}`,
+      ...(isLoaded && {backgroundColor: activeValueType.value})
     };
+
+    console.log(activeValueType != undefined && activeValueType.type)
 
     const contextValues = {
       registerColor: isLoaded ? this.colorState.registerColor : undefined,
-      currentColor: isLoaded ? this.state.activeColor : undefined,
+      currentValueType: isLoaded ? this.state.activeValueType : undefined,
       currentTheme: isLoaded ? this.state.activeTheme : undefined,
     };
 
     return (
-      <div
-        className={activeTheme}
-        style={styleObj}
-        ref={this.DOMref}
-      >
+      <div className={activeTheme} style={styleObj}>
         <BackdropContext.Provider value={{ ...contextValues }}>
           {children}
         </BackdropContext.Provider>
@@ -118,9 +117,21 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
 /* ======= color consumer component ========
  * =========================================*/
 
+type imagePolicyString = 'stretch' | 'contain';
+
+interface imagePolicyObject {
+  backgroundSize?: 'string';
+  backgroundPosition?: 'string';
+  backgroundRepeat?: 'string';
+  backgroundClip?: 'string';
+}
+
 interface BDZProps {
   children: any;
-  color: string;
+  color?: string;
+  image?: string;
+  imagePolicy?: imagePolicyString | imagePolicyObject;
+  video?: string;
   theme?: string;
   off?: boolean;
   instant?: boolean;
@@ -130,6 +141,7 @@ interface BDZState {
   didRender: boolean;
   hasRegistered: boolean;
   isActiveZone: boolean;
+  zoneValueType: VT | undefined;
 }
 
 class BackdropZone extends React.Component<BDZProps, BDZState> {
@@ -142,22 +154,22 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
       didRender: false,
       hasRegistered: false,
       isActiveZone: false,
+      zoneValueType: undefined,
     };
     this.DOMRef = React.createRef<HTMLDivElement>();
     this.setZoneActiveState = this.setZoneActiveState.bind(this);
   }
 
-  setZoneActiveState(currentColor: string) {
-    const { color } = this.props;
-    const { isActiveZone } = this.state;
+  setZoneActiveState(valueType: VT) {
+    const { isActiveZone, zoneValueType } = this.state;
 
-    if (color !== currentColor) {
+    if (JSON.stringify(zoneValueType) !== JSON.stringify(valueType)) {
       if (isActiveZone !== false) {
         this.setState({ isActiveZone: false });
       }
     }
 
-    if (color === currentColor) {
+    if (JSON.stringify(zoneValueType) === JSON.stringify(valueType)) {
       if (isActiveZone !== true) {
         this.setState({ isActiveZone: true });
       }
@@ -165,8 +177,8 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
   }
 
   componentDidUpdate() {
+
     const {
-      color,
       off = false,
       instant = false,
       theme = 'default',
@@ -174,18 +186,18 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
 
     const {
       hasRegistered,
+      zoneValueType,
     } = this.state;
 
     const {
       registerColor,
-      currentColor,
-      currentTheme
+      currentValueType,
     } = this.context;
 
     if (hasRegistered != true && off != true) {
       if (typeof registerColor === 'function') {
         registerColor(
-          color,
+          zoneValueType,
           theme,
           instant,
           this.DOMRef.current,
@@ -196,12 +208,18 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
       }
     }
 
-    this.setZoneActiveState(currentColor);
+    this.setZoneActiveState(currentValueType);
   }
 
   componentDidMount() {
+    const { color, image, video } = this.props;
+
     this.setState({
       didRender: true,
+      zoneValueType: {
+        value: color || image || video,
+        type: color && 'color' || image && 'image' || video && 'video',
+      }
     });
   }
 
@@ -209,11 +227,16 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
     const { children } = this.props;
     const { didRender, isActiveZone } = this.state;
 
+    const containerClassNames = [
+      'reactBackdrop',
+      isActiveZone ? 'active' : '',
+    ].join(' ');
+
     return (
       <>
         {didRender && (
           <div
-            className={isActiveZone ? 'zoneActive' : ''}
+            className={containerClassNames}
             ref={this.DOMRef}
           >
             {children}

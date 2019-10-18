@@ -2804,7 +2804,7 @@ var react_1 = __importDefault(require("react"));
 var logic_1 = __importDefault(require("./logic"));
 var BackdropContext = react_1.default.createContext({
     registerColor: undefined,
-    currentColor: undefined,
+    currentValueType: undefined,
     currentTheme: undefined,
 });
 exports.BackdropContext = BackdropContext;
@@ -2812,29 +2812,28 @@ var BackdropContainer = /** @class */ (function (_super) {
     __extends(BackdropContainer, _super);
     function BackdropContainer(props) {
         var _this = _super.call(this, props) || this;
-        _this.DOMref = react_1.default.createRef();
         _this.setColor = _this.setColor.bind(_this);
         _this.colorState = undefined;
         _this.state = {
-            activeColor: undefined,
+            activeValueType: undefined,
             activeTheme: undefined,
             isLoaded: false,
         };
         return _this;
     }
-    BackdropContainer.prototype.setColor = function (newColor, newTheme) {
+    BackdropContainer.prototype.setColor = function (newValueType, newTheme) {
         this.setState({
-            activeColor: newColor,
+            activeValueType: newValueType,
             activeTheme: newTheme,
         });
     };
     BackdropContainer.prototype.componentDidMount = function () {
-        var _a = this.props, _b = _a.defaultColor, defaultColor = _b === void 0 ? 'transparent' : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
+        var _a = this.props, _b = _a.defaultValueType, defaultValueType = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
         var isLoaded = this.state.isLoaded;
         if (isLoaded != true) {
-            this.colorState = new logic_1.default(fromTop, defaultColor, defaultTheme, this.setColor, this.DOMref.current);
+            this.colorState = new logic_1.default(fromTop, defaultValueType, defaultTheme, this.setColor);
             this.setState({
-                activeColor: this.colorState.currentColor,
+                activeValueType: this.colorState.currentValueType,
                 activeTheme: this.colorState.currentTheme,
                 isLoaded: true,
             });
@@ -2842,18 +2841,15 @@ var BackdropContainer = /** @class */ (function (_super) {
     };
     BackdropContainer.prototype.render = function () {
         var children = this.props.children;
-        var _a = this.state, isLoaded = _a.isLoaded, activeTheme = _a.activeTheme;
-        var styleObj = {
-            willChange: "background-color",
-            transition: "all .6s ease-out",
-            backgroundColor: "" + this.state.activeColor,
-        };
+        var _a = this.state, isLoaded = _a.isLoaded, activeValueType = _a.activeValueType, activeTheme = _a.activeTheme;
+        var styleObj = __assign({ willChange: "background-color", transition: "all .6s ease-out" }, (isLoaded && { backgroundColor: activeValueType.value }));
+        console.log(activeValueType != undefined && activeValueType.type);
         var contextValues = {
             registerColor: isLoaded ? this.colorState.registerColor : undefined,
-            currentColor: isLoaded ? this.state.activeColor : undefined,
+            currentValueType: isLoaded ? this.state.activeValueType : undefined,
             currentTheme: isLoaded ? this.state.activeTheme : undefined,
         };
-        return (react_1.default.createElement("div", { className: activeTheme, style: styleObj, ref: this.DOMref },
+        return (react_1.default.createElement("div", { className: activeTheme, style: styleObj },
             react_1.default.createElement(BackdropContext.Provider, { value: __assign({}, contextValues) }, children)));
     };
     return BackdropContainer;
@@ -2867,46 +2863,55 @@ var BackdropZone = /** @class */ (function (_super) {
             didRender: false,
             hasRegistered: false,
             isActiveZone: false,
+            zoneValueType: undefined,
         };
         _this.DOMRef = react_1.default.createRef();
         _this.setZoneActiveState = _this.setZoneActiveState.bind(_this);
         return _this;
     }
-    BackdropZone.prototype.setZoneActiveState = function (currentColor) {
-        var color = this.props.color;
-        var isActiveZone = this.state.isActiveZone;
-        if (color !== currentColor) {
+    BackdropZone.prototype.setZoneActiveState = function (valueType) {
+        var _a = this.state, isActiveZone = _a.isActiveZone, zoneValueType = _a.zoneValueType;
+        if (JSON.stringify(zoneValueType) !== JSON.stringify(valueType)) {
             if (isActiveZone !== false) {
                 this.setState({ isActiveZone: false });
             }
         }
-        if (color === currentColor) {
+        if (JSON.stringify(zoneValueType) === JSON.stringify(valueType)) {
             if (isActiveZone !== true) {
                 this.setState({ isActiveZone: true });
             }
         }
     };
     BackdropZone.prototype.componentDidUpdate = function () {
-        var _a = this.props, color = _a.color, _b = _a.off, off = _b === void 0 ? false : _b, _c = _a.instant, instant = _c === void 0 ? false : _c, _d = _a.theme, theme = _d === void 0 ? 'default' : _d;
-        var hasRegistered = this.state.hasRegistered;
-        var _e = this.context, registerColor = _e.registerColor, currentColor = _e.currentColor, currentTheme = _e.currentTheme;
+        var _a = this.props, _b = _a.off, off = _b === void 0 ? false : _b, _c = _a.instant, instant = _c === void 0 ? false : _c, _d = _a.theme, theme = _d === void 0 ? 'default' : _d;
+        var _e = this.state, hasRegistered = _e.hasRegistered, zoneValueType = _e.zoneValueType;
+        var _f = this.context, registerColor = _f.registerColor, currentValueType = _f.currentValueType;
         if (hasRegistered != true && off != true) {
             if (typeof registerColor === 'function') {
-                registerColor(color, theme, instant, this.DOMRef.current, this.setZoneActiveState);
+                registerColor(zoneValueType, theme, instant, this.DOMRef.current, this.setZoneActiveState);
                 this.setState({ hasRegistered: true });
             }
         }
-        this.setZoneActiveState(currentColor);
+        this.setZoneActiveState(currentValueType);
     };
     BackdropZone.prototype.componentDidMount = function () {
+        var _a = this.props, color = _a.color, image = _a.image, video = _a.video;
         this.setState({
             didRender: true,
+            zoneValueType: {
+                value: color || image || video,
+                type: color && 'color' || image && 'image' || video && 'video',
+            }
         });
     };
     BackdropZone.prototype.render = function () {
         var children = this.props.children;
         var _a = this.state, didRender = _a.didRender, isActiveZone = _a.isActiveZone;
-        return (react_1.default.createElement(react_1.default.Fragment, null, didRender && (react_1.default.createElement("div", { className: isActiveZone ? 'zoneActive' : '', ref: this.DOMRef }, children))));
+        var containerClassNames = [
+            'reactBackdrop',
+            isActiveZone ? 'active' : '',
+        ].join(' ');
+        return (react_1.default.createElement(react_1.default.Fragment, null, didRender && (react_1.default.createElement("div", { className: containerClassNames, ref: this.DOMRef }, children))));
     };
     BackdropZone.contextType = BackdropContext;
     return BackdropZone;
@@ -2919,16 +2924,13 @@ exports.BackdropZone = BackdropZone;
  * =============================*/
 Object.defineProperty(exports, "__esModule", { value: true });
 var globalBackdrop = /** @class */ (function () {
-    function globalBackdrop(fromTop, defaultColor, defaultTheme, setColorCallback, containerEl) {
+    function globalBackdrop(fromTop, defaultValueType, defaultTheme, setValueCallback) {
         /* state & storage */
         this.colorCollections = [];
         this.fromTop = fromTop;
-        this.defaultColor = defaultColor;
+        this.defaultValueType = defaultValueType;
         this.defaultTheme = defaultTheme;
-        this.setColorCallback = setColorCallback;
-        this.containerEl = containerEl;
-        this.currentColor = this.defaultColor;
-        this.currentTheme = this.defaultTheme;
+        this.setValueCallback = setValueCallback;
         this.registerColor = this.registerColor.bind(this);
         this.init();
     }
@@ -2936,7 +2938,9 @@ var globalBackdrop = /** @class */ (function () {
      * */
     globalBackdrop.prototype.init = function () {
         var _this = this;
-        this.setColorCallback(this.defaultColor, this.defaultTheme);
+        this.currentValueType = this.defaultValueType;
+        this.currentTheme = this.defaultTheme;
+        this.setValueCallback(this.currentValueType, this.currentTheme);
         window.addEventListener('scroll', function () {
             window.requestAnimationFrame(function () {
                 _this.logic();
@@ -2952,38 +2956,38 @@ var globalBackdrop = /** @class */ (function () {
             var el = colorItem.element.getBoundingClientRect();
             if (el.top <= _this.fromTop && el.bottom >= _this.fromTop) {
                 inZoneRange = true;
-                if (_this.currentColor != colorItem.color) {
-                    _this.setColor(colorItem.color, colorItem.theme);
+                if (JSON.stringify(_this.currentValueType) !== JSON.stringify(colorItem.valueType)) {
+                    _this.setValue(colorItem.valueType, colorItem.theme);
                 }
             }
         });
         /* if not in any backdrop registered zone and the current color
          * is not the default color set color and theme back to their default */
-        if (!inZoneRange && (this.currentColor != this.defaultColor)) {
-            this.setColor(this.defaultColor, this.defaultTheme);
+        if (!inZoneRange && (JSON.stringify(this.currentValueType) !== JSON.stringify(this.defaultValueType))) {
+            this.setValue(this.defaultValueType, this.defaultTheme);
         }
     };
     /*
      * */
-    globalBackdrop.prototype.setColor = function (newColor, newTheme) {
-        this.currentColor = newColor;
+    globalBackdrop.prototype.setValue = function (newValueType, newTheme) {
+        this.currentValueType = newValueType;
         this.currentTheme = newTheme;
-        this.setColorCallback(this.currentColor, this.currentTheme);
+        this.setValueCallback(this.currentValueType, this.currentTheme);
     };
     /*
      * */
-    globalBackdrop.prototype.registerColor = function (color, theme, instant, domRef, zoneCallback) {
-        if (color === void 0) { color = this.defaultColor; }
+    globalBackdrop.prototype.registerColor = function (valueType, theme, instant, domRef, zoneCallback) {
+        if (valueType === void 0) { valueType = this.defaultValueType; }
         if (theme === void 0) { theme = this.defaultTheme; }
         this.colorCollections.push({
-            color: color,
             element: domRef,
-            callback: zoneCallback,
             theme: theme,
+            valueType: valueType,
+            callback: zoneCallback,
         });
         if (instant) {
-            this.setColor(color, theme);
-            zoneCallback(color);
+            this.setValue(valueType, theme);
+            zoneCallback(valueType);
         }
     };
     return globalBackdrop;

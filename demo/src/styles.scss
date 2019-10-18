@@ -230,7 +230,6 @@ section {
 
     &_textBox {
       text-align:left;
-      float:right;
       width:45%;
       position:absolute;
       right:0;
@@ -241,10 +240,73 @@ section {
 
     &_title {
       color:#fff;
+      text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
       font-family: 'Permanent Marker', cursive;
       font-size:70px;
       margin-bottom:60px;
 
+    }
+
+    &_body {
+      font-family: "Open Sans", "Open Sans", sans-serif;
+      color: #f5e50a;
+      font-size: 20px;
+      letter-spacing: 3px;
+      line-height: 1.2;
+      font-weight: 700;
+      font-style: normal;
+    }
+  }
+
+  &__graySkies {
+
+    &_textBox {
+      text-align:left;
+      width:45%;
+      position:absolute;
+      left:0;
+      top:50%;
+      transform:
+        translateY(-50%);
+    }
+
+    &_title {
+      color:#fff;
+      text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+      font-family: 'Permanent Marker', cursive;
+      font-size:70px;
+      margin-bottom:60px;
+    }
+
+    &_body {
+      font-family: "Open Sans", "Open Sans", sans-serif;
+      color: #f5e50a;
+      font-size: 20px;
+      letter-spacing: 3px;
+      line-height: 1.2;
+      font-weight: 700;
+      font-style: normal;
+    }
+  }
+
+  &__redHands {
+
+    &_textBox {
+      text-align:left;
+      width:45%;
+      position:absolute;
+      right:0;
+      top:50%;
+      transform:
+        translateY(-50%);
+    }
+
+    &_title {
+      color:#fff;
+      text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+      font-family: 'Permanent Marker', cursive;
+      font-size:70px;
+      margin-bottom:60px;
     }
 
     &_body {

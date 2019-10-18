@@ -107,6 +107,10 @@ const GraySkies = () => {
   return (
     <section className="demo__graySkies_container">
       <Container position='center'>
+        <div className="demo__graySkies_textBox">
+          <h1 className="demo__graySkies_title">The outside view is better</h1>
+          <p className="demo__graySkies_body">...But you already know that</p>
+        </div>
         <ImageFrame
           image="assets/cloudCover.jpg"
           position='right'
@@ -120,6 +124,10 @@ const RedHands = () => {
   return (
     <section className="demo__redHands_container">
       <Container position="center">
+        <div className="demo__redHands_textBox">
+          <h1 className="demo__redHands_title">The outside view is better</h1>
+          <p className="demo__redHands_body">...But you already know that</p>
+        </div>
         <ImageFrame
           image="assets/hands.jpg"
           position='left'
@@ -154,7 +162,7 @@ class Layout extends React.Component<LProps, LState> {
 
     return (
         <BackdropContainer
-          defaultColor="transparent"
+          defaultValueType={{ value: "transparent", type: 'color' }}
           fromTop={350}
         >
           <div className='layout'>
@@ -184,33 +192,31 @@ const Content = () => {
         </BackdropZone>
 
         <BackdropZone
-          color="#98B3AE"
-        >
-          <PlantSection />
-        </BackdropZone>
-
-        <BackdropZone
           color="#CD9CAE"
           theme="dark"
         >
           <PinkBricks />
         </BackdropZone>
 
-    {
-/*       <BackdropZone
- *         color="#414953"
- *         theme="light"
- *       >
- *           <GraySkies />
- *       </BackdropZone>
- *
- *         <BackdropZone
- *           color="#BB1702"
- *           theme="light"
- *         >
- *             <RedHands />
- *       </BackdropZone> */
-        }
+        <BackdropZone
+          color="#414953"
+          theme="light"
+        >
+          <GraySkies />
+        </BackdropZone>
+
+        <BackdropZone
+          color="#BB1702"
+          theme="light"
+        >
+          <RedHands />
+        </BackdropZone>
+
+        <BackdropZone
+          color="#98B3AE"
+        >
+          <PlantSection />
+        </BackdropZone>
 
     </Layout>
   )
