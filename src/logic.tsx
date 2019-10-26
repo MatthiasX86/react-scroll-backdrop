@@ -16,28 +16,48 @@ interface zoneObj {
   callback: ZCB;
 }
 
+interface cacheValue {
+  value: string
+}
+
+interface cache {
+  'image': {
+    [ uniqueID: string ]: cacheValue | undefined;
+  };
+  'color': {
+    [ uniqueID: string ]: cacheValue | undefined;
+  }
+}
+
 class globalBackdrop {
   /* state & storage */
-  public colorCollections: zoneObj[] = [];
+  private zoneCollections: zoneObj[] = [];
   public currentValueType: VT;
+  // public previousValueType: VT;
   public currentTheme: string;
+  // public previousTheme: string;
+  public valuesCache: cache;
 
   /* arguments */
   private fromTop: number;
   private defaultValueType: VT;
   private defaultTheme: string;
-  private setValueCallback: CCB;
+  private setStateCallback: CCB;
 
   constructor(
     fromTop: number,
     defaultValueType: VT,
     defaultTheme: string,
-    setValueCallback: CCB,
+    setStateCallback: CCB,
   ) {
     this.fromTop = fromTop;
     this.defaultValueType = defaultValueType;
     this.defaultTheme = defaultTheme;
-    this.setValueCallback = setValueCallback;
+    this.setStateCallback = setStateCallback;
+    this.valuesCache = {
+      'image': {},
+      'color': {},
+    };
 
     this.registerColor = this.registerColor.bind(this);
     this.init();
@@ -46,9 +66,12 @@ class globalBackdrop {
   /*
    * */
   public init() {
+    /* initializing current and previous value/type */
     this.currentValueType = this.defaultValueType;
+    /* initialize current and previous theme */
     this.currentTheme = this.defaultTheme;
-    this.setValueCallback(this.currentValueType, this.currentTheme);
+
+    this.setStateCallback(this.currentValueType, this.currentTheme);
 
     window.addEventListener('scroll', () => {
       window.requestAnimationFrame(() => {
@@ -60,22 +83,25 @@ class globalBackdrop {
   /*
    * */
   private logic() {
+    const currentUniqueID = JSON.stringify(this.currentValueType);
+    const defaultUniqueID = JSON.stringify(this.defaultValueType);
     let inZoneRange = false;
 
-    this.colorCollections.forEach((colorItem: zoneObj) => {
-      const el = colorItem.element.getBoundingClientRect();
+    this.zoneCollections.forEach((zoneItem: zoneObj) => {
+      const zoneElement = zoneItem.element.getBoundingClientRect();
+      const zoneUniqueID = JSON.stringify(zoneItem.valueType);
 
-      if (el.top <= this.fromTop && el.bottom >= this.fromTop) {
+      if (zoneElement.top <= this.fromTop && zoneElement.bottom >= this.fromTop) {
         inZoneRange = true;
-        if (JSON.stringify(this.currentValueType) !== JSON.stringify(colorItem.valueType)) {
-          this.setValue(colorItem.valueType, colorItem.theme);
+        if (currentUniqueID !== zoneUniqueID) {
+          this.setValue(zoneItem.valueType, zoneItem.theme);
         }
       }
     });
 
     /* if not in any backdrop registered zone and the current color
      * is not the default color set color and theme back to their default */
-    if (!inZoneRange && (JSON.stringify(this.currentValueType) !== JSON.stringify(this.defaultValueType)) ) {
+    if (!inZoneRange && currentUniqueID !== defaultUniqueID ) {
       this.setValue(this.defaultValueType, this.defaultTheme);
     }
   }
@@ -83,9 +109,12 @@ class globalBackdrop {
   /*
    * */
   private setValue(newValueType: VT, newTheme: string) {
+    /* set value/type to current value */
     this.currentValueType = newValueType;
+    /* set theme  to current value */
     this.currentTheme = newTheme;
-    this.setValueCallback(this.currentValueType, this.currentTheme);
+    /* send information to React component */
+    this.setStateCallback(this.currentValueType, this.currentTheme);
   }
 
   /*
@@ -97,16 +126,34 @@ class globalBackdrop {
     domRef: HTMLDivElement,
     zoneCallback: ZCB
   ): void {
-    this.colorCollections.push({
+    this.zoneCollections.push({
       element: domRef,
       theme: theme,
       valueType: valueType,
       callback: zoneCallback,
     });
 
-    if (instant) {
+    if(instant) {
       this.setValue(valueType, theme);
       zoneCallback(valueType);
+    }
+
+    switch(valueType.type) {
+      case 'image':
+        /* preload images */
+        new Image().src = valueType.value;
+
+        /* load assets into cache */
+        this.valuesCache.image[JSON.stringify(valueType)] = {
+          value: valueType.value,
+        };
+        break;
+
+      case 'color':
+        this.valuesCache.color[JSON.stringify(valueType)] = {
+          value: valueType.value,
+        }
+        break;
     }
   }
 }

@@ -137,6 +137,24 @@ const RedHands = () => {
   )
 }
 
+interface BProps {
+  isActive?: boolean;
+  theme?: string;
+}
+
+const Bridge: React.SFC<BProps> = ({isActive, theme}) => {
+
+  console.log('Active: ', isActive, ' theme: ', theme);
+
+  return (
+    <section className="demo__bridge_container">
+      <Container position="center">
+        <h1 className="demo__bridge_text">Playfair is something you have to realize</h1>
+      </Container>
+    </section>
+  )
+}
+
 interface LProps {
   children: any;
 }
@@ -213,9 +231,14 @@ const Content = () => {
         </BackdropZone>
 
         <BackdropZone
-          color="#98B3AE"
+          image={'assets/bridge.jpg'}
+          theme="dark"
         >
-          <PlantSection />
+          {( active, theme ) =>
+            <Bridge
+              isActive={active}
+              theme={theme}
+            />}
         </BackdropZone>
 
     </Layout>

@@ -107,6 +107,7 @@ gulp.task('develop', () => {
     .on('change',
       gulp.series(
         compileJS,
+        'markup',
         browserSync.reload
       )
     )

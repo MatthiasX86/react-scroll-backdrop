@@ -1,5 +1,6 @@
 import React from 'react';
 import globalBackdrop from './logic';
+import { ParentContainer, ColorBackdrop, ImageBackdrop } from './presentational';
 
 /* ======= React Color Component ========
  * ======================================*/
@@ -8,8 +9,8 @@ import globalBackdrop from './logic';
  * */
 interface CCmembers {
   registerColor: any;
-  currentValueType: any;
-  currentTheme: any;
+  currentValueType?: any;
+  currentTheme?: any;
 }
 
 interface VT {
@@ -19,8 +20,8 @@ interface VT {
 
 const BackdropContext = React.createContext<CCmembers>({
   registerColor: undefined,
-  currentValueType: undefined,
-  currentTheme: undefined,
+  // currentValueType: undefined,
+  // currentTheme: undefined,
 });
 
 /* ======= React Color Component ========
@@ -36,7 +37,15 @@ interface BDProps {
 interface BDState {
   activeValueType: undefined | VT;
   activeTheme: undefined | string;
+  previousValueType: undefined | VT;
+  previousTheme: undefined | string;
   isLoaded: boolean;
+}
+
+interface TProps {
+  store: any;
+  current: VT;
+  previous: VT;
 }
 
 class BackdropContainer extends React.Component<BDProps, BDState> {
@@ -44,20 +53,31 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
 
   constructor(props: BDProps) {
     super(props);
-    this.setColor = this.setColor.bind(this);
     this.colorState = undefined;
 
     this.state = {
       activeValueType: undefined,
       activeTheme: undefined,
+      previousValueType: undefined,
+      previousTheme: undefined,
       isLoaded: false,
     };
+
+    this.setColor = this.setColor.bind(this);
   }
 
   setColor(newValueType: VT, newTheme: string) {
+
+    const {
+      activeValueType: prevVal,
+      activeTheme: prevTheme
+    } = this.state;
+
     this.setState({
       activeValueType: newValueType,
       activeTheme: newTheme,
+      previousValueType: prevVal,
+      previousTheme: prevTheme,
     });
   }
 
@@ -70,7 +90,7 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
 
     const { isLoaded } = this.state;
 
-    if (isLoaded != true) {
+    if (!isLoaded) {
       this.colorState = new globalBackdrop(
         fromTop,
         defaultValueType,
@@ -88,28 +108,44 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
 
   render() {
     const { children } = this.props;
-    const { isLoaded, activeValueType, activeTheme } = this.state;
 
-    var styleObj = {
-      willChange: `background-color`,
-      transition: `all .6s ease-out`,
-      ...(isLoaded && {backgroundColor: activeValueType.value})
-    };
-
-    console.log(activeValueType != undefined && activeValueType.type)
+    const {
+      isLoaded,
+      activeValueType,
+      activeTheme,
+      previousValueType,
+      // previousTheme,
+    } = this.state;
 
     const contextValues = {
-      registerColor: isLoaded ? this.colorState.registerColor : undefined,
-      currentValueType: isLoaded ? this.state.activeValueType : undefined,
-      currentTheme: isLoaded ? this.state.activeTheme : undefined,
+      registerColor: isLoaded && this.colorState.registerColor,
+      currentValueType: isLoaded && this.state.activeValueType,
+      currentTheme: isLoaded && this.state.activeTheme,
     };
 
-    return (
-      <div className={activeTheme} style={styleObj}>
-        <BackdropContext.Provider value={{ ...contextValues }}>
-          {children}
-        </BackdropContext.Provider>
-      </div>
+    const backdropParentContainerClassNames = [
+      'reactBackdrop__container',
+      activeTheme,
+    ].join(' ');
+
+    const templateProps: TProps  = {
+      store: isLoaded && this.colorState.valuesCache[activeValueType.type],
+      current: activeValueType,
+      previous: previousValueType,
+    }
+
+    const template = {
+      image: <ImageBackdrop {...templateProps} />,
+      color: <ColorBackdrop {...templateProps} />,
+    }[isLoaded && activeValueType.type]
+
+    return isLoaded && (
+        <ParentContainer className={backdropParentContainerClassNames}>
+          {template}
+          <BackdropContext.Provider value={{ ...contextValues }}>
+            {children}
+          </BackdropContext.Provider>
+        </ParentContainer>
     );
   }
 }
@@ -225,21 +261,22 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
 
   render() {
     const { children } = this.props;
+    const { currentTheme } = this.context;
     const { didRender, isActiveZone } = this.state;
 
+
     const containerClassNames = [
-      'reactBackdrop',
+      'reactBackdrop__zone',
       isActiveZone ? 'active' : '',
     ].join(' ');
 
     return (
       <>
         {didRender && (
-          <div
-            className={containerClassNames}
-            ref={this.DOMRef}
-          >
-            {children}
+          <div className={containerClassNames} ref={this.DOMRef}>
+            {typeof children === 'function'
+              ? children(isActiveZone, currentTheme)
+              : children}
           </div>
         )}
       </>

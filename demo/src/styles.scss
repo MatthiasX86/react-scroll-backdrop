@@ -319,4 +319,49 @@ section {
       font-style: normal;
     }
   }
+
+  &__bridge {
+
+    &_text {
+      margin:100px 0;
+      text-align:center;
+      text-shadow: 0px 8px 5px rgba(0, 0, 0, 0.74);
+      font-family: "Playfair Display", serif;
+      color: #fde0d9;
+      font-size: 80px;
+      letter-spacing: 0px;
+      line-height: 1.2;
+      font-weight: 700;
+      position:relative;
+
+      &:before {
+        content:'“';
+        display:block;
+        font-family:inherit;
+        color:inherit;
+        font-size:200px;
+        line-height:inherit;
+        font-weight:inherit;
+        position:absolute;
+        top:-150px;
+        right:50%;
+        transform:
+          translateX(50%);
+      }
+
+      &:after {
+        content:'';
+        display:block;
+        height:4px;
+        width:40%;
+        box-shadow: 0px 8px 5px 0px rgba(0, 0, 0, 0.75);
+        background-color:#fde0d9;
+        position:absolute;
+        right:50%;
+        bottom:-50px;
+        transform:
+          translateX(50%);
+      }
+    }
+  }
 }
