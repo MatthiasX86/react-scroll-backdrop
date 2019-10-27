@@ -41,12 +41,17 @@ const Container: React.FC<CProps> = ({ children, position = '' }) => {
   )
 }
 
-const ImageFrame: React.FC<IMProps> = ({ active, image, position, color }) => {
+const ImageFrame: React.FC<IMProps> = ({ active, image, position, color, theme }) => {
 
   const containerClasses = [
     'demo__imageFrame_container',
     position === 'right' ? 'right' : 'left',
     active ? 'active' : '',
+  ].join(' ');
+
+  const decorContainerClasses = [
+    'demo__imageFrame_decorative',
+    theme,
   ].join(' ');
 
   const backgroundColorStyle = {
@@ -62,7 +67,7 @@ const ImageFrame: React.FC<IMProps> = ({ active, image, position, color }) => {
           alt=""
         />
       </figure>
-      <div className="demo__imageFrame_decorative"  />
+      <div className={decorContainerClasses} />
     </div>
   )
 }
@@ -115,7 +120,6 @@ const PlantSection: React.FC<SProps> = ({isActive, backdropValue, backdropTheme}
 }
 
 const PinkBricks: React.FC<SProps> = ({ isActive, backdropValue, backdropTheme}) => {
-  console.log('the backdropValue is: ', backdropValue);
   return (
     <section className="demo__pinkBricks_container">
       <Container position='center'>
@@ -261,7 +265,6 @@ class Layout extends React.Component<LProps, LState> {
                 href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap"
                 rel="stylesheet"
               />
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
             </Helmet>
             {children}
           </div>
@@ -278,10 +281,7 @@ const Content = () => {
           <SplashSection />
         </BackdropZone>
 
-        <BackdropZone
-          color="#CD9CAE"
-          theme="dark"
-        >
+        <BackdropZone color="#CD9CAE" theme="dark">
           {( active, currentValue, currentTheme ) =>
             <PinkBricks
               isActive={active}
@@ -290,10 +290,7 @@ const Content = () => {
             />}
         </BackdropZone>
 
-        <BackdropZone
-          color="#414953"
-          theme="light"
-        >
+        <BackdropZone color="#414953" theme="light">
           {( active, currentValue, currentTheme ) =>
             <GraySkies 
               isActive={active}
@@ -302,10 +299,7 @@ const Content = () => {
             />}
         </BackdropZone>
 
-        <BackdropZone
-          color="#BB1702"
-          theme="light"
-        >
+        <BackdropZone color="#BB1702" theme="light">
           {( active, currentValue, currentTheme ) =>
             <RedHands
               isActive={active}
@@ -314,10 +308,7 @@ const Content = () => {
             />}
         </BackdropZone>
 
-        <BackdropZone
-          image={'assets/bridge.jpg'}
-          theme="dark"
-        >
+        <BackdropZone image={'assets/bridge.jpg'} theme="dark">
           {( isActive, currentValue, currentTheme ) =>
             <Bridge
               isActive={isActive}

@@ -17,7 +17,7 @@ const paths = {
     main: 'dis/',
   },
   demo: {
-    compiled: 'demo/compiled',
+    compiled: 'docs/',
     markup: 'demo/src/*.tsx',
     styles: 'demo/src/*.scss',
   }

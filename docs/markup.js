@@ -35,11 +35,15 @@ var Container = function (_a) {
     return (react_1.default.createElement("div", { className: "demo__container " + position }, children));
 };
 var ImageFrame = function (_a) {
-    var active = _a.active, image = _a.image, position = _a.position, color = _a.color;
+    var active = _a.active, image = _a.image, position = _a.position, color = _a.color, theme = _a.theme;
     var containerClasses = [
         'demo__imageFrame_container',
         position === 'right' ? 'right' : 'left',
         active ? 'active' : '',
+    ].join(' ');
+    var decorContainerClasses = [
+        'demo__imageFrame_decorative',
+        theme,
     ].join(' ');
     var backgroundColorStyle = {
         backgroundColor: "" + (color ? color : 'transparent'),
@@ -47,7 +51,7 @@ var ImageFrame = function (_a) {
     return (react_1.default.createElement("div", { className: containerClasses },
         react_1.default.createElement("figure", null,
             react_1.default.createElement("img", { className: "demo__imageFrame_image", src: image, alt: "" })),
-        react_1.default.createElement("div", { className: "demo__imageFrame_decorative" })));
+        react_1.default.createElement("div", { className: decorContainerClasses })));
 };
 /* ================
  *    Plant demo
@@ -72,7 +76,6 @@ var PlantSection = function (_a) {
 };
 var PinkBricks = function (_a) {
     var isActive = _a.isActive, backdropValue = _a.backdropValue, backdropTheme = _a.backdropTheme;
-    console.log('the backdropValue is: ', backdropValue);
     return (react_1.default.createElement("section", { className: "demo__pinkBricks_container" },
         react_1.default.createElement(Container, { position: 'center' },
             react_1.default.createElement("div", { className: "demo__pinkBricks_textBox" },
@@ -153,8 +156,7 @@ var Layout = /** @class */ (function (_super) {
             react_1.default.createElement("div", { className: 'layout' },
                 react_1.default.createElement(react_helmet_1.Helmet, null,
                     react_1.default.createElement("link", { href: "https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Ramaraja&display=swap", rel: "stylesheet" }),
-                    react_1.default.createElement("link", { href: "https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap", rel: "stylesheet" }),
-                    react_1.default.createElement("script", { src: "https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js" })),
+                    react_1.default.createElement("link", { href: "https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap", rel: "stylesheet" })),
                 children)));
     };
     return Layout;
@@ -39223,6 +39225,8 @@ var logic_1 = __importDefault(require("./logic"));
 var presentational_1 = require("./presentational");
 var BackdropContext = react_1.default.createContext({
     registerColor: undefined,
+    currentValueType: undefined,
+    currentTheme: undefined,
 });
 exports.BackdropContext = BackdropContext;
 var BackdropContainer = /** @class */ (function (_super) {
@@ -39305,12 +39309,14 @@ var BackdropZone = /** @class */ (function (_super) {
     }
     BackdropZone.prototype.setZoneActiveState = function (valueType) {
         var _a = this.state, isActiveZone = _a.isActiveZone, zoneValueType = _a.zoneValueType;
-        if (JSON.stringify(zoneValueType) !== JSON.stringify(valueType)) {
+        var zoneUniqueId = JSON.stringify(zoneValueType);
+        var valuetypeUniqueId = JSON.stringify(valueType);
+        if (zoneUniqueId !== valuetypeUniqueId) {
             if (isActiveZone !== false) {
                 this.setState({ isActiveZone: false });
             }
         }
-        if (JSON.stringify(zoneValueType) === JSON.stringify(valueType)) {
+        if (zoneUniqueId === valuetypeUniqueId) {
             if (isActiveZone !== true) {
                 this.setState({ isActiveZone: true });
             }
@@ -39398,8 +39404,8 @@ var globalBackdrop = /** @class */ (function () {
         var defaultUniqueID = JSON.stringify(this.defaultValueType);
         var inZoneRange = false;
         this.zoneCollections.forEach(function (zoneItem) {
-            var zoneElement = zoneItem.element.getBoundingClientRect();
             var zoneUniqueID = JSON.stringify(zoneItem.valueType);
+            var zoneElement = zoneItem.element.getBoundingClientRect();
             if (zoneElement.top <= _this.fromTop && zoneElement.bottom >= _this.fromTop) {
                 inZoneRange = true;
                 if (currentUniqueID !== zoneUniqueID) {
@@ -39438,17 +39444,18 @@ var globalBackdrop = /** @class */ (function () {
             this.setValue(valueType, theme);
             zoneCallback(valueType);
         }
+        var key = JSON.stringify(valueType);
         switch (valueType.type) {
             case 'image':
                 /* preload images */
                 new Image().src = valueType.value;
                 /* load assets into cache */
-                this.valuesCache.image[JSON.stringify(valueType)] = {
+                this.valuesCache.image[key] = {
                     value: valueType.value,
                 };
                 break;
             case 'color':
-                this.valuesCache.color[JSON.stringify(valueType)] = {
+                this.valuesCache.color[key] = {
                     value: valueType.value,
                 };
                 break;

@@ -91,6 +91,10 @@ section {
         transform:
           translate(-10%, 10%);
 
+        &.light {
+          border:10px solid #fff;
+        }
+
         @at-root .demo__imageFrame_container.active & {
           opacity:1;
           transform:

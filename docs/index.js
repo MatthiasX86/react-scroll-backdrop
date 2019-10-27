@@ -6799,6 +6799,8 @@ var logic_1 = __importDefault(require("./logic"));
 var presentational_1 = require("./presentational");
 var BackdropContext = react_1.default.createContext({
     registerColor: undefined,
+    currentValueType: undefined,
+    currentTheme: undefined,
 });
 exports.BackdropContext = BackdropContext;
 var BackdropContainer = /** @class */ (function (_super) {
@@ -6839,7 +6841,7 @@ var BackdropContainer = /** @class */ (function (_super) {
     };
     BackdropContainer.prototype.render = function () {
         var children = this.props.children;
-        var _a = this.state, isLoaded = _a.isLoaded, activeValueType = _a.activeValueType, activeTheme = _a.activeTheme, previousValueType = _a.previousValueType;
+        var _a = this.state, isLoaded = _a.isLoaded, _b = _a.activeValueType, activeValueType = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.activeTheme, activeTheme = _c === void 0 ? 'default' : _c, previousValueType = _a.previousValueType;
         var contextValues = {
             registerColor: isLoaded && this.colorState.registerColor,
             currentValueType: isLoaded && this.state.activeValueType,
@@ -6881,12 +6883,14 @@ var BackdropZone = /** @class */ (function (_super) {
     }
     BackdropZone.prototype.setZoneActiveState = function (valueType) {
         var _a = this.state, isActiveZone = _a.isActiveZone, zoneValueType = _a.zoneValueType;
-        if (JSON.stringify(zoneValueType) !== JSON.stringify(valueType)) {
+        var zoneUniqueId = JSON.stringify(zoneValueType);
+        var valuetypeUniqueId = JSON.stringify(valueType);
+        if (zoneUniqueId !== valuetypeUniqueId) {
             if (isActiveZone !== false) {
                 this.setState({ isActiveZone: false });
             }
         }
-        if (JSON.stringify(zoneValueType) === JSON.stringify(valueType)) {
+        if (zoneUniqueId === valuetypeUniqueId) {
             if (isActiveZone !== true) {
                 this.setState({ isActiveZone: true });
             }
@@ -6974,8 +6978,8 @@ var globalBackdrop = /** @class */ (function () {
         var defaultUniqueID = JSON.stringify(this.defaultValueType);
         var inZoneRange = false;
         this.zoneCollections.forEach(function (zoneItem) {
-            var zoneElement = zoneItem.element.getBoundingClientRect();
             var zoneUniqueID = JSON.stringify(zoneItem.valueType);
+            var zoneElement = zoneItem.element.getBoundingClientRect();
             if (zoneElement.top <= _this.fromTop && zoneElement.bottom >= _this.fromTop) {
                 inZoneRange = true;
                 if (currentUniqueID !== zoneUniqueID) {
@@ -7014,17 +7018,18 @@ var globalBackdrop = /** @class */ (function () {
             this.setValue(valueType, theme);
             zoneCallback(valueType);
         }
+        var key = JSON.stringify(valueType);
         switch (valueType.type) {
             case 'image':
                 /* preload images */
                 new Image().src = valueType.value;
                 /* load assets into cache */
-                this.valuesCache.image[JSON.stringify(valueType)] = {
+                this.valuesCache.image[key] = {
                     value: valueType.value,
                 };
                 break;
             case 'color':
-                this.valuesCache.color[JSON.stringify(valueType)] = {
+                this.valuesCache.color[key] = {
                     value: valueType.value,
                 };
                 break;
