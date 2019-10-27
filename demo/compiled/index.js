@@ -6916,14 +6916,14 @@ var BackdropZone = /** @class */ (function (_super) {
     };
     BackdropZone.prototype.render = function () {
         var children = this.props.children;
-        var currentTheme = this.context.currentTheme;
-        var _a = this.state, didRender = _a.didRender, isActiveZone = _a.isActiveZone;
+        var _a = this.context, currentTheme = _a.currentTheme, currentValueType = _a.currentValueType;
+        var _b = this.state, didRender = _b.didRender, isActiveZone = _b.isActiveZone;
         var containerClassNames = [
             'reactBackdrop__zone',
             isActiveZone ? 'active' : '',
         ].join(' ');
         return (react_1.default.createElement(react_1.default.Fragment, null, didRender && (react_1.default.createElement("div", { className: containerClassNames, ref: this.DOMRef }, typeof children === 'function'
-            ? children(isActiveZone, currentTheme)
+            ? children(isActiveZone, currentValueType, currentTheme)
             : children))));
     };
     BackdropZone.contextType = BackdropContext;

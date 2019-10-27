@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import {Helmet} from 'react-helmet';
+import anime from 'animejs';
 
 /* assets */
 import { BackdropContainer, BackdropZone, BackdropContext } from '../../src/index';
@@ -9,7 +10,29 @@ import { BackdropContainer, BackdropZone, BackdropContext } from '../../src/inde
  *   layout components
  * =====================*/
 
-const Container = ({ children, position = '' }) => {
+interface IMProps {
+  active?: boolean;
+  image: string;
+  color?: string;
+  position: 'right' | 'left'
+  theme: string;
+}
+
+interface CProps {
+  children: any;
+  position: '' | 'center';
+}
+
+interface SProps {
+  isActive?: boolean;
+  backdropValue?: {
+    value: string,
+    type: string
+  };
+  backdropTheme?: string;
+}
+
+const Container: React.FC<CProps> = ({ children, position = '' }) => {
 
   return (
     <div className={ `demo__container ${position}` }>
@@ -18,23 +41,28 @@ const Container = ({ children, position = '' }) => {
   )
 }
 
-const ImageFrame = ({ image, position }) => {
+const ImageFrame: React.FC<IMProps> = ({ active, image, position, color }) => {
 
   const containerClasses = [
     'demo__imageFrame_container',
     position === 'right' ? 'right' : 'left',
+    active ? 'active' : '',
   ].join(' ');
+
+  const backgroundColorStyle = {
+    backgroundColor: `${color ? color : 'transparent'}`,
+  }
 
   return (
     <div className={containerClasses}>
-      <figure
-      >
+      <figure>
         <img
           className="demo__imageFrame_image"
           src={image}
           alt=""
         />
       </figure>
+      <div className="demo__imageFrame_decorative"  />
     </div>
   )
 }
@@ -59,7 +87,7 @@ const SplashSection = () => {
   )
 }
 
-const PlantSection = () => {
+const PlantSection: React.FC<SProps> = ({isActive, backdropValue, backdropTheme}) => {
   return (
     <section className="demo__plant_container">
       <Container position="center">
@@ -86,7 +114,8 @@ const PlantSection = () => {
   )
 }
 
-const PinkBricks = () => {
+const PinkBricks: React.FC<SProps> = ({ isActive, backdropValue, backdropTheme}) => {
+  console.log('the backdropValue is: ', backdropValue);
   return (
     <section className="demo__pinkBricks_container">
       <Container position='center'>
@@ -95,15 +124,18 @@ const PinkBricks = () => {
           <p className="demo__pinkBricks_body">...But you already know that</p>
         </div>
         <ImageFrame
+          active={isActive}
           image="assets/pinkBricks.jpg"
           position='left'
+          color={backdropValue.value}
+          theme={backdropTheme}
         />
       </Container>
     </section>
   )
 }
 
-const GraySkies = () => {
+const GraySkies: React.FC<SProps> = ({ isActive, backdropValue, backdropTheme}) => {
   return (
     <section className="demo__graySkies_container">
       <Container position='center'>
@@ -112,16 +144,19 @@ const GraySkies = () => {
           <p className="demo__graySkies_body">...But you already know that</p>
         </div>
         <ImageFrame
+          active={isActive}
           image="assets/cloudCover.jpg"
           position='right'
+          color={backdropValue.value}
+          theme={backdropTheme}
         />
       </Container>
     </section>
   )
 }
 
-const RedHands = () => {
-  return (
+const RedHands: React.FC<SProps> = ({isActive, backdropValue, backdropTheme}) => {
+  return  (
     <section className="demo__redHands_container">
       <Container position="center">
         <div className="demo__redHands_textBox">
@@ -129,27 +164,60 @@ const RedHands = () => {
           <p className="demo__redHands_body">...But you already know that</p>
         </div>
         <ImageFrame
+          active={isActive}
           image="assets/hands.jpg"
           position='left'
+          color={backdropValue.value}
+          theme={backdropTheme}
         />
       </Container>
     </section>
   )
 }
 
-interface BProps {
-  isActive?: boolean;
-  theme?: string;
-}
+const Bridge: React.SFC<SProps> = ({isActive, backdropValue, backdropTheme}) => {
 
-const Bridge: React.SFC<BProps> = ({isActive, theme}) => {
+  const textClassNames = [
+    'demo__bridge_text',
+    isActive ? 'active' : '',
+  ].join(' ');
 
-  console.log('Active: ', isActive, ' theme: ', theme);
+  let textNode = useRef(null);
+
+  const [loaded, declareLoaded] = useState(false);
+
+  if(!loaded) declareLoaded(true);
+
+  if(loaded && textNode.current) {
+    const el = textNode.current;
+
+    el.innerHTML = el
+      .textContent
+      .replace(/\S/g, "<span class='letter'>$&</span>");
+
+    anime.timeline({loop: false})
+      .add({
+        targets: '.demo__bridge_text .letter',
+        translateX: [40,0],
+        translateZ: 0,
+        opacity: [0,1],
+        easing: "easeOutExpo",
+        duration: 1200,
+        delay: (el, i) => 500 + 30 * i
+      }).add({
+        targets: '.demo__bridge_text .letter',
+        translateX: [0,-30],
+        opacity: [1,1],
+        easing: "easeInExpo",
+        duration: 1100,
+        delay: (el, i) => 100 + 30 * i
+      });
+  }
 
   return (
     <section className="demo__bridge_container">
       <Container position="center">
-        <h1 className="demo__bridge_text">Playfair is something you have to realize</h1>
+        <div ref={textNode} className={textClassNames}>The outside view is better</div>
       </Container>
     </section>
   )
@@ -193,6 +261,7 @@ class Layout extends React.Component<LProps, LState> {
                 href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap"
                 rel="stylesheet"
               />
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
             </Helmet>
             {children}
           </div>
@@ -213,31 +282,46 @@ const Content = () => {
           color="#CD9CAE"
           theme="dark"
         >
-          <PinkBricks />
+          {( active, currentValue, currentTheme ) =>
+            <PinkBricks
+              isActive={active}
+              backdropValue={currentValue}
+              backdropTheme={currentTheme}
+            />}
         </BackdropZone>
 
         <BackdropZone
           color="#414953"
           theme="light"
         >
-          <GraySkies />
+          {( active, currentValue, currentTheme ) =>
+            <GraySkies 
+              isActive={active}
+              backdropValue={currentValue}
+              backdropTheme={currentTheme}
+            />}
         </BackdropZone>
 
         <BackdropZone
           color="#BB1702"
           theme="light"
         >
-          <RedHands />
+          {( active, currentValue, currentTheme ) =>
+            <RedHands
+              isActive={active}
+              backdropValue={currentValue}
+              backdropTheme={currentTheme}
+            />}
         </BackdropZone>
 
         <BackdropZone
           image={'assets/bridge.jpg'}
           theme="dark"
         >
-          {( active, theme ) =>
+          {( isActive, currentValue, currentTheme ) =>
             <Bridge
-              isActive={active}
-              theme={theme}
+              isActive={isActive}
+              backdropTheme={currentTheme}
             />}
         </BackdropZone>
 
