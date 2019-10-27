@@ -20,8 +20,8 @@ interface VT {
 
 const BackdropContext = React.createContext<CCmembers>({
   registerColor: undefined,
-  // currentValueType: undefined,
-  // currentTheme: undefined,
+  currentValueType: undefined,
+  currentTheme: undefined,
 });
 
 /* ======= React Color Component ========
@@ -199,13 +199,16 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
   setZoneActiveState(valueType: VT) {
     const { isActiveZone, zoneValueType } = this.state;
 
-    if (JSON.stringify(zoneValueType) !== JSON.stringify(valueType)) {
+    const zoneUniqueId = JSON.stringify(zoneValueType);
+    const valuetypeUniqueId = JSON.stringify(valueType);
+
+    if (zoneUniqueId !== valuetypeUniqueId) {
       if (isActiveZone !== false) {
         this.setState({ isActiveZone: false });
       }
     }
 
-    if (JSON.stringify(zoneValueType) === JSON.stringify(valueType)) {
+    if (zoneUniqueId === valuetypeUniqueId) {
       if (isActiveZone !== true) {
         this.setState({ isActiveZone: true });
       }

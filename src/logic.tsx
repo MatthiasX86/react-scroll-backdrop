@@ -21,21 +21,15 @@ interface cacheValue {
 }
 
 interface cache {
-  'image': {
-    [ uniqueID: string ]: cacheValue | undefined;
-  };
-  'color': {
-    [ uniqueID: string ]: cacheValue | undefined;
-  }
+  'image': { [ uniqueID: string ]: cacheValue | undefined; };
+  'color': { [ uniqueID: string ]: cacheValue | undefined; };
 }
 
 class globalBackdrop {
   /* state & storage */
   private zoneCollections: zoneObj[] = [];
   public currentValueType: VT;
-  // public previousValueType: VT;
   public currentTheme: string;
-  // public previousTheme: string;
   public valuesCache: cache;
 
   /* arguments */
@@ -88,8 +82,8 @@ class globalBackdrop {
     let inZoneRange = false;
 
     this.zoneCollections.forEach((zoneItem: zoneObj) => {
-      const zoneElement = zoneItem.element.getBoundingClientRect();
       const zoneUniqueID = JSON.stringify(zoneItem.valueType);
+      const zoneElement = zoneItem.element.getBoundingClientRect();
 
       if (zoneElement.top <= this.fromTop && zoneElement.bottom >= this.fromTop) {
         inZoneRange = true;
@@ -138,21 +132,24 @@ class globalBackdrop {
       zoneCallback(valueType);
     }
 
+    const key = JSON.stringify(valueType);
+
     switch(valueType.type) {
+
       case 'image':
         /* preload images */
         new Image().src = valueType.value;
 
         /* load assets into cache */
-        this.valuesCache.image[JSON.stringify(valueType)] = {
+        this.valuesCache.image[key] = {
           value: valueType.value,
         };
         break;
 
       case 'color':
-        this.valuesCache.color[JSON.stringify(valueType)] = {
+        this.valuesCache.color[key] = {
           value: valueType.value,
-        }
+        };
         break;
     }
   }
