@@ -111,8 +111,8 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
 
     const {
       isLoaded,
-      activeValueType,
-      activeTheme,
+      activeValueType = {value: 'transparent', type: 'color'},
+      activeTheme = 'default',
       previousValueType,
       // previousTheme,
     } = this.state;
@@ -261,7 +261,7 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
 
   render() {
     const { children } = this.props;
-    const { currentTheme } = this.context;
+    const { currentTheme, currentValueType } = this.context;
     const { didRender, isActiveZone } = this.state;
 
 
@@ -275,7 +275,7 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
         {didRender && (
           <div className={containerClassNames} ref={this.DOMRef}>
             {typeof children === 'function'
-              ? children(isActiveZone, currentTheme)
+              ? children(isActiveZone, currentValueType, currentTheme)
               : children}
           </div>
         )}
