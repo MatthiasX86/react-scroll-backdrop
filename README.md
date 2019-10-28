@@ -1,15 +1,15 @@
-# react-backdrop
+# react-scroll-backdrop
 
 **Scroll based, Context API driven react component that provides a smooth fade-in transition between color and image background types.** **React-backdrop is built in React 16 and TypeScript.**
 
 On component mount, transition zones will be registered with their respective color/image associations. As users scroll the page the transition zones will be listening to trigger a change in the parent container as they reach a specified viewport top position. A zone will remain active as long as the viewport top position is within the zone (somewhere in between the top and bottom of the zone component) 
 
-[Demo](https://matthiasx86.github.io/react-backdrop/)
+[Demo](https://matthiasx86.github.io/react-scroll-backdrop/)
 
 </br>
 
 <p align="center">
-  <img width="80%" src="https://github.com/MatthiasX86/react-backdrop/raw/master/demo/video/screencast.gif">
+  <img width="80%" src="https://github.com/MatthiasX86/react-scroll-backdrop/raw/master/demo/video/screencast.gif">
 </p>
 
 </br>
@@ -35,7 +35,7 @@ Common use case using just BackdropContainer and BackdropZone as parent/child Re
 
 parentContainer.js
 ```javascript
-import BackdropContainer from 'react-backdrop';
+import BackdropContainer from 'react-scroll-backdrop';
 
 const Parent = () => {
 
@@ -56,33 +56,40 @@ export default Parent
 
 childComponents.js
 ```javascript
-import { BackdropZone } from 'react-backdrop';
+import { BackdropZone } from 'react-scroll-backdrop';
 
-const Content = () => {
+const firstSection = () => {
   return (
-    <secion>
-      <BackdropZone color="#CD9CAE" theme="dark">
-        // ...children
-      </BackdropZone>
-
-      <BackdropZone image="assets/bridge.jpg" theme="dark">
-        // ...children
-      </BackdropZone>
-    </section>
+    <BackdropZone color="#CD9CAE" theme="dark">
+      <secion>
+        //...
+      </section>
+    </BackdropZone>
   )
 };
 
-export default Content
+const SecondSection = () => {
+  return (
+    <BackdropZone image="assets/bridge.jpg" theme="dark">
+      <secion>
+        //...
+      </section>
+    </BackdropZone>
+  )
+}
+
+export { FirstSection, SecondSection };
 ```
 index.js
 ```javascript
 import Parent from './parentContainer.js'
-import Content from './childComponents.js'
+import { FirstSection, SecondSection } from './childComponents.js'
 
 const Layout = () => {
   return (
     <Parent>
-      <Content />
+      <FirstSection />
+      <SecondSection />
     </Parent>
   )
 }
@@ -101,7 +108,7 @@ Function as children pattern can be used with the BackdropZone to access positio
 </br>
 
 ```javascript
-import { BackdropZone } from 'react-backdrop';
+import { BackdropZone } from 'react-scroll-backdrop';
 
 const SkiesSection = () => {
   return (
@@ -160,21 +167,24 @@ Default: { value: 'transparent', type: 'color'}
 
 When the scroll position is not at an indicated backdrop zone scroll position the backdrop container background will transition to the default values
 
+
+*for color type. value property accepts any css background-color value*
 ```javascript
-/* if were are specifying a color type*/
 const DefaultColorValues = {
-  value: '#dedede', //any acceptable css background-color value
+  value: '#dedede',
   type: 'color',
 };
 
-/* if were are specifying an image type*/
+<BackdropContainer defaultValue={DefaultColorValues}>
+```
+
+*for image type. value property accepts an asset path string*
+```javascript
 const DefaultImageValues = {
-  value: '../assets/water.jpg', //image asset path
+  value: '../assets/water.jpg',
   type: 'image',
 };
 
-<BackdropContainer defaultValue={DefaultColorValues}>
-// or...
 <BackdropContainer defaultValue={DefaultImageValues}>
 ```
 
@@ -187,7 +197,7 @@ Type: String
 
 Default: 'default'
 
-Default theme can be any string value you choose. Similar to 'defaultValues', when the scroll location is not at a specified backdrop location theme is set to defaultTheme values.
+Default theme can be any string value you choose. Similar to 'defaultValues', when the scroll position is not at a specified backdrop position the theme is set to defaultTheme values.
 
 ```javascript
 const DefaultTheme = 'sunburn';
@@ -276,7 +286,7 @@ Type: Boolean
 
 Default: false
 
-Because the react-backdrop is triggered by user scroll, there are going to be times when there is no backdrop color/image because the user hasn't started scrolling. It will remain that way until a scroll in a backdrop zone is triggered. If you need a color/image to be triggered instantly you can provide this prop to the backdrop zone that you would like to trigger instantly.  
+Because the react-scroll-backdrop is triggered by user scroll, there are going to be times when there is no backdrop color/image because the user hasn't started scrolling. It will remain that way until a scroll in a backdrop zone is triggered. If you need a color/image to be triggered instantly you can provide this prop to the backdrop zone that you would like to trigger instantly.  
 
 
 ```javascript
@@ -293,7 +303,7 @@ Type: Boolean
 
 Default: false
 
-In cases in which react-backdrop is used in a dynamic environment (Ex. CMS powered builds) you might have use cases in which you might want to have the option to turn a particular zone off. Providing the off property with a value of true prevents the backdrop zone from registering.
+In cases in which react-scroll-backdrop is used in a dynamic environment (Ex. CMS powered builds) you might have use cases in which you might want to have the option to turn a particular zone off. Providing the off property with a value of true prevents the backdrop zone from registering.
 
 ```javascript
 const preventZoneRegister = true;

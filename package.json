@@ -1,9 +1,9 @@
 {
-  "name": "React-backdrop",
+  "name": "react-scroll-backdrop",
   "version": "0.1.0",
   "description": "React backdrop is a context based React component that transitions/animates the background one user scroll.",
   "main": "index.js",
-  "repository": "https://github.com/MatthiasX86/React-backdrop.git",
+  "repository": "https://github.com/MatthiasX86/react-scroll-backdrop",
   "author": "MatthiasX86",
   "license": "MIT",
   "dependencies": {
