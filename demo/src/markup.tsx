@@ -221,7 +221,7 @@ const Bridge: React.SFC<SProps> = ({isActive, backdropValue, backdropTheme}) => 
   return (
     <section className="demo__bridge_container">
       <Container position="center">
-        <div ref={textNode} className={textClassNames}>The outside view is better</div>
+        <div ref={textNode} className={textClassNames}>The outside view is better...</div>
       </Container>
     </section>
   )
@@ -252,7 +252,7 @@ class Layout extends React.Component<LProps, LState> {
 
     return (
         <BackdropContainer
-          defaultValueType={{ value: "transparent", type: 'color' }}
+          defaultValue={{ value: "transparent", type: 'color' }}
           fromTop={350}
         >
           <div className='layout'>
@@ -282,7 +282,7 @@ const Content = () => {
         </BackdropZone>
 
         <BackdropZone color="#CD9CAE" theme="dark">
-          {( active, currentValue, currentTheme ) =>
+          {( active, currentTheme, currentValue ) =>
             <PinkBricks
               isActive={active}
               backdropValue={currentValue}
@@ -291,7 +291,7 @@ const Content = () => {
         </BackdropZone>
 
         <BackdropZone color="#414953" theme="light">
-          {( active, currentValue, currentTheme ) =>
+          {( active, currentTheme, currentValue ) =>
             <GraySkies 
               isActive={active}
               backdropValue={currentValue}
@@ -300,7 +300,7 @@ const Content = () => {
         </BackdropZone>
 
         <BackdropZone color="#BB1702" theme="light">
-          {( active, currentValue, currentTheme ) =>
+          {( active, currentTheme, currentValue ) =>
             <RedHands
               isActive={active}
               backdropValue={currentValue}
@@ -309,9 +309,10 @@ const Content = () => {
         </BackdropZone>
 
         <BackdropZone image={'assets/bridge.jpg'} theme="dark">
-          {( isActive, currentValue, currentTheme ) =>
+          {( active, currentTheme, currentValue ) =>
             <Bridge
-              isActive={isActive}
+              isActive={active}
+              backdropValue={currentValue}
               backdropTheme={currentTheme}
             />}
         </BackdropZone>

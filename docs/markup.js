@@ -136,7 +136,7 @@ var Bridge = function (_a) {
     }
     return (react_1.default.createElement("section", { className: "demo__bridge_container" },
         react_1.default.createElement(Container, { position: "center" },
-            react_1.default.createElement("div", { ref: textNode, className: textClassNames }, "The outside view is better"))));
+            react_1.default.createElement("div", { ref: textNode, className: textClassNames }, "The outside view is better..."))));
 };
 var Layout = /** @class */ (function (_super) {
     __extends(Layout, _super);
@@ -152,7 +152,7 @@ var Layout = /** @class */ (function (_super) {
     };
     Layout.prototype.render = function () {
         var children = this.props.children;
-        return (react_1.default.createElement(index_1.BackdropContainer, { defaultValueType: { value: "transparent", type: 'color' }, fromTop: 350 },
+        return (react_1.default.createElement(index_1.BackdropContainer, { defaultValue: { value: "transparent", type: 'color' }, fromTop: 350 },
             react_1.default.createElement("div", { className: 'layout' },
                 react_1.default.createElement(react_helmet_1.Helmet, null,
                     react_1.default.createElement("link", { href: "https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Ramaraja&display=swap", rel: "stylesheet" }),
@@ -165,17 +165,17 @@ var Content = function () {
     return (react_1.default.createElement(Layout, null,
         react_1.default.createElement(index_1.BackdropZone, { color: "#252629", instant: true },
             react_1.default.createElement(SplashSection, null)),
-        react_1.default.createElement(index_1.BackdropZone, { color: "#CD9CAE", theme: "dark" }, function (active, currentValue, currentTheme) {
+        react_1.default.createElement(index_1.BackdropZone, { color: "#CD9CAE", theme: "dark" }, function (active, currentTheme, currentValue) {
             return react_1.default.createElement(PinkBricks, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         }),
-        react_1.default.createElement(index_1.BackdropZone, { color: "#414953", theme: "light" }, function (active, currentValue, currentTheme) {
+        react_1.default.createElement(index_1.BackdropZone, { color: "#414953", theme: "light" }, function (active, currentTheme, currentValue) {
             return react_1.default.createElement(GraySkies, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         }),
-        react_1.default.createElement(index_1.BackdropZone, { color: "#BB1702", theme: "light" }, function (active, currentValue, currentTheme) {
+        react_1.default.createElement(index_1.BackdropZone, { color: "#BB1702", theme: "light" }, function (active, currentTheme, currentValue) {
             return react_1.default.createElement(RedHands, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         }),
-        react_1.default.createElement(index_1.BackdropZone, { image: 'assets/bridge.jpg', theme: "dark" }, function (isActive, currentValue, currentTheme) {
-            return react_1.default.createElement(Bridge, { isActive: isActive, backdropTheme: currentTheme });
+        react_1.default.createElement(index_1.BackdropZone, { image: 'assets/bridge.jpg', theme: "dark" }, function (active, currentTheme, currentValue) {
+            return react_1.default.createElement(Bridge, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         })));
 };
 /*  */
@@ -39254,10 +39254,10 @@ var BackdropContainer = /** @class */ (function (_super) {
         });
     };
     BackdropContainer.prototype.componentDidMount = function () {
-        var _a = this.props, _b = _a.defaultValueType, defaultValueType = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
+        var _a = this.props, _b = _a.defaultValue, defaultValue = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
         var isLoaded = this.state.isLoaded;
         if (!isLoaded) {
-            this.colorState = new logic_1.default(fromTop, defaultValueType, defaultTheme, this.setColor);
+            this.colorState = new logic_1.default(fromTop, defaultValue, defaultTheme, this.setColor);
             this.setState({
                 activeValueType: this.colorState.currentValueType,
                 activeTheme: this.colorState.currentTheme,
@@ -39326,6 +39326,7 @@ var BackdropZone = /** @class */ (function (_super) {
         var _a = this.props, _b = _a.off, off = _b === void 0 ? false : _b, _c = _a.instant, instant = _c === void 0 ? false : _c, _d = _a.theme, theme = _d === void 0 ? 'default' : _d;
         var _e = this.state, hasRegistered = _e.hasRegistered, zoneValueType = _e.zoneValueType;
         var _f = this.context, registerColor = _f.registerColor, currentValueType = _f.currentValueType;
+        console.log('backdropZone here...: ', zoneValueType);
         if (hasRegistered != true && off != true) {
             if (typeof registerColor === 'function') {
                 registerColor(zoneValueType, theme, instant, this.DOMRef.current, this.setZoneActiveState);
@@ -39353,7 +39354,7 @@ var BackdropZone = /** @class */ (function (_super) {
             isActiveZone ? 'active' : '',
         ].join(' ');
         return (react_1.default.createElement(react_1.default.Fragment, null, didRender && (react_1.default.createElement("div", { className: containerClassNames, ref: this.DOMRef }, typeof children === 'function'
-            ? children(isActiveZone, currentValueType, currentTheme)
+            ? children(isActiveZone, currentTheme, currentValueType)
             : children))));
     };
     BackdropZone.contextType = BackdropContext;
