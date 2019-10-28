@@ -1,8 +1,8 @@
 # react-backdrop
 
-**Scroll based, Context API driven react component that provides a smooth fade-ind transition between color and image background types.** **React-backdrop is built in React 16 and TypeScript.**
+**Scroll based, Context API driven react component that provides a smooth fade-in transition between color and image background types.** **React-backdrop is built in React 16 and TypeScript.**
 
-When a long list of DOM elements are placed in a scrollable container, all of them are kept in the DOM even when they are out the user's view. This is highly inefficient, especially in cases when scrolling lists can be tens or hundreds of thousands of items long. React Infinite solves this by rendering only DOM nodes that the user is able to see or might soon see. Other DOM nodes are clustered and rendered as a single blank node.
+On component mount, transition zones will be registered with their respective color/image associations. As users scroll the page the transition zones will be listening to trigger a change in the parent container as they reach a specified viewport top position. A zone will remain active as long as the viewport top position is within the zone (somewhere in between the top and bottom of the zone component) 
 
 [Demo](https://matthiasx86.github.io/react-backdrop/)
 
@@ -29,12 +29,13 @@ When a long list of DOM elements are placed in a scrollable container, all of th
 
 ## Usage
 
-Common use case using just BackdropContainer and BackdropZone as parent/child composition pattern
+#### Compositional pattern
 
+Common use case using just BackdropContainer and BackdropZone as parent/child React composition pattern
+
+parentContainer.js
 ```javascript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import BackdropContainer, { BackdropZone } from 'react-backdrop';
+import BackdropContainer from 'react-backdrop';
 
 const Parent = () => {
 
@@ -50,10 +51,16 @@ const Parent = () => {
   )
 };
 
+export default Parent
+```
+
+childComponents.js
+```javascript
+import { BackdropZone } from 'react-backdrop';
+
 const Content = () => {
   return (
-    <Parent>
-
+    <secion>
       <BackdropZone color="#CD9CAE" theme="dark">
         // ...children
       </BackdropZone>
@@ -61,33 +68,77 @@ const Content = () => {
       <BackdropZone image="assets/bridge.jpg" theme="dark">
         // ...children
       </BackdropZone>
-
-    </Parent>
+    </section>
   )
 };
 
-ReactDOM.render(<Content/>, document.getElementById('app')); 
+export default Content
 ```
-Function as children pattern can be used with the BackdropZone to access positional parameter variables to be used to render child components.
+index.js
 ```javascript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import BackdropContainer, { BackdropZone } from 'react-backdrop';
+import Parent from './parentContainer.js'
+import Content from './childComponents.js'
+
+const Layout = () => {
+  return (
+    <Parent>
+      <Content />
+    </Parent>
+  )
+}
+
+export default layout
+```
+
+</br>
+</br>
+
+#### Function as a child pattern
+
+Function as children pattern can be used with the BackdropZone to access positional arguments that can be used to render child components and create different states/events.
+
+</br>
+</br>
+
+```javascript
+import { BackdropZone } from 'react-backdrop';
 
 const SkiesSection = () => {
   return (
     <BackdropZone color="#414953" theme="light">
+
       {( active, currentValue ) =>
         <GraySkies 
           isActive={active}
           theme={currentTheme}
         />}
+
     </BackdropZone>
   )
-} 
+};
 
-
+export default SkiesSection
 ```
+
+</br>
+
+#### ( firstPosition, )
+
+Type: Boolean 
+
+Default: false
+
+will trigger true when the BackdropZone is in scroll position
+
+</br>
+
+#### ( , secondPosition )
+
+Type: String 
+
+Default: 'Default'
+
+will trigger a new theme string value throughout all backdrop zones when a backdropZone is in scroll position
 
 </br>
 
