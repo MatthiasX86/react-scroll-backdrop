@@ -29,7 +29,7 @@ const BackdropContext = React.createContext<CCmembers>({
 
 interface BDProps {
   children: any;
-  defaultValueType?: VT;
+  defaultValue?: VT;
   defaultTheme?: string;
   fromTop?: number;
 }
@@ -83,7 +83,7 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
 
   componentDidMount() {
     const {
-      defaultValueType = {value: 'transparent', type: 'color'},
+      defaultValue = {value: 'transparent', type: 'color'},
       defaultTheme = 'default',
       fromTop = 0,
     } = this.props;
@@ -93,7 +93,7 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
     if (!isLoaded) {
       this.colorState = new globalBackdrop(
         fromTop,
-        defaultValueType,
+        defaultValue,
         defaultTheme,
         this.setColor,
       );
@@ -233,6 +233,8 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
       currentValueType,
     } = this.context;
 
+    console.log('backdropZone here...: ', zoneValueType)
+
     if (hasRegistered != true && off != true) {
       if (typeof registerColor === 'function') {
         registerColor(
@@ -251,7 +253,11 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
   }
 
   componentDidMount() {
-    const { color, image, video } = this.props;
+    const {
+      color,
+      image,
+      video,
+    } = this.props;
 
     this.setState({
       didRender: true,
@@ -278,7 +284,7 @@ class BackdropZone extends React.Component<BDZProps, BDZState> {
         {didRender && (
           <div className={containerClassNames} ref={this.DOMRef}>
             {typeof children === 'function'
-              ? children(isActiveZone, currentValueType, currentTheme)
+              ? children(isActiveZone, currentTheme, currentValueType)
               : children}
           </div>
         )}

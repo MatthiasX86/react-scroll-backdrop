@@ -99,7 +99,7 @@ gulp.task('develop', () => {
 
   browserSync.init({
     server: {
-      baseDir: "./demo/compiled"
+    baseDir: "./docs"
     }
   });
 

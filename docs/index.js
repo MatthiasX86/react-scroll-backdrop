@@ -6828,10 +6828,10 @@ var BackdropContainer = /** @class */ (function (_super) {
         });
     };
     BackdropContainer.prototype.componentDidMount = function () {
-        var _a = this.props, _b = _a.defaultValueType, defaultValueType = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
+        var _a = this.props, _b = _a.defaultValue, defaultValue = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
         var isLoaded = this.state.isLoaded;
         if (!isLoaded) {
-            this.colorState = new logic_1.default(fromTop, defaultValueType, defaultTheme, this.setColor);
+            this.colorState = new logic_1.default(fromTop, defaultValue, defaultTheme, this.setColor);
             this.setState({
                 activeValueType: this.colorState.currentValueType,
                 activeTheme: this.colorState.currentTheme,
@@ -6900,6 +6900,7 @@ var BackdropZone = /** @class */ (function (_super) {
         var _a = this.props, _b = _a.off, off = _b === void 0 ? false : _b, _c = _a.instant, instant = _c === void 0 ? false : _c, _d = _a.theme, theme = _d === void 0 ? 'default' : _d;
         var _e = this.state, hasRegistered = _e.hasRegistered, zoneValueType = _e.zoneValueType;
         var _f = this.context, registerColor = _f.registerColor, currentValueType = _f.currentValueType;
+        console.log('backdropZone here...: ', zoneValueType);
         if (hasRegistered != true && off != true) {
             if (typeof registerColor === 'function') {
                 registerColor(zoneValueType, theme, instant, this.DOMRef.current, this.setZoneActiveState);
@@ -6927,7 +6928,7 @@ var BackdropZone = /** @class */ (function (_super) {
             isActiveZone ? 'active' : '',
         ].join(' ');
         return (react_1.default.createElement(react_1.default.Fragment, null, didRender && (react_1.default.createElement("div", { className: containerClassNames, ref: this.DOMRef }, typeof children === 'function'
-            ? children(isActiveZone, currentValueType, currentTheme)
+            ? children(isActiveZone, currentTheme, currentValueType)
             : children))));
     };
     BackdropZone.contextType = BackdropContext;
