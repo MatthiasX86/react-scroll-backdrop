@@ -212,7 +212,23 @@ const DefaultTheme = 'sunburn';
 
 <BackdropContainer defaultTheme={DefaultTheme}>
 ```
+
 **Note**: are passed back down to child components where you can do things like change the text and UI colors. Think 'light' and 'dark' theme
+
+</br>
+
+### animationDuration
+Type: Number 
+
+default: 600
+
+Animation duration in milliseconds that will be applied to all animation/transitions in between zones
+
+```javascript
+const animationTime = 800;
+
+<BackdropContainer animationDuration={animationTime}>
+```
 
 </br>
 
