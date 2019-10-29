@@ -254,6 +254,7 @@ class Layout extends React.Component<LProps, LState> {
         <BackdropContainer
           defaultValue={{ value: "transparent", type: 'color' }}
           fromTop={350}
+          animationDuration={800}
         >
           <div className='layout'>
             <Helmet>

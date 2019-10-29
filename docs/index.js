@@ -6840,18 +6840,19 @@ var BackdropContainer = /** @class */ (function (_super) {
         }
     };
     BackdropContainer.prototype.render = function () {
-        var children = this.props.children;
-        var _a = this.state, isLoaded = _a.isLoaded, _b = _a.activeValueType, activeValueType = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.activeTheme, activeTheme = _c === void 0 ? 'default' : _c, previousValueType = _a.previousValueType;
+        var _a = this.props, children = _a.children, _b = _a.animationDuration, animationDuration = _b === void 0 ? 600 : _b;
+        var _c = this.state, isLoaded = _c.isLoaded, _d = _c.activeValueType, activeValueType = _d === void 0 ? { value: 'transparent', type: 'color' } : _d, _e = _c.activeTheme, activeTheme = _e === void 0 ? 'default' : _e, previousValueType = _c.previousValueType;
         var contextValues = {
             registerColor: isLoaded && this.colorState.registerColor,
-            currentValueType: isLoaded && this.state.activeValueType,
-            currentTheme: isLoaded && this.state.activeTheme,
+            currentValueType: isLoaded && activeValueType,
+            currentTheme: isLoaded && activeTheme,
         };
         var backdropParentContainerClassNames = [
             'reactBackdrop__container',
             activeTheme,
         ].join(' ');
         var templateProps = {
+            durationTime: animationDuration,
             store: isLoaded && this.colorState.valuesCache[activeValueType.type],
             current: activeValueType,
             previous: previousValueType,
@@ -7076,22 +7077,31 @@ function constructPreviousSlide(prevVal) {
             return "background-color: rgba(0,0,0,0.5);";
     }
 }
-var PreviousSlide = styled_components_1.default(ViewportContainer)(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity 0.6s ease-out;\n    animation-fill-mode:both;\n    animation-duration: 0.6s;\n    animation-timing-function:ease-out;\n\n    ", "\n"], ["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity 0.6s ease-out;\n    animation-fill-mode:both;\n    animation-duration: 0.6s;\n    animation-timing-function:ease-out;\n\n    ", "\n"])), function (_a) {
+var PreviousSlide = styled_components_1.default(ViewportContainer)(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity ", " ease-out;\n    animation-fill-mode:both;\n    animation-duration: ", ";\n    animation-timing-function:ease-out;\n\n    ", "\n"], ["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity ", " ease-out;\n    animation-fill-mode:both;\n    animation-duration: ", ";\n    animation-timing-function:ease-out;\n\n    ", "\n"])), function (_a) {
+    var duration = _a.duration;
+    return duration + 'ms';
+}, function (_a) {
+    var duration = _a.duration;
+    return duration + 'ms';
+}, function (_a) {
     var previousContent = _a.previousContent;
     return constructPreviousSlide(previousContent);
 });
 /* ========================
 *   Color backdrop container
 *  ==========================*/
-var ColorComponent = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color .6s ease-out;\n"], ["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color .6s ease-out;\n"])), function (_a) {
+var ColorComponent = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color ", " ease-out;\n"], ["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color ", " ease-out;\n"])), function (_a) {
     var sourceMain = _a.sourceMain;
     return sourceMain;
+}, function (_a) {
+    var duration = _a.duration;
+    return duration + 'ms';
 });
 var ColorBackdrop = function (_a) {
-    var store = _a.store, current = _a.current, previous = _a.previous;
+    var store = _a.store, current = _a.current, previous = _a.previous, durationTime = _a.durationTime;
     return (react_1.default.createElement(react_1.default.Fragment, null,
-        react_1.default.createElement(ColorComponent, { sourceMain: current.value, sourceSecondary: previous }),
-        react_1.default.createElement(PreviousSlide, { previousContent: previous })));
+        react_1.default.createElement(ColorComponent, { sourceMain: current.value, sourceSecondary: previous, duration: durationTime }),
+        react_1.default.createElement(PreviousSlide, { previousContent: previous, duration: durationTime })));
 };
 exports.ColorBackdrop = ColorBackdrop;
 /* ========================
@@ -7102,11 +7112,11 @@ var ImageComponent = styled_components_1.default.div(templateObject_5 || (templa
     return sourceMain;
 });
 var ImageBackdrop = function (_a) {
-    var store = _a.store, current = _a.current, previous = _a.previous;
+    var store = _a.store, current = _a.current, previous = _a.previous, durationTime = _a.durationTime;
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement(ViewportContainer, null,
             react_1.default.createElement(ImageComponent, { sourceMain: current.value, sourceSecondary: previous })),
-        react_1.default.createElement(PreviousSlide, { previousContent: previous })));
+        react_1.default.createElement(PreviousSlide, { previousContent: previous, duration: durationTime })));
 };
 exports.ImageBackdrop = ImageBackdrop;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;

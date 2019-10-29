@@ -1,8 +1,11 @@
 # react-scroll-backdrop
 
-**Scroll based, Context API driven react component that provides a smooth fade-in transition between color and image background types.** **React-backdrop is built in React 16 and TypeScript.**
+[![npm version](https://badge.fury.io/js/react-scroll-backdrop.svg)](https://badge.fury.io/js/react-scroll-backdrop)
+<!-- [![npm](https://img.shields.io/npm/dt/react-scroll-backdrop.svg?style=flat-square)](https://www.npmjs.com/package/react-scroll-backdrop) -->
 
-On component mount, transition zones will be registered with their respective color/image associations. As users scroll the page the transition zones will be listening to trigger a change in the parent container as they reach a specified viewport top position. A zone will remain active as long as the viewport top position is within the zone (somewhere in between the top and bottom of the zone component) 
+**Scroll based, Context API driven react component that provides a smooth fade-in transition between color and image background types.** **React-scroll-backdrop is built in React 16 and TypeScript.**
+
+On component mount, transition zones will be registered with their respective color/image associations. As a user scrolls the page the transition zones will be listening to trigger a change in the parent container as they reach a specified viewport top position. A zone will remain active as long as the viewport top position is within the zone (somewhere in between the top and bottom of the zone component) 
 
 [Demo](https://matthiasx86.github.io/react-scroll-backdrop/)
 
@@ -23,7 +26,16 @@ On component mount, transition zones will be registered with their respective co
 </br>
 </br>
 
+## Notes / Known issues
+* This is an early release of this package at the moment. a **significant** amount of refactoring is needed!
+* *Known issues*: transition animation does not work image based backdrop zones for the moment. It works well between color -> image, image -> color, but not image -> image. 
+* Test coverage will be included soon
+
 ## Installation
+
+```
+$ npm install --save react-scroll-backdrop
+```
 
 </br>
 
@@ -31,7 +43,9 @@ On component mount, transition zones will be registered with their respective co
 
 #### Compositional pattern
 
-Common use case using just BackdropContainer and BackdropZone as parent/child React composition pattern
+Common use case using just BackdropContainer and BackdropZone as parent/child
+
+</br>
 
 parentContainer.js
 ```javascript
@@ -102,7 +116,7 @@ export default layout
 
 #### Function as a child pattern
 
-Function as children pattern can be used with the BackdropZone to access positional arguments that can be used to render child components and create different states/events.
+Function as children pattern can be used with the BackdropZone to access positional arguments that can be useful when rendering child components to create different states/events.
 
 </br>
 </br>
@@ -113,13 +127,7 @@ import { BackdropZone } from 'react-scroll-backdrop';
 const SkiesSection = () => {
   return (
     <BackdropZone color="#414953" theme="light">
-
-      {( active, currentValue ) =>
-        <GraySkies 
-          isActive={active}
-          theme={currentTheme}
-        />}
-
+      {( active, currentTheme ) => <GraySkies isActive={active} theme={currentTheme} />}
     </BackdropZone>
   )
 };
@@ -271,7 +279,7 @@ Type: String
 
 Default: 'default'
 
-Theme names are completely arbitrary names that you can provide to backdrop zones. Theme names are registered to a color zone and are triggered when a zone becomes active. When a zone becomes active the theme name is sent to all other backdrop zones and are available in the backdrop context. Use themes for rendering and events. Ex. change font & UI colors.
+Theme names are completely arbitrary names that you can provide to backdrop zones. Theme names are registered to a color zone and are triggered when a zone becomes active. When a zone becomes active the theme name is sent to all other backdrop zones and will also available in the backdrop context. Use themes for rendering and events. Ex. change font & UI colors.
 
 ```javascript
 const zoneTheme = 'dark';

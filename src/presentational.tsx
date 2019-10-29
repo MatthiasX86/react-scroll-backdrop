@@ -8,6 +8,13 @@ import styled, { css } from 'styled-components';
 *     General components
 *  ==========================*/
 
+interface ISProps {
+  durationTime: number;
+  store: any;
+  current: any;
+  previous: any;
+}
+
 interface CProps {
   sourceMain: string;
   sourceSecondary: string;
@@ -94,9 +101,9 @@ const PreviousSlide = styled(ViewportContainer)<PSProps>`
     animation-name: fadeIn;
     will-change:opacity;
     opacity:0;
-    transition:opacity 0.6s ease-out;
+    transition:opacity ${({duration}) => duration + 'ms'} ease-out;
     animation-fill-mode:both;
-    animation-duration: 0.6s;
+    animation-duration: ${({duration}) => duration + 'ms'};
     animation-timing-function:ease-out;
 
     ${({previousContent}) => constructPreviousSlide(previousContent)}
@@ -116,25 +123,21 @@ const ColorComponent = styled.div<CProps>`
   width:100%;
   will-change:background-color;
   background-color: ${({ sourceMain }) => sourceMain };
-  transition:background-color .6s ease-out;
+  transition:background-color ${({duration}) => duration + 'ms'} ease-out;
 `;
 
-interface ISProps {
-  store: any;
-  current: any;
-  previous: any;
-}
-
-const ColorBackdrop: React.SFC<ISProps> = ({store, current, previous}) => {
+const ColorBackdrop: React.SFC<ISProps> = ({store, current, previous, durationTime}) => {
 
   return (
     <>
       <ColorComponent
         sourceMain={current.value}
         sourceSecondary={previous}
+        duration={durationTime}
       />
       <PreviousSlide
         previousContent={previous}
+        duration={durationTime}
       />
     </>
   )
@@ -159,7 +162,7 @@ const ImageComponent = styled.div<CProps>`
   background-size:cover;
 `;
 
-const ImageBackdrop: React.SFC<ISProps> = ({store, current, previous}) => {
+const ImageBackdrop: React.SFC<ISProps> = ({store, current, previous, durationTime}) => {
   
   return (
     <>
@@ -171,6 +174,7 @@ const ImageBackdrop: React.SFC<ISProps> = ({store, current, previous}) => {
       </ViewportContainer>
       <PreviousSlide
         previousContent={previous}
+        duration={durationTime}
       />
     </>
   )

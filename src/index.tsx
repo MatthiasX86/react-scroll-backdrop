@@ -32,6 +32,7 @@ interface BDProps {
   defaultValue?: VT;
   defaultTheme?: string;
   fromTop?: number;
+  animationDuration?: number;
 }
 
 interface BDState {
@@ -43,6 +44,7 @@ interface BDState {
 }
 
 interface TProps {
+  durationTime;
   store: any;
   current: VT;
   previous: VT;
@@ -107,20 +109,19 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, animationDuration = 600 } = this.props;
 
     const {
       isLoaded,
       activeValueType = {value: 'transparent', type: 'color'},
       activeTheme = 'default',
       previousValueType,
-      // previousTheme,
     } = this.state;
 
     const contextValues = {
       registerColor: isLoaded && this.colorState.registerColor,
-      currentValueType: isLoaded && this.state.activeValueType,
-      currentTheme: isLoaded && this.state.activeTheme,
+      currentValueType: isLoaded && activeValueType,
+      currentTheme: isLoaded && activeTheme,
     };
 
     const backdropParentContainerClassNames = [
@@ -129,6 +130,7 @@ class BackdropContainer extends React.Component<BDProps, BDState> {
     ].join(' ');
 
     const templateProps: TProps  = {
+      durationTime: animationDuration,
       store: isLoaded && this.colorState.valuesCache[activeValueType.type],
       current: activeValueType,
       previous: previousValueType,
