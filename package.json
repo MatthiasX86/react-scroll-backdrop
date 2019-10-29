@@ -1,13 +1,12 @@
 {
   "name": "react-scroll-backdrop",
   "version": "0.1.0",
-  "description": "React backdrop is a context based React component that transitions/animates the background one user scroll.",
-  "main": "index.js",
+  "description": "React scroll backdrop is a context based React component that transitions/animates the background one user scroll.",
+  "main": "dist/index.js",
   "repository": "https://github.com/MatthiasX86/react-scroll-backdrop",
   "author": "MatthiasX86",
   "license": "MIT",
   "dependencies": {
-    "@types/react": "16.9.5",
     "animejs": "3.1.0",
     "browser-sync": "^2.26.3",
     "browserify": "^16.2.3",
@@ -17,11 +16,9 @@
     "react-transition-group": "4.3.0",
     "shortid": "2.2.15",
     "styled-components": "4.4.0",
-    "tsify": "^4.0.1",
-    "tslint": "^5.13.1",
-    "typescript": "^3.3.3333"
   },
   "devDependencies": {
+    "@types/react": "16.9.5",
     "@typescript-eslint/eslint-plugin": "2.3.3",
     "@typescript-eslint/parser": "2.3.3",
     "eslint": "6.5.1",
@@ -34,6 +31,9 @@
     "eslint-plugin-react": "7.16.0",
     "eslint-plugin-react-hooks": "1.7.0",
     "eslint-plugin-standard": "4.0.1",
+    "tsify": "^4.0.1",
+    "tslint": "^5.13.1",
+    "typescript": "^3.3.3333",
     "gulp": "^4.0.0",
     "gulp-buffer": "^0.0.2",
     "gulp-if": "3.0.0",

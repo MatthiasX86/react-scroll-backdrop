@@ -14,7 +14,7 @@ const paths = {
     main: 'src/index.tsx',
   },
   dis: {
-    main: 'dis/',
+    main: 'dist/',
   },
   demo: {
     compiled: 'docs/',
