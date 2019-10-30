@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/react-scroll-backdrop.svg)](https://badge.fury.io/js/react-scroll-backdrop)
 <!-- [![npm](https://img.shields.io/npm/dt/react-scroll-backdrop.svg?style=flat-square)](https://www.npmjs.com/package/react-scroll-backdrop) -->
 
-**Scroll based, Context API driven react component that provides a smooth fade-in transition between color and image background types.** **React-scroll-backdrop is built in React 16 and TypeScript.**
+**Scroll based, Context API driven react component that provides a smooth animation/transition fade-in between color and image background types.** **React-scroll-backdrop is built in React 16 and TypeScript.**
 
 On component mount, transition zones will be registered with their respective color/image associations. As a user scrolls the page the transition zones will be listening to trigger a change in the parent container as they reach a specified viewport top position. A zone will remain active as long as the viewport top position is within the zone (somewhere in between the top and bottom of the zone component) 
 
