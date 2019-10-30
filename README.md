@@ -49,7 +49,7 @@ Common use case using just BackdropContainer and BackdropZone as parent/child
 
 parentContainer.js
 ```javascript
-import BackdropContainer from 'react-scroll-backdrop';
+import { BackdropContainer } from 'react-scroll-backdrop';
 
 const Parent = () => {
 
