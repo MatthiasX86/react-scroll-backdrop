@@ -1,35 +1,13 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importStar(require("react"));
-var react_dom_1 = __importDefault(require("react-dom"));
+var tslib_1 = require("tslib");
+var react_1 = tslib_1.__importStar(require("react"));
+var react_dom_1 = tslib_1.__importDefault(require("react-dom"));
 var react_helmet_1 = require("react-helmet");
-var animejs_1 = __importDefault(require("animejs"));
+var animejs_1 = tslib_1.__importDefault(require("animejs"));
 /* assets */
-var index_1 = require("../../src/index");
+var index_js_1 = require("../../lib/index.js");
 var Container = function (_a) {
     var children = _a.children, _b = _a.position, position = _b === void 0 ? '' : _b;
     return (react_1.default.createElement("div", { className: "demo__container " + position }, children));
@@ -139,7 +117,7 @@ var Bridge = function (_a) {
             react_1.default.createElement("div", { ref: textNode, className: textClassNames }, "The outside view is better..."))));
 };
 var Layout = /** @class */ (function (_super) {
-    __extends(Layout, _super);
+    tslib_1.__extends(Layout, _super);
     function Layout(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
@@ -152,7 +130,7 @@ var Layout = /** @class */ (function (_super) {
     };
     Layout.prototype.render = function () {
         var children = this.props.children;
-        return (react_1.default.createElement(index_1.BackdropContainer, { defaultValue: { value: "transparent", type: 'color' }, fromTop: 350, animationDuration: 800 },
+        return (react_1.default.createElement(index_js_1.BackdropContainer, { defaultValue: { value: "transparent", type: 'color' }, fromTop: 350, animationDuration: 800 },
             react_1.default.createElement("div", { className: 'layout' },
                 react_1.default.createElement(react_helmet_1.Helmet, null,
                     react_1.default.createElement("link", { href: "https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Ramaraja&display=swap", rel: "stylesheet" }),
@@ -163,25 +141,350 @@ var Layout = /** @class */ (function (_super) {
 }(react_1.default.Component));
 var Content = function () {
     return (react_1.default.createElement(Layout, null,
-        react_1.default.createElement(index_1.BackdropZone, { color: "#252629", instant: true },
+        react_1.default.createElement(index_js_1.BackdropZone, { color: "#252629", instant: true },
             react_1.default.createElement(SplashSection, null)),
-        react_1.default.createElement(index_1.BackdropZone, { color: "#CD9CAE", theme: "dark" }, function (active, currentTheme, currentValue) {
+        react_1.default.createElement(index_js_1.BackdropZone, { color: "#CD9CAE", theme: "dark" }, function (active, currentTheme, currentValue) {
             return react_1.default.createElement(PinkBricks, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         }),
-        react_1.default.createElement(index_1.BackdropZone, { color: "#414953", theme: "light" }, function (active, currentTheme, currentValue) {
+        react_1.default.createElement(index_js_1.BackdropZone, { color: "#414953", theme: "light" }, function (active, currentTheme, currentValue) {
             return react_1.default.createElement(GraySkies, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         }),
-        react_1.default.createElement(index_1.BackdropZone, { color: "#BB1702", theme: "light" }, function (active, currentTheme, currentValue) {
+        react_1.default.createElement(index_js_1.BackdropZone, { color: "#BB1702", theme: "light" }, function (active, currentTheme, currentValue) {
             return react_1.default.createElement(RedHands, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         }),
-        react_1.default.createElement(index_1.BackdropZone, { image: 'assets/bridge.jpg', theme: "dark" }, function (active, currentTheme, currentValue) {
+        react_1.default.createElement(index_js_1.BackdropZone, { image: 'assets/bridge.jpg', theme: "dark" }, function (active, currentTheme, currentValue) {
             return react_1.default.createElement(Bridge, { isActive: active, backdropValue: currentValue, backdropTheme: currentTheme });
         })));
 };
 /*  */
 react_dom_1.default.render(react_1.default.createElement(Content, null), document.getElementById('app'));
 
-},{"../../src/index":40,"animejs":5,"react":29,"react-dom":18,"react-helmet":20}],2:[function(require,module,exports){
+},{"../../lib/index.js":2,"animejs":8,"react":32,"react-dom":21,"react-helmet":23,"tslib":43}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+var react_1 = tslib_1.__importDefault(require("react"));
+var logic_1 = tslib_1.__importDefault(require("./logic"));
+var presentational_1 = require("./presentational");
+var BackdropContext = react_1.default.createContext({
+    registerColor: undefined,
+    currentValueType: undefined,
+    currentTheme: undefined,
+});
+exports.BackdropContext = BackdropContext;
+var BackdropContainer = /** @class */ (function (_super) {
+    tslib_1.__extends(BackdropContainer, _super);
+    function BackdropContainer(props) {
+        var _this = _super.call(this, props) || this;
+        _this.colorState = undefined;
+        _this.state = {
+            activeValueType: undefined,
+            activeTheme: undefined,
+            previousValueType: undefined,
+            previousTheme: undefined,
+            isLoaded: false,
+        };
+        _this.setColor = _this.setColor.bind(_this);
+        return _this;
+    }
+    BackdropContainer.prototype.setColor = function (newValueType, newTheme) {
+        var _a = this.state, prevVal = _a.activeValueType, prevTheme = _a.activeTheme;
+        this.setState({
+            activeValueType: newValueType,
+            activeTheme: newTheme,
+            previousValueType: prevVal,
+            previousTheme: prevTheme,
+        });
+    };
+    BackdropContainer.prototype.componentDidMount = function () {
+        var _a = this.props, _b = _a.defaultValue, defaultValue = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
+        var isLoaded = this.state.isLoaded;
+        if (!isLoaded) {
+            this.colorState = new logic_1.default(fromTop, defaultValue, defaultTheme, this.setColor);
+            this.setState({
+                activeValueType: this.colorState.currentValueType,
+                activeTheme: this.colorState.currentTheme,
+                isLoaded: true,
+            });
+        }
+    };
+    BackdropContainer.prototype.render = function () {
+        var _a = this.props, children = _a.children, _b = _a.animationDuration, animationDuration = _b === void 0 ? 600 : _b;
+        var _c = this.state, isLoaded = _c.isLoaded, _d = _c.activeValueType, activeValueType = _d === void 0 ? { value: 'transparent', type: 'color' } : _d, _e = _c.activeTheme, activeTheme = _e === void 0 ? 'default' : _e, previousValueType = _c.previousValueType;
+        var contextValues = {
+            registerColor: isLoaded && this.colorState.registerColor,
+            currentValueType: isLoaded && activeValueType,
+            currentTheme: isLoaded && activeTheme,
+        };
+        var backdropParentContainerClassNames = [
+            'reactBackdrop__container',
+            activeTheme,
+        ].join(' ');
+        var templateProps = {
+            durationTime: animationDuration,
+            store: isLoaded && this.colorState.valuesCache[activeValueType.type],
+            current: activeValueType,
+            previous: previousValueType,
+        };
+        var template = {
+            image: react_1.default.createElement(presentational_1.ImageBackdrop, tslib_1.__assign({}, templateProps)),
+            color: react_1.default.createElement(presentational_1.ColorBackdrop, tslib_1.__assign({}, templateProps)),
+        }[isLoaded && activeValueType.type];
+        return isLoaded && (react_1.default.createElement(presentational_1.ParentContainer, { className: backdropParentContainerClassNames },
+            template,
+            react_1.default.createElement(BackdropContext.Provider, { value: tslib_1.__assign({}, contextValues) }, children)));
+    };
+    return BackdropContainer;
+}(react_1.default.Component));
+exports.BackdropContainer = BackdropContainer;
+var BackdropZone = /** @class */ (function (_super) {
+    tslib_1.__extends(BackdropZone, _super);
+    function BackdropZone(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            didRender: false,
+            hasRegistered: false,
+            isActiveZone: false,
+            zoneValueType: undefined,
+        };
+        _this.DOMRef = react_1.default.createRef();
+        _this.setZoneActiveState = _this.setZoneActiveState.bind(_this);
+        return _this;
+    }
+    BackdropZone.prototype.setZoneActiveState = function (valueType) {
+        var _a = this.state, isActiveZone = _a.isActiveZone, zoneValueType = _a.zoneValueType;
+        var zoneUniqueId = JSON.stringify(zoneValueType);
+        var valuetypeUniqueId = JSON.stringify(valueType);
+        if (zoneUniqueId !== valuetypeUniqueId) {
+            if (isActiveZone !== false) {
+                this.setState({ isActiveZone: false });
+            }
+        }
+        if (zoneUniqueId === valuetypeUniqueId) {
+            if (isActiveZone !== true) {
+                this.setState({ isActiveZone: true });
+            }
+        }
+    };
+    BackdropZone.prototype.componentDidUpdate = function () {
+        var _a = this.props, _b = _a.off, off = _b === void 0 ? false : _b, _c = _a.instant, instant = _c === void 0 ? false : _c, _d = _a.theme, theme = _d === void 0 ? 'default' : _d;
+        var _e = this.state, hasRegistered = _e.hasRegistered, zoneValueType = _e.zoneValueType;
+        var _f = this.context, registerColor = _f.registerColor, currentValueType = _f.currentValueType;
+        console.log('backdropZone here...: ', zoneValueType);
+        if (hasRegistered != true && off != true) {
+            if (typeof registerColor === 'function') {
+                registerColor(zoneValueType, theme, instant, this.DOMRef.current, this.setZoneActiveState);
+                this.setState({ hasRegistered: true });
+            }
+        }
+        this.setZoneActiveState(currentValueType);
+    };
+    BackdropZone.prototype.componentDidMount = function () {
+        var _a = this.props, color = _a.color, image = _a.image, video = _a.video;
+        this.setState({
+            didRender: true,
+            zoneValueType: {
+                value: color || image || video,
+                type: color && 'color' || image && 'image' || video && 'video',
+            }
+        });
+    };
+    BackdropZone.prototype.render = function () {
+        var children = this.props.children;
+        var _a = this.context, currentTheme = _a.currentTheme, currentValueType = _a.currentValueType;
+        var _b = this.state, didRender = _b.didRender, isActiveZone = _b.isActiveZone;
+        var containerClassNames = [
+            'reactBackdrop__zone',
+            isActiveZone ? 'active' : '',
+        ].join(' ');
+        return (react_1.default.createElement(react_1.default.Fragment, null, didRender && (react_1.default.createElement("div", { className: containerClassNames, ref: this.DOMRef }, typeof children === 'function'
+            ? children(isActiveZone, currentTheme, currentValueType)
+            : children))));
+    };
+    BackdropZone.contextType = BackdropContext;
+    return BackdropZone;
+}(react_1.default.Component));
+exports.BackdropZone = BackdropZone;
+
+},{"./logic":3,"./presentational":4,"react":32,"tslib":43}],3:[function(require,module,exports){
+"use strict";
+/* ======= Color Container ========
+ * =============================*/
+Object.defineProperty(exports, "__esModule", { value: true });
+var globalBackdrop = /** @class */ (function () {
+    function globalBackdrop(fromTop, defaultValueType, defaultTheme, setStateCallback) {
+        /* state & storage */
+        this.zoneCollections = [];
+        this.fromTop = fromTop;
+        this.defaultValueType = defaultValueType;
+        this.defaultTheme = defaultTheme;
+        this.setStateCallback = setStateCallback;
+        this.valuesCache = {
+            'image': {},
+            'color': {},
+        };
+        this.registerColor = this.registerColor.bind(this);
+        this.init();
+    }
+    /*
+     * */
+    globalBackdrop.prototype.init = function () {
+        var _this = this;
+        /* initializing current and previous value/type */
+        this.currentValueType = this.defaultValueType;
+        /* initialize current and previous theme */
+        this.currentTheme = this.defaultTheme;
+        this.setStateCallback(this.currentValueType, this.currentTheme);
+        window.addEventListener('scroll', function () {
+            window.requestAnimationFrame(function () {
+                _this.logic();
+            });
+        });
+    };
+    /*
+     * */
+    globalBackdrop.prototype.logic = function () {
+        var _this = this;
+        var currentUniqueID = JSON.stringify(this.currentValueType);
+        var defaultUniqueID = JSON.stringify(this.defaultValueType);
+        var inZoneRange = false;
+        this.zoneCollections.forEach(function (zoneItem) {
+            var zoneUniqueID = JSON.stringify(zoneItem.valueType);
+            var zoneElement = zoneItem.element.getBoundingClientRect();
+            if (zoneElement.top <= _this.fromTop && zoneElement.bottom >= _this.fromTop) {
+                inZoneRange = true;
+                if (currentUniqueID !== zoneUniqueID) {
+                    _this.setValue(zoneItem.valueType, zoneItem.theme);
+                }
+            }
+        });
+        /* if not in any backdrop registered zone and the current color
+         * is not the default color set color and theme back to their default */
+        if (!inZoneRange && currentUniqueID !== defaultUniqueID) {
+            this.setValue(this.defaultValueType, this.defaultTheme);
+        }
+    };
+    /*
+     * */
+    globalBackdrop.prototype.setValue = function (newValueType, newTheme) {
+        /* set value/type to current value */
+        this.currentValueType = newValueType;
+        /* set theme  to current value */
+        this.currentTheme = newTheme;
+        /* send information to React component */
+        this.setStateCallback(this.currentValueType, this.currentTheme);
+    };
+    /*
+     * */
+    globalBackdrop.prototype.registerColor = function (valueType, theme, instant, domRef, zoneCallback) {
+        if (valueType === void 0) { valueType = this.defaultValueType; }
+        if (theme === void 0) { theme = this.defaultTheme; }
+        this.zoneCollections.push({
+            element: domRef,
+            theme: theme,
+            valueType: valueType,
+            callback: zoneCallback,
+        });
+        if (instant) {
+            this.setValue(valueType, theme);
+            zoneCallback(valueType);
+        }
+        var key = JSON.stringify(valueType);
+        switch (valueType.type) {
+            case 'image':
+                /* preload images */
+                new Image().src = valueType.value;
+                /* load assets into cache */
+                this.valuesCache.image[key] = {
+                    value: valueType.value,
+                };
+                break;
+            case 'color':
+                this.valuesCache.color[key] = {
+                    value: valueType.value,
+                };
+                break;
+        }
+    };
+    return globalBackdrop;
+}());
+exports.default = globalBackdrop;
+
+},{}],4:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+var react_1 = tslib_1.__importDefault(require("react"));
+var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
+var ViewportContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = tslib_1.__makeTemplateObject(["\n  position:fixed;\n  top:0;\n  right:0;\n  left:0;\n  height:100vh;\n  width:100vw;\n"], ["\n  position:fixed;\n  top:0;\n  right:0;\n  left:0;\n  height:100vh;\n  width:100vw;\n"])));
+var WithChildren = function (_a) {
+    var children = _a.children, className = _a.className;
+    return react_1.default.createElement("div", { className: className }, children);
+};
+var ParentContainer = styled_components_1.default(WithChildren)(templateObject_2 || (templateObject_2 = tslib_1.__makeTemplateObject(["\n  position:relative;\n  overflow:hidden;\n"], ["\n  position:relative;\n  overflow:hidden;\n"])));
+exports.ParentContainer = ParentContainer;
+/* ========================
+*   Previous slide
+*  ==========================*/
+function constructPreviousSlide(prevVal) {
+    if (!prevVal)
+        return "background-color: rgba(0,0,0,0.5);";
+    switch (prevVal.type) {
+        case 'color':
+            return "background-color: " + prevVal.value + ";";
+            break;
+        case 'image':
+            return "\n        background-image: url(" + prevVal.value + ");\n        background-position: center;\n        background-repeat: no-repeat;\n        background-size: cover;\n      ";
+            break;
+        default:
+            return "background-color: rgba(0,0,0,0.5);";
+    }
+}
+var PreviousSlide = styled_components_1.default(ViewportContainer)(templateObject_3 || (templateObject_3 = tslib_1.__makeTemplateObject(["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity ", " ease-out;\n    animation-fill-mode:both;\n    animation-duration: ", ";\n    animation-timing-function:ease-out;\n\n    ", "\n"], ["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity ", " ease-out;\n    animation-fill-mode:both;\n    animation-duration: ", ";\n    animation-timing-function:ease-out;\n\n    ", "\n"])), function (_a) {
+    var duration = _a.duration;
+    return duration + 'ms';
+}, function (_a) {
+    var duration = _a.duration;
+    return duration + 'ms';
+}, function (_a) {
+    var previousContent = _a.previousContent;
+    return constructPreviousSlide(previousContent);
+});
+/* ========================
+*   Color backdrop container
+*  ==========================*/
+var ColorComponent = styled_components_1.default.div(templateObject_4 || (templateObject_4 = tslib_1.__makeTemplateObject(["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color ", " ease-out;\n"], ["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color ", " ease-out;\n"])), function (_a) {
+    var sourceMain = _a.sourceMain;
+    return sourceMain;
+}, function (_a) {
+    var duration = _a.duration;
+    return duration + 'ms';
+});
+var ColorBackdrop = function (_a) {
+    var store = _a.store, current = _a.current, previous = _a.previous, durationTime = _a.durationTime;
+    return (react_1.default.createElement(react_1.default.Fragment, null,
+        react_1.default.createElement(ColorComponent, { sourceMain: current.value, sourceSecondary: previous, duration: durationTime }),
+        react_1.default.createElement(PreviousSlide, { previousContent: previous, duration: durationTime })));
+};
+exports.ColorBackdrop = ColorBackdrop;
+/* ========================
+*   Image backdrop container
+*  ==========================*/
+var ImageComponent = styled_components_1.default.div(templateObject_5 || (templateObject_5 = tslib_1.__makeTemplateObject(["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  background-image:url(", " );\n  background-position:center;\n  background-repeat:no-repeat;\n  background-size:cover;\n"], ["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  background-image:url(", " );\n  background-position:center;\n  background-repeat:no-repeat;\n  background-size:cover;\n"])), function (_a) {
+    var sourceMain = _a.sourceMain;
+    return sourceMain;
+});
+var ImageBackdrop = function (_a) {
+    var store = _a.store, current = _a.current, previous = _a.previous, durationTime = _a.durationTime;
+    return (react_1.default.createElement(react_1.default.Fragment, null,
+        react_1.default.createElement(ViewportContainer, null,
+            react_1.default.createElement(ImageComponent, { sourceMain: current.value, sourceSecondary: previous })),
+        react_1.default.createElement(PreviousSlide, { previousContent: previous, duration: durationTime })));
+};
+exports.ImageBackdrop = ImageBackdrop;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+
+},{"react":32,"styled-components":40,"tslib":43}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -204,7 +507,7 @@ var index = memoize(function (prop) {
 
 exports.default = index;
 
-},{"@emotion/memoize":3}],3:[function(require,module,exports){
+},{"@emotion/memoize":6}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -219,7 +522,7 @@ function memoize(fn) {
 
 exports.default = memoize;
 
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -275,7 +578,7 @@ var unitlessKeys = {
 
 exports.default = unitlessKeys;
 
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * anime.js v3.1.0
  * (c) 2019 Julian Garnier
@@ -1559,7 +1862,7 @@ anime.random = function (min, max) { return Math.floor(Math.random() * (max - mi
 
 module.exports = anime;
 
-},{}],6:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -1781,7 +2084,7 @@ exports.isSymbol = isSymbol;
 exports.isPrimitive = isPrimitive;
 exports.isType = isType;
 
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 function areInputsEqual(newInputs, lastInputs) {
@@ -1821,7 +2124,7 @@ function memoizeOne(resultFn, isEqual) {
 
 module.exports = memoizeOne;
 
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -1930,7 +2233,7 @@ exports.merge = merge;
 exports.concatArrays = concatArrays;
 exports.default = merge;
 
-},{"is-what":6}],9:[function(require,module,exports){
+},{"is-what":9}],12:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -2022,7 +2325,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],10:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2208,7 +2511,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -2314,7 +2617,7 @@ checkPropTypes.resetWarningCache = function() {
 module.exports = checkPropTypes;
 
 }).call(this,require('_process'))
-},{"./lib/ReactPropTypesSecret":15,"_process":10}],12:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":18,"_process":13}],15:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -2380,7 +2683,7 @@ module.exports = function() {
   return ReactPropTypes;
 };
 
-},{"./lib/ReactPropTypesSecret":15}],13:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":18}],16:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -2975,7 +3278,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 };
 
 }).call(this,require('_process'))
-},{"./checkPropTypes":11,"./lib/ReactPropTypesSecret":15,"_process":10,"object-assign":9,"react-is":25}],14:[function(require,module,exports){
+},{"./checkPropTypes":14,"./lib/ReactPropTypesSecret":18,"_process":13,"object-assign":12,"react-is":28}],17:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -2998,7 +3301,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./factoryWithThrowingShims":12,"./factoryWithTypeCheckers":13,"_process":10,"react-is":25}],15:[function(require,module,exports){
+},{"./factoryWithThrowingShims":15,"./factoryWithTypeCheckers":16,"_process":13,"react-is":28}],18:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -3012,7 +3315,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],16:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (process){
 /** @license React v16.10.2
  * react-dom.development.js
@@ -30942,7 +31245,7 @@ module.exports = reactDom;
 }
 
 }).call(this,require('_process'))
-},{"_process":10,"object-assign":9,"prop-types/checkPropTypes":11,"react":29,"scheduler":34,"scheduler/tracing":35}],17:[function(require,module,exports){
+},{"_process":13,"object-assign":12,"prop-types/checkPropTypes":14,"react":32,"scheduler":37,"scheduler/tracing":38}],20:[function(require,module,exports){
 /** @license React v16.10.2
  * react-dom.production.min.js
  *
@@ -31237,7 +31540,7 @@ function vk(a,b){if(!qk(a))throw t(Error(299),"unstable_createRoot");return new 
 (function(a){var b=a.findFiberByHostInstance;return dk(n({},a,{overrideHookState:null,overrideProps:null,setSuspenseHandler:null,scheduleUpdate:null,currentDispatcherRef:Da.ReactCurrentDispatcher,findHostInstanceByFiber:function(a){a=Ec(a);return null===a?null:a.stateNode},findFiberByHostInstance:function(a){return b?b(a):null},findHostInstancesForRefresh:null,scheduleRefresh:null,scheduleRoot:null,setRefreshHandler:null,getCurrentFiber:null}))})({findFiberByHostInstance:Cd,bundleType:0,version:"16.10.2",
 rendererPackageName:"react-dom"});var xk={default:wk},yk=xk&&wk||xk;module.exports=yk.default||yk;
 
-},{"object-assign":9,"react":29,"scheduler":34}],18:[function(require,module,exports){
+},{"object-assign":12,"react":32,"scheduler":37}],21:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -31279,7 +31582,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react-dom.development.js":16,"./cjs/react-dom.production.min.js":17,"_process":10}],19:[function(require,module,exports){
+},{"./cjs/react-dom.development.js":19,"./cjs/react-dom.production.min.js":20,"_process":13}],22:[function(require,module,exports){
 'use strict';
 
 var isArray = Array.isArray;
@@ -31375,7 +31678,7 @@ module.exports = function exportedEqual(a, b) {
   }
 };
 
-},{}],20:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (process){
 exports.__esModule = true;
 exports.Helmet = undefined;
@@ -31670,7 +31973,7 @@ HelmetExport.renderStatic = HelmetExport.rewind;
 exports.Helmet = HelmetExport;
 exports.default = HelmetExport;
 }).call(this,require('_process'))
-},{"./HelmetConstants.js":21,"./HelmetUtils.js":22,"_process":10,"prop-types":14,"react":29,"react-fast-compare":19,"react-side-effect":26}],21:[function(require,module,exports){
+},{"./HelmetConstants.js":24,"./HelmetUtils.js":25,"_process":13,"prop-types":17,"react":32,"react-fast-compare":22,"react-side-effect":29}],24:[function(require,module,exports){
 exports.__esModule = true;
 var ATTRIBUTE_NAMES = exports.ATTRIBUTE_NAMES = {
     BODY: "bodyAttributes",
@@ -31735,7 +32038,7 @@ var HTML_TAG_MAP = exports.HTML_TAG_MAP = Object.keys(REACT_TAG_MAP).reduce(func
 var SELF_CLOSING_TAGS = exports.SELF_CLOSING_TAGS = [TAG_NAMES.NOSCRIPT, TAG_NAMES.SCRIPT, TAG_NAMES.STYLE];
 
 var HELMET_ATTRIBUTE = exports.HELMET_ATTRIBUTE = "data-react-helmet";
-},{}],22:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 (function (global){
 exports.__esModule = true;
 exports.warn = exports.requestAnimationFrame = exports.reducePropsToState = exports.mapStateOnServer = exports.handleClientStateChange = exports.convertReactPropstoHtmlAttributes = undefined;
@@ -32274,7 +32577,7 @@ exports.reducePropsToState = reducePropsToState;
 exports.requestAnimationFrame = requestAnimationFrame;
 exports.warn = warn;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./HelmetConstants.js":21,"object-assign":9,"react":29}],23:[function(require,module,exports){
+},{"./HelmetConstants.js":24,"object-assign":12,"react":32}],26:[function(require,module,exports){
 (function (process){
 /** @license React v16.10.2
  * react-is.development.js
@@ -32514,7 +32817,7 @@ exports.isSuspense = isSuspense;
 }
 
 }).call(this,require('_process'))
-},{"_process":10}],24:[function(require,module,exports){
+},{"_process":13}],27:[function(require,module,exports){
 /** @license React v16.10.2
  * react-is.production.min.js
  *
@@ -32531,7 +32834,7 @@ exports.typeOf=y;exports.AsyncMode=l;exports.ConcurrentMode=m;exports.ContextCon
 exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===m||a===g||a===f||a===p||a===q||"object"===typeof a&&null!==a&&(a.$$typeof===t||a.$$typeof===r||a.$$typeof===h||a.$$typeof===k||a.$$typeof===n||a.$$typeof===v||a.$$typeof===w||a.$$typeof===x)};exports.isAsyncMode=function(a){return z(a)||y(a)===l};exports.isConcurrentMode=z;exports.isContextConsumer=function(a){return y(a)===k};exports.isContextProvider=function(a){return y(a)===h};
 exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return y(a)===n};exports.isFragment=function(a){return y(a)===e};exports.isLazy=function(a){return y(a)===t};exports.isMemo=function(a){return y(a)===r};exports.isPortal=function(a){return y(a)===d};exports.isProfiler=function(a){return y(a)===g};exports.isStrictMode=function(a){return y(a)===f};exports.isSuspense=function(a){return y(a)===p};
 
-},{}],25:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -32542,7 +32845,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react-is.development.js":23,"./cjs/react-is.production.min.js":24,"_process":10}],26:[function(require,module,exports){
+},{"./cjs/react-is.development.js":26,"./cjs/react-is.production.min.js":27,"_process":13}],29:[function(require,module,exports){
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -32674,7 +32977,7 @@ function withSideEffect(reducePropsToState, handleStateChangeOnClient, mapStateO
 
 module.exports = withSideEffect;
 
-},{"react":29,"shallowequal":36}],27:[function(require,module,exports){
+},{"react":32,"shallowequal":39}],30:[function(require,module,exports){
 (function (process){
 /** @license React v16.10.2
  * react.development.js
@@ -35010,7 +35313,7 @@ module.exports = react;
 }
 
 }).call(this,require('_process'))
-},{"_process":10,"object-assign":9,"prop-types/checkPropTypes":11}],28:[function(require,module,exports){
+},{"_process":13,"object-assign":12,"prop-types/checkPropTypes":14}],31:[function(require,module,exports){
 /** @license React v16.10.2
  * react.production.min.js
  *
@@ -35037,7 +35340,7 @@ b,c){return W().useImperativeHandle(a,b,c)},useDebugValue:function(){},useLayout
 e=a.key,g=a.ref,l=a._owner;if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(e=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(d[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)d.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];d.children=f}return{$$typeof:p,type:a.type,key:e,ref:g,props:d,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},
 isValidElement:N,version:"16.10.2",unstable_withSuspenseConfig:function(a,b){var c=I.suspense;I.suspense=void 0===b?null:b;try{a()}finally{I.suspense=c}},__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:H,ReactCurrentBatchConfig:I,ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:h}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default||Z;
 
-},{"object-assign":9}],29:[function(require,module,exports){
+},{"object-assign":12}],32:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -35048,7 +35351,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react.development.js":27,"./cjs/react.production.min.js":28,"_process":10}],30:[function(require,module,exports){
+},{"./cjs/react.development.js":30,"./cjs/react.production.min.js":31,"_process":13}],33:[function(require,module,exports){
 (function (process){
 /** @license React v0.16.2
  * scheduler-tracing.development.js
@@ -35481,7 +35784,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 }
 
 }).call(this,require('_process'))
-},{"_process":10}],31:[function(require,module,exports){
+},{"_process":13}],34:[function(require,module,exports){
 /** @license React v0.16.2
  * scheduler-tracing.production.min.js
  *
@@ -35493,7 +35796,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 
 'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b=0;exports.__interactionsRef=null;exports.__subscriberRef=null;exports.unstable_clear=function(a){return a()};exports.unstable_getCurrent=function(){return null};exports.unstable_getThreadID=function(){return++b};exports.unstable_trace=function(a,d,c){return c()};exports.unstable_wrap=function(a){return a};exports.unstable_subscribe=function(){};exports.unstable_unsubscribe=function(){};
 
-},{}],32:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (process){
 /** @license React v0.16.2
  * scheduler.development.js
@@ -36519,7 +36822,7 @@ exports.unstable_Profiling = unstable_Profiling;
 }
 
 }).call(this,require('_process'))
-},{"_process":10}],33:[function(require,module,exports){
+},{"_process":13}],36:[function(require,module,exports){
 /** @license React v0.16.2
  * scheduler.production.min.js
  *
@@ -36543,7 +36846,7 @@ exports.unstable_scheduleCallback=function(a,b,c){var d=exports.unstable_now();i
 exports.unstable_wrapCallback=function(a){var b=S;return function(){var c=S;S=b;try{return a.apply(this,arguments)}finally{S=c}}};exports.unstable_getCurrentPriorityLevel=function(){return S};exports.unstable_shouldYield=function(){var a=exports.unstable_now();W(a);var b=M(O);return b!==R&&null!==R&&null!==b&&null!==b.callback&&b.startTime<=a&&b.expirationTime<R.expirationTime||k()};exports.unstable_requestPaint=aa;exports.unstable_continueExecution=function(){U||T||(U=!0,f(Y))};
 exports.unstable_pauseExecution=function(){};exports.unstable_getFirstCallbackNode=function(){return M(O)};exports.unstable_Profiling=null;
 
-},{}],34:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -36554,7 +36857,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler.development.js":32,"./cjs/scheduler.production.min.js":33,"_process":10}],35:[function(require,module,exports){
+},{"./cjs/scheduler.development.js":35,"./cjs/scheduler.production.min.js":36,"_process":13}],38:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -36565,7 +36868,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler-tracing.development.js":30,"./cjs/scheduler-tracing.production.min.js":31,"_process":10}],36:[function(require,module,exports){
+},{"./cjs/scheduler-tracing.development.js":33,"./cjs/scheduler-tracing.production.min.js":34,"_process":13}],39:[function(require,module,exports){
 //
 
 module.exports = function shallowEqual(objA, objB, compare, compareContext) {
@@ -36613,7 +36916,7 @@ module.exports = function shallowEqual(objA, objB, compare, compareContext) {
   return true;
 };
 
-},{}],37:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -39137,7 +39440,7 @@ exports.__DO_NOT_USE_OR_YOU_WILL_BE_HAUNTED_BY_SPOOKY_GHOSTS = __DO_NOT_USE_OR_Y
 
 
 }).call(this,require('_process'))
-},{"@emotion/is-prop-valid":2,"@emotion/unitless":4,"_process":10,"memoize-one":7,"merge-anything":8,"prop-types":14,"react":29,"react-is":25,"stylis-rule-sheet":38,"stylis/stylis.min":39}],38:[function(require,module,exports){
+},{"@emotion/is-prop-valid":5,"@emotion/unitless":7,"_process":13,"memoize-one":10,"merge-anything":11,"prop-types":17,"react":32,"react-is":28,"stylis-rule-sheet":41,"stylis/stylis.min":42}],41:[function(require,module,exports){
 (function (factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? (module['exports'] = factory()) :
 		typeof define === 'function' && define['amd'] ? define(factory()) :
@@ -39187,364 +39490,268 @@ exports.__DO_NOT_USE_OR_YOU_WILL_BE_HAUNTED_BY_SPOOKY_GHOSTS = __DO_NOT_USE_OR_Y
 	}
 }))
 
-},{}],39:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 !function(e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e(null):"function"==typeof define&&define.amd?define(e(null)):window.stylis=e(null)}(function e(a){"use strict";var r=/^\0+/g,c=/[\0\r\f]/g,s=/: */g,t=/zoo|gra/,i=/([,: ])(transform)/g,f=/,+\s*(?![^(]*[)])/g,n=/ +\s*(?![^(]*[)])/g,l=/ *[\0] */g,o=/,\r+?/g,h=/([\t\r\n ])*\f?&/g,u=/:global\(((?:[^\(\)\[\]]*|\[.*\]|\([^\(\)]*\))*)\)/g,d=/\W+/g,b=/@(k\w+)\s*(\S*)\s*/,p=/::(place)/g,k=/:(read-only)/g,g=/\s+(?=[{\];=:>])/g,A=/([[}=:>])\s+/g,C=/(\{[^{]+?);(?=\})/g,w=/\s{2,}/g,v=/([^\(])(:+) */g,m=/[svh]\w+-[tblr]{2}/,x=/\(\s*(.*)\s*\)/g,$=/([\s\S]*?);/g,y=/-self|flex-/g,O=/[^]*?(:[rp][el]a[\w-]+)[^]*/,j=/stretch|:\s*\w+\-(?:conte|avail)/,z=/([^-])(image-set\()/,N="-webkit-",S="-moz-",F="-ms-",W=59,q=125,B=123,D=40,E=41,G=91,H=93,I=10,J=13,K=9,L=64,M=32,P=38,Q=45,R=95,T=42,U=44,V=58,X=39,Y=34,Z=47,_=62,ee=43,ae=126,re=0,ce=12,se=11,te=107,ie=109,fe=115,ne=112,le=111,oe=105,he=99,ue=100,de=112,be=1,pe=1,ke=0,ge=1,Ae=1,Ce=1,we=0,ve=0,me=0,xe=[],$e=[],ye=0,Oe=null,je=-2,ze=-1,Ne=0,Se=1,Fe=2,We=3,qe=0,Be=1,De="",Ee="",Ge="";function He(e,a,s,t,i){for(var f,n,o=0,h=0,u=0,d=0,g=0,A=0,C=0,w=0,m=0,$=0,y=0,O=0,j=0,z=0,R=0,we=0,$e=0,Oe=0,je=0,ze=s.length,Je=ze-1,Re="",Te="",Ue="",Ve="",Xe="",Ye="";R<ze;){if(C=s.charCodeAt(R),R===Je)if(h+d+u+o!==0){if(0!==h)C=h===Z?I:Z;d=u=o=0,ze++,Je++}if(h+d+u+o===0){if(R===Je){if(we>0)Te=Te.replace(c,"");if(Te.trim().length>0){switch(C){case M:case K:case W:case J:case I:break;default:Te+=s.charAt(R)}C=W}}if(1===$e)switch(C){case B:case q:case W:case Y:case X:case D:case E:case U:$e=0;case K:case J:case I:case M:break;default:for($e=0,je=R,g=C,R--,C=W;je<ze;)switch(s.charCodeAt(je++)){case I:case J:case W:++R,C=g,je=ze;break;case V:if(we>0)++R,C=g;case B:je=ze}}switch(C){case B:for(g=(Te=Te.trim()).charCodeAt(0),y=1,je=++R;R<ze;){switch(C=s.charCodeAt(R)){case B:y++;break;case q:y--;break;case Z:switch(A=s.charCodeAt(R+1)){case T:case Z:R=Qe(A,R,Je,s)}break;case G:C++;case D:C++;case Y:case X:for(;R++<Je&&s.charCodeAt(R)!==C;);}if(0===y)break;R++}if(Ue=s.substring(je,R),g===re)g=(Te=Te.replace(r,"").trim()).charCodeAt(0);switch(g){case L:if(we>0)Te=Te.replace(c,"");switch(A=Te.charCodeAt(1)){case ue:case ie:case fe:case Q:f=a;break;default:f=xe}if(je=(Ue=He(a,f,Ue,A,i+1)).length,me>0&&0===je)je=Te.length;if(ye>0)if(f=Ie(xe,Te,Oe),n=Pe(We,Ue,f,a,pe,be,je,A,i,t),Te=f.join(""),void 0!==n)if(0===(je=(Ue=n.trim()).length))A=0,Ue="";if(je>0)switch(A){case fe:Te=Te.replace(x,Me);case ue:case ie:case Q:Ue=Te+"{"+Ue+"}";break;case te:if(Ue=(Te=Te.replace(b,"$1 $2"+(Be>0?De:"")))+"{"+Ue+"}",1===Ae||2===Ae&&Le("@"+Ue,3))Ue="@"+N+Ue+"@"+Ue;else Ue="@"+Ue;break;default:if(Ue=Te+Ue,t===de)Ve+=Ue,Ue=""}else Ue="";break;default:Ue=He(a,Ie(a,Te,Oe),Ue,t,i+1)}Xe+=Ue,O=0,$e=0,z=0,we=0,Oe=0,j=0,Te="",Ue="",C=s.charCodeAt(++R);break;case q:case W:if((je=(Te=(we>0?Te.replace(c,""):Te).trim()).length)>1){if(0===z)if((g=Te.charCodeAt(0))===Q||g>96&&g<123)je=(Te=Te.replace(" ",":")).length;if(ye>0)if(void 0!==(n=Pe(Se,Te,a,e,pe,be,Ve.length,t,i,t)))if(0===(je=(Te=n.trim()).length))Te="\0\0";switch(g=Te.charCodeAt(0),A=Te.charCodeAt(1),g){case re:break;case L:if(A===oe||A===he){Ye+=Te+s.charAt(R);break}default:if(Te.charCodeAt(je-1)===V)break;Ve+=Ke(Te,g,A,Te.charCodeAt(2))}}O=0,$e=0,z=0,we=0,Oe=0,Te="",C=s.charCodeAt(++R)}}switch(C){case J:case I:if(h+d+u+o+ve===0)switch($){case E:case X:case Y:case L:case ae:case _:case T:case ee:case Z:case Q:case V:case U:case W:case B:case q:break;default:if(z>0)$e=1}if(h===Z)h=0;else if(ge+O===0&&t!==te&&Te.length>0)we=1,Te+="\0";if(ye*qe>0)Pe(Ne,Te,a,e,pe,be,Ve.length,t,i,t);be=1,pe++;break;case W:case q:if(h+d+u+o===0){be++;break}default:switch(be++,Re=s.charAt(R),C){case K:case M:if(d+o+h===0)switch(w){case U:case V:case K:case M:Re="";break;default:if(C!==M)Re=" "}break;case re:Re="\\0";break;case ce:Re="\\f";break;case se:Re="\\v";break;case P:if(d+h+o===0&&ge>0)Oe=1,we=1,Re="\f"+Re;break;case 108:if(d+h+o+ke===0&&z>0)switch(R-z){case 2:if(w===ne&&s.charCodeAt(R-3)===V)ke=w;case 8:if(m===le)ke=m}break;case V:if(d+h+o===0)z=R;break;case U:if(h+u+d+o===0)we=1,Re+="\r";break;case Y:case X:if(0===h)d=d===C?0:0===d?C:d;break;case G:if(d+h+u===0)o++;break;case H:if(d+h+u===0)o--;break;case E:if(d+h+o===0)u--;break;case D:if(d+h+o===0){if(0===O)switch(2*w+3*m){case 533:break;default:y=0,O=1}u++}break;case L:if(h+u+d+o+z+j===0)j=1;break;case T:case Z:if(d+o+u>0)break;switch(h){case 0:switch(2*C+3*s.charCodeAt(R+1)){case 235:h=Z;break;case 220:je=R,h=T}break;case T:if(C===Z&&w===T&&je+2!==R){if(33===s.charCodeAt(je+2))Ve+=s.substring(je,R+1);Re="",h=0}}}if(0===h){if(ge+d+o+j===0&&t!==te&&C!==W)switch(C){case U:case ae:case _:case ee:case E:case D:if(0===O){switch(w){case K:case M:case I:case J:Re+="\0";break;default:Re="\0"+Re+(C===U?"":"\0")}we=1}else switch(C){case D:if(z+7===R&&108===w)z=0;O=++y;break;case E:if(0==(O=--y))we=1,Re+="\0"}break;case K:case M:switch(w){case re:case B:case q:case W:case U:case ce:case K:case M:case I:case J:break;default:if(0===O)we=1,Re+="\0"}}if(Te+=Re,C!==M&&C!==K)$=C}}m=w,w=C,R++}if(je=Ve.length,me>0)if(0===je&&0===Xe.length&&0===a[0].length==false)if(t!==ie||1===a.length&&(ge>0?Ee:Ge)===a[0])je=a.join(",").length+2;if(je>0){if(f=0===ge&&t!==te?function(e){for(var a,r,s=0,t=e.length,i=Array(t);s<t;++s){for(var f=e[s].split(l),n="",o=0,h=0,u=0,d=0,b=f.length;o<b;++o){if(0===(h=(r=f[o]).length)&&b>1)continue;if(u=n.charCodeAt(n.length-1),d=r.charCodeAt(0),a="",0!==o)switch(u){case T:case ae:case _:case ee:case M:case D:break;default:a=" "}switch(d){case P:r=a+Ee;case ae:case _:case ee:case M:case E:case D:break;case G:r=a+r+Ee;break;case V:switch(2*r.charCodeAt(1)+3*r.charCodeAt(2)){case 530:if(Ce>0){r=a+r.substring(8,h-1);break}default:if(o<1||f[o-1].length<1)r=a+Ee+r}break;case U:a="";default:if(h>1&&r.indexOf(":")>0)r=a+r.replace(v,"$1"+Ee+"$2");else r=a+r+Ee}n+=r}i[s]=n.replace(c,"").trim()}return i}(a):a,ye>0)if(void 0!==(n=Pe(Fe,Ve,f,e,pe,be,je,t,i,t))&&0===(Ve=n).length)return Ye+Ve+Xe;if(Ve=f.join(",")+"{"+Ve+"}",Ae*ke!=0){if(2===Ae&&!Le(Ve,2))ke=0;switch(ke){case le:Ve=Ve.replace(k,":"+S+"$1")+Ve;break;case ne:Ve=Ve.replace(p,"::"+N+"input-$1")+Ve.replace(p,"::"+S+"$1")+Ve.replace(p,":"+F+"input-$1")+Ve}ke=0}}return Ye+Ve+Xe}function Ie(e,a,r){var c=a.trim().split(o),s=c,t=c.length,i=e.length;switch(i){case 0:case 1:for(var f=0,n=0===i?"":e[0]+" ";f<t;++f)s[f]=Je(n,s[f],r,i).trim();break;default:f=0;var l=0;for(s=[];f<t;++f)for(var h=0;h<i;++h)s[l++]=Je(e[h]+" ",c[f],r,i).trim()}return s}function Je(e,a,r,c){var s=a,t=s.charCodeAt(0);if(t<33)t=(s=s.trim()).charCodeAt(0);switch(t){case P:switch(ge+c){case 0:case 1:if(0===e.trim().length)break;default:return s.replace(h,"$1"+e.trim())}break;case V:switch(s.charCodeAt(1)){case 103:if(Ce>0&&ge>0)return s.replace(u,"$1").replace(h,"$1"+Ge);break;default:return e.trim()+s.replace(h,"$1"+e.trim())}default:if(r*ge>0&&s.indexOf("\f")>0)return s.replace(h,(e.charCodeAt(0)===V?"":"$1")+e.trim())}return e+s}function Ke(e,a,r,c){var l,o=0,h=e+";",u=2*a+3*r+4*c;if(944===u)return function(e){var a=e.length,r=e.indexOf(":",9)+1,c=e.substring(0,r).trim(),s=e.substring(r,a-1).trim();switch(e.charCodeAt(9)*Be){case 0:break;case Q:if(110!==e.charCodeAt(10))break;default:for(var t=s.split((s="",f)),i=0,r=0,a=t.length;i<a;r=0,++i){for(var l=t[i],o=l.split(n);l=o[r];){var h=l.charCodeAt(0);if(1===Be&&(h>L&&h<90||h>96&&h<123||h===R||h===Q&&l.charCodeAt(1)!==Q))switch(isNaN(parseFloat(l))+(-1!==l.indexOf("("))){case 1:switch(l){case"infinite":case"alternate":case"backwards":case"running":case"normal":case"forwards":case"both":case"none":case"linear":case"ease":case"ease-in":case"ease-out":case"ease-in-out":case"paused":case"reverse":case"alternate-reverse":case"inherit":case"initial":case"unset":case"step-start":case"step-end":break;default:l+=De}}o[r++]=l}s+=(0===i?"":",")+o.join(" ")}}if(s=c+s+";",1===Ae||2===Ae&&Le(s,1))return N+s+s;return s}(h);else if(0===Ae||2===Ae&&!Le(h,1))return h;switch(u){case 1015:return 97===h.charCodeAt(10)?N+h+h:h;case 951:return 116===h.charCodeAt(3)?N+h+h:h;case 963:return 110===h.charCodeAt(5)?N+h+h:h;case 1009:if(100!==h.charCodeAt(4))break;case 969:case 942:return N+h+h;case 978:return N+h+S+h+h;case 1019:case 983:return N+h+S+h+F+h+h;case 883:if(h.charCodeAt(8)===Q)return N+h+h;if(h.indexOf("image-set(",11)>0)return h.replace(z,"$1"+N+"$2")+h;return h;case 932:if(h.charCodeAt(4)===Q)switch(h.charCodeAt(5)){case 103:return N+"box-"+h.replace("-grow","")+N+h+F+h.replace("grow","positive")+h;case 115:return N+h+F+h.replace("shrink","negative")+h;case 98:return N+h+F+h.replace("basis","preferred-size")+h}return N+h+F+h+h;case 964:return N+h+F+"flex-"+h+h;case 1023:if(99!==h.charCodeAt(8))break;return l=h.substring(h.indexOf(":",15)).replace("flex-","").replace("space-between","justify"),N+"box-pack"+l+N+h+F+"flex-pack"+l+h;case 1005:return t.test(h)?h.replace(s,":"+N)+h.replace(s,":"+S)+h:h;case 1e3:switch(o=(l=h.substring(13).trim()).indexOf("-")+1,l.charCodeAt(0)+l.charCodeAt(o)){case 226:l=h.replace(m,"tb");break;case 232:l=h.replace(m,"tb-rl");break;case 220:l=h.replace(m,"lr");break;default:return h}return N+h+F+l+h;case 1017:if(-1===h.indexOf("sticky",9))return h;case 975:switch(o=(h=e).length-10,u=(l=(33===h.charCodeAt(o)?h.substring(0,o):h).substring(e.indexOf(":",7)+1).trim()).charCodeAt(0)+(0|l.charCodeAt(7))){case 203:if(l.charCodeAt(8)<111)break;case 115:h=h.replace(l,N+l)+";"+h;break;case 207:case 102:h=h.replace(l,N+(u>102?"inline-":"")+"box")+";"+h.replace(l,N+l)+";"+h.replace(l,F+l+"box")+";"+h}return h+";";case 938:if(h.charCodeAt(5)===Q)switch(h.charCodeAt(6)){case 105:return l=h.replace("-items",""),N+h+N+"box-"+l+F+"flex-"+l+h;case 115:return N+h+F+"flex-item-"+h.replace(y,"")+h;default:return N+h+F+"flex-line-pack"+h.replace("align-content","").replace(y,"")+h}break;case 973:case 989:if(h.charCodeAt(3)!==Q||122===h.charCodeAt(4))break;case 931:case 953:if(true===j.test(e))if(115===(l=e.substring(e.indexOf(":")+1)).charCodeAt(0))return Ke(e.replace("stretch","fill-available"),a,r,c).replace(":fill-available",":stretch");else return h.replace(l,N+l)+h.replace(l,S+l.replace("fill-",""))+h;break;case 962:if(h=N+h+(102===h.charCodeAt(5)?F+h:"")+h,r+c===211&&105===h.charCodeAt(13)&&h.indexOf("transform",10)>0)return h.substring(0,h.indexOf(";",27)+1).replace(i,"$1"+N+"$2")+h}return h}function Le(e,a){var r=e.indexOf(1===a?":":"{"),c=e.substring(0,3!==a?r:10),s=e.substring(r+1,e.length-1);return Oe(2!==a?c:c.replace(O,"$1"),s,a)}function Me(e,a){var r=Ke(a,a.charCodeAt(0),a.charCodeAt(1),a.charCodeAt(2));return r!==a+";"?r.replace($," or ($1)").substring(4):"("+a+")"}function Pe(e,a,r,c,s,t,i,f,n,l){for(var o,h=0,u=a;h<ye;++h)switch(o=$e[h].call(Te,e,u,r,c,s,t,i,f,n,l)){case void 0:case false:case true:case null:break;default:u=o}if(u!==a)return u}function Qe(e,a,r,c){for(var s=a+1;s<r;++s)switch(c.charCodeAt(s)){case Z:if(e===T)if(c.charCodeAt(s-1)===T&&a+2!==s)return s+1;break;case I:if(e===Z)return s+1}return s}function Re(e){for(var a in e){var r=e[a];switch(a){case"keyframe":Be=0|r;break;case"global":Ce=0|r;break;case"cascade":ge=0|r;break;case"compress":we=0|r;break;case"semicolon":ve=0|r;break;case"preserve":me=0|r;break;case"prefix":if(Oe=null,!r)Ae=0;else if("function"!=typeof r)Ae=1;else Ae=2,Oe=r}}return Re}function Te(a,r){if(void 0!==this&&this.constructor===Te)return e(a);var s=a,t=s.charCodeAt(0);if(t<33)t=(s=s.trim()).charCodeAt(0);if(Be>0)De=s.replace(d,t===G?"":"-");if(t=1,1===ge)Ge=s;else Ee=s;var i,f=[Ge];if(ye>0)if(void 0!==(i=Pe(ze,r,f,f,pe,be,0,0,0,0))&&"string"==typeof i)r=i;var n=He(xe,f,r,0,0);if(ye>0)if(void 0!==(i=Pe(je,n,f,f,pe,be,n.length,0,0,0))&&"string"!=typeof(n=i))t=0;return De="",Ge="",Ee="",ke=0,pe=1,be=1,we*t==0?n:n.replace(c,"").replace(g,"").replace(A,"$1").replace(C,"$1").replace(w," ")}if(Te.use=function e(a){switch(a){case void 0:case null:ye=$e.length=0;break;default:if("function"==typeof a)$e[ye++]=a;else if("object"==typeof a)for(var r=0,c=a.length;r<c;++r)e(a[r]);else qe=0|!!a}return e},Te.set=Re,void 0!==a)Re(a);return Te});
 
-},{}],40:[function(require,module,exports){
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
+},{}],43:[function(require,module,exports){
+(function (global){
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global global, define, System, Reflect, Promise */
+var __extends;
+var __assign;
+var __rest;
+var __decorate;
+var __param;
+var __metadata;
+var __awaiter;
+var __generator;
+var __exportStar;
+var __values;
+var __read;
+var __spread;
+var __spreadArrays;
+var __await;
+var __asyncGenerator;
+var __asyncDelegator;
+var __asyncValues;
+var __makeTemplateObject;
+var __importStar;
+var __importDefault;
+(function (factory) {
+    var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
+    if (typeof define === "function" && define.amd) {
+        define("tslib", ["exports"], function (exports) { factory(createExporter(root, createExporter(exports))); });
+    }
+    else if (typeof module === "object" && typeof module.exports === "object") {
+        factory(createExporter(root, createExporter(module.exports)));
+    }
+    else {
+        factory(createExporter(root));
+    }
+    function createExporter(exports, previous) {
+        if (exports !== root) {
+            if (typeof Object.create === "function") {
+                Object.defineProperty(exports, "__esModule", { value: true });
+            }
+            else {
+                exports.__esModule = true;
+            }
+        }
+        return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
+    }
+})
+(function (exporter) {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
+    __extends = function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
+
+    __assign = Object.assign || function (t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
         }
         return t;
     };
-    return __assign.apply(this, arguments);
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(require("react"));
-var logic_1 = __importDefault(require("./logic"));
-var presentational_1 = require("./presentational");
-var BackdropContext = react_1.default.createContext({
-    registerColor: undefined,
-    currentValueType: undefined,
-    currentTheme: undefined,
-});
-exports.BackdropContext = BackdropContext;
-var BackdropContainer = /** @class */ (function (_super) {
-    __extends(BackdropContainer, _super);
-    function BackdropContainer(props) {
-        var _this = _super.call(this, props) || this;
-        _this.colorState = undefined;
-        _this.state = {
-            activeValueType: undefined,
-            activeTheme: undefined,
-            previousValueType: undefined,
-            previousTheme: undefined,
-            isLoaded: false,
-        };
-        _this.setColor = _this.setColor.bind(_this);
-        return _this;
-    }
-    BackdropContainer.prototype.setColor = function (newValueType, newTheme) {
-        var _a = this.state, prevVal = _a.activeValueType, prevTheme = _a.activeTheme;
-        this.setState({
-            activeValueType: newValueType,
-            activeTheme: newTheme,
-            previousValueType: prevVal,
-            previousTheme: prevTheme,
-        });
-    };
-    BackdropContainer.prototype.componentDidMount = function () {
-        var _a = this.props, _b = _a.defaultValue, defaultValue = _b === void 0 ? { value: 'transparent', type: 'color' } : _b, _c = _a.defaultTheme, defaultTheme = _c === void 0 ? 'default' : _c, _d = _a.fromTop, fromTop = _d === void 0 ? 0 : _d;
-        var isLoaded = this.state.isLoaded;
-        if (!isLoaded) {
-            this.colorState = new logic_1.default(fromTop, defaultValue, defaultTheme, this.setColor);
-            this.setState({
-                activeValueType: this.colorState.currentValueType,
-                activeTheme: this.colorState.currentTheme,
-                isLoaded: true,
-            });
-        }
-    };
-    BackdropContainer.prototype.render = function () {
-        var _a = this.props, children = _a.children, _b = _a.animationDuration, animationDuration = _b === void 0 ? 600 : _b;
-        var _c = this.state, isLoaded = _c.isLoaded, _d = _c.activeValueType, activeValueType = _d === void 0 ? { value: 'transparent', type: 'color' } : _d, _e = _c.activeTheme, activeTheme = _e === void 0 ? 'default' : _e, previousValueType = _c.previousValueType;
-        var contextValues = {
-            registerColor: isLoaded && this.colorState.registerColor,
-            currentValueType: isLoaded && activeValueType,
-            currentTheme: isLoaded && activeTheme,
-        };
-        var backdropParentContainerClassNames = [
-            'reactBackdrop__container',
-            activeTheme,
-        ].join(' ');
-        var templateProps = {
-            durationTime: animationDuration,
-            store: isLoaded && this.colorState.valuesCache[activeValueType.type],
-            current: activeValueType,
-            previous: previousValueType,
-        };
-        var template = {
-            image: react_1.default.createElement(presentational_1.ImageBackdrop, __assign({}, templateProps)),
-            color: react_1.default.createElement(presentational_1.ColorBackdrop, __assign({}, templateProps)),
-        }[isLoaded && activeValueType.type];
-        return isLoaded && (react_1.default.createElement(presentational_1.ParentContainer, { className: backdropParentContainerClassNames },
-            template,
-            react_1.default.createElement(BackdropContext.Provider, { value: __assign({}, contextValues) }, children)));
-    };
-    return BackdropContainer;
-}(react_1.default.Component));
-exports.BackdropContainer = BackdropContainer;
-var BackdropZone = /** @class */ (function (_super) {
-    __extends(BackdropZone, _super);
-    function BackdropZone(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            didRender: false,
-            hasRegistered: false,
-            isActiveZone: false,
-            zoneValueType: undefined,
-        };
-        _this.DOMRef = react_1.default.createRef();
-        _this.setZoneActiveState = _this.setZoneActiveState.bind(_this);
-        return _this;
-    }
-    BackdropZone.prototype.setZoneActiveState = function (valueType) {
-        var _a = this.state, isActiveZone = _a.isActiveZone, zoneValueType = _a.zoneValueType;
-        var zoneUniqueId = JSON.stringify(zoneValueType);
-        var valuetypeUniqueId = JSON.stringify(valueType);
-        if (zoneUniqueId !== valuetypeUniqueId) {
-            if (isActiveZone !== false) {
-                this.setState({ isActiveZone: false });
-            }
-        }
-        if (zoneUniqueId === valuetypeUniqueId) {
-            if (isActiveZone !== true) {
-                this.setState({ isActiveZone: true });
-            }
-        }
-    };
-    BackdropZone.prototype.componentDidUpdate = function () {
-        var _a = this.props, _b = _a.off, off = _b === void 0 ? false : _b, _c = _a.instant, instant = _c === void 0 ? false : _c, _d = _a.theme, theme = _d === void 0 ? 'default' : _d;
-        var _e = this.state, hasRegistered = _e.hasRegistered, zoneValueType = _e.zoneValueType;
-        var _f = this.context, registerColor = _f.registerColor, currentValueType = _f.currentValueType;
-        console.log('backdropZone here...: ', zoneValueType);
-        if (hasRegistered != true && off != true) {
-            if (typeof registerColor === 'function') {
-                registerColor(zoneValueType, theme, instant, this.DOMRef.current, this.setZoneActiveState);
-                this.setState({ hasRegistered: true });
-            }
-        }
-        this.setZoneActiveState(currentValueType);
-    };
-    BackdropZone.prototype.componentDidMount = function () {
-        var _a = this.props, color = _a.color, image = _a.image, video = _a.video;
-        this.setState({
-            didRender: true,
-            zoneValueType: {
-                value: color || image || video,
-                type: color && 'color' || image && 'image' || video && 'video',
-            }
-        });
-    };
-    BackdropZone.prototype.render = function () {
-        var children = this.props.children;
-        var _a = this.context, currentTheme = _a.currentTheme, currentValueType = _a.currentValueType;
-        var _b = this.state, didRender = _b.didRender, isActiveZone = _b.isActiveZone;
-        var containerClassNames = [
-            'reactBackdrop__zone',
-            isActiveZone ? 'active' : '',
-        ].join(' ');
-        return (react_1.default.createElement(react_1.default.Fragment, null, didRender && (react_1.default.createElement("div", { className: containerClassNames, ref: this.DOMRef }, typeof children === 'function'
-            ? children(isActiveZone, currentTheme, currentValueType)
-            : children))));
-    };
-    BackdropZone.contextType = BackdropContext;
-    return BackdropZone;
-}(react_1.default.Component));
-exports.BackdropZone = BackdropZone;
 
-},{"./logic":41,"./presentational":42,"react":29}],41:[function(require,module,exports){
-"use strict";
-/* ======= Color Container ========
- * =============================*/
-Object.defineProperty(exports, "__esModule", { value: true });
-var globalBackdrop = /** @class */ (function () {
-    function globalBackdrop(fromTop, defaultValueType, defaultTheme, setStateCallback) {
-        /* state & storage */
-        this.zoneCollections = [];
-        this.fromTop = fromTop;
-        this.defaultValueType = defaultValueType;
-        this.defaultTheme = defaultTheme;
-        this.setStateCallback = setStateCallback;
-        this.valuesCache = {
-            'image': {},
-            'color': {},
-        };
-        this.registerColor = this.registerColor.bind(this);
-        this.init();
-    }
-    /*
-     * */
-    globalBackdrop.prototype.init = function () {
-        var _this = this;
-        /* initializing current and previous value/type */
-        this.currentValueType = this.defaultValueType;
-        /* initialize current and previous theme */
-        this.currentTheme = this.defaultTheme;
-        this.setStateCallback(this.currentValueType, this.currentTheme);
-        window.addEventListener('scroll', function () {
-            window.requestAnimationFrame(function () {
-                _this.logic();
-            });
+    __rest = function (s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+                if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                    t[p[i]] = s[p[i]];
+            }
+        return t;
+    };
+
+    __decorate = function (decorators, target, key, desc) {
+        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+
+    __param = function (paramIndex, decorator) {
+        return function (target, key) { decorator(target, key, paramIndex); }
+    };
+
+    __metadata = function (metadataKey, metadataValue) {
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+    };
+
+    __awaiter = function (thisArg, _arguments, P, generator) {
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    /*
-     * */
-    globalBackdrop.prototype.logic = function () {
-        var _this = this;
-        var currentUniqueID = JSON.stringify(this.currentValueType);
-        var defaultUniqueID = JSON.stringify(this.defaultValueType);
-        var inZoneRange = false;
-        this.zoneCollections.forEach(function (zoneItem) {
-            var zoneUniqueID = JSON.stringify(zoneItem.valueType);
-            var zoneElement = zoneItem.element.getBoundingClientRect();
-            if (zoneElement.top <= _this.fromTop && zoneElement.bottom >= _this.fromTop) {
-                inZoneRange = true;
-                if (currentUniqueID !== zoneUniqueID) {
-                    _this.setValue(zoneItem.valueType, zoneItem.theme);
+
+    __generator = function (thisArg, body) {
+        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+        function verb(n) { return function (v) { return step([n, v]); }; }
+        function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+                if (y = 0, t) op = [op[0] & 2, t.value];
+                switch (op[0]) {
+                    case 0: case 1: t = op; break;
+                    case 4: _.label++; return { value: op[1], done: false };
+                    case 5: _.label++; y = op[1]; op = [0]; continue;
+                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                    default:
+                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                        if (t[2]) _.ops.pop();
+                        _.trys.pop(); continue;
                 }
+                op = body.call(thisArg, _);
+            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+        }
+    };
+
+    __exportStar = function (m, exports) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    };
+
+    __values = function (o) {
+        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+        if (m) return m.call(o);
+        return {
+            next: function () {
+                if (o && i >= o.length) o = void 0;
+                return { value: o && o[i++], done: !o };
             }
-        });
-        /* if not in any backdrop registered zone and the current color
-         * is not the default color set color and theme back to their default */
-        if (!inZoneRange && currentUniqueID !== defaultUniqueID) {
-            this.setValue(this.defaultValueType, this.defaultTheme);
-        }
+        };
     };
-    /*
-     * */
-    globalBackdrop.prototype.setValue = function (newValueType, newTheme) {
-        /* set value/type to current value */
-        this.currentValueType = newValueType;
-        /* set theme  to current value */
-        this.currentTheme = newTheme;
-        /* send information to React component */
-        this.setStateCallback(this.currentValueType, this.currentTheme);
-    };
-    /*
-     * */
-    globalBackdrop.prototype.registerColor = function (valueType, theme, instant, domRef, zoneCallback) {
-        if (valueType === void 0) { valueType = this.defaultValueType; }
-        if (theme === void 0) { theme = this.defaultTheme; }
-        this.zoneCollections.push({
-            element: domRef,
-            theme: theme,
-            valueType: valueType,
-            callback: zoneCallback,
-        });
-        if (instant) {
-            this.setValue(valueType, theme);
-            zoneCallback(valueType);
-        }
-        var key = JSON.stringify(valueType);
-        switch (valueType.type) {
-            case 'image':
-                /* preload images */
-                new Image().src = valueType.value;
-                /* load assets into cache */
-                this.valuesCache.image[key] = {
-                    value: valueType.value,
-                };
-                break;
-            case 'color':
-                this.valuesCache.color[key] = {
-                    value: valueType.value,
-                };
-                break;
-        }
-    };
-    return globalBackdrop;
-}());
-exports.default = globalBackdrop;
 
-},{}],42:[function(require,module,exports){
-"use strict";
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(require("react"));
-var styled_components_1 = __importDefault(require("styled-components"));
-var ViewportContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position:fixed;\n  top:0;\n  right:0;\n  left:0;\n  height:100vh;\n  width:100vw;\n"], ["\n  position:fixed;\n  top:0;\n  right:0;\n  left:0;\n  height:100vh;\n  width:100vw;\n"])));
-var WithChildren = function (_a) {
-    var children = _a.children, className = _a.className;
-    return react_1.default.createElement("div", { className: className }, children);
-};
-var ParentContainer = styled_components_1.default(WithChildren)(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  position:relative;\n  overflow:hidden;\n"], ["\n  position:relative;\n  overflow:hidden;\n"])));
-exports.ParentContainer = ParentContainer;
-/* ========================
-*   Previous slide
-*  ==========================*/
-function constructPreviousSlide(prevVal) {
-    if (!prevVal)
-        return "background-color: rgba(0,0,0,0.5);";
-    switch (prevVal.type) {
-        case 'color':
-            return "background-color: " + prevVal.value + ";";
-            break;
-        case 'image':
-            return "\n        background-image: url(" + prevVal.value + ");\n        background-position: center;\n        background-repeat: no-repeat;\n        background-size: cover;\n      ";
-            break;
-        default:
-            return "background-color: rgba(0,0,0,0.5);";
-    }
-}
-var PreviousSlide = styled_components_1.default(ViewportContainer)(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity ", " ease-out;\n    animation-fill-mode:both;\n    animation-duration: ", ";\n    animation-timing-function:ease-out;\n\n    ", "\n"], ["\n\n    @keyframes fadeIn {\n      0% { opacity:1 }\n      100% { opacity:0 }\n    }\n\n    content:'';\n    opacity:1;\n    animation-name: fadeIn;\n    will-change:opacity;\n    opacity:0;\n    transition:opacity ", " ease-out;\n    animation-fill-mode:both;\n    animation-duration: ", ";\n    animation-timing-function:ease-out;\n\n    ", "\n"])), function (_a) {
-    var duration = _a.duration;
-    return duration + 'ms';
-}, function (_a) {
-    var duration = _a.duration;
-    return duration + 'ms';
-}, function (_a) {
-    var previousContent = _a.previousContent;
-    return constructPreviousSlide(previousContent);
-});
-/* ========================
-*   Color backdrop container
-*  ==========================*/
-var ColorComponent = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color ", " ease-out;\n"], ["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  will-change:background-color;\n  background-color: ", ";\n  transition:background-color ", " ease-out;\n"])), function (_a) {
-    var sourceMain = _a.sourceMain;
-    return sourceMain;
-}, function (_a) {
-    var duration = _a.duration;
-    return duration + 'ms';
-});
-var ColorBackdrop = function (_a) {
-    var store = _a.store, current = _a.current, previous = _a.previous, durationTime = _a.durationTime;
-    return (react_1.default.createElement(react_1.default.Fragment, null,
-        react_1.default.createElement(ColorComponent, { sourceMain: current.value, sourceSecondary: previous, duration: durationTime }),
-        react_1.default.createElement(PreviousSlide, { previousContent: previous, duration: durationTime })));
-};
-exports.ColorBackdrop = ColorBackdrop;
-/* ========================
-*   Image backdrop container
-*  ==========================*/
-var ImageComponent = styled_components_1.default.div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  background-image:url(", " );\n  background-position:center;\n  background-repeat:no-repeat;\n  background-size:cover;\n"], ["\n  position:absolute;\n  top:0;\n  bottom:0;\n  right:0;\n  left:0;\n  height:100%;\n  width:100%;\n  background-image:url(", " );\n  background-position:center;\n  background-repeat:no-repeat;\n  background-size:cover;\n"])), function (_a) {
-    var sourceMain = _a.sourceMain;
-    return sourceMain;
-});
-var ImageBackdrop = function (_a) {
-    var store = _a.store, current = _a.current, previous = _a.previous, durationTime = _a.durationTime;
-    return (react_1.default.createElement(react_1.default.Fragment, null,
-        react_1.default.createElement(ViewportContainer, null,
-            react_1.default.createElement(ImageComponent, { sourceMain: current.value, sourceSecondary: previous })),
-        react_1.default.createElement(PreviousSlide, { previousContent: previous, duration: durationTime })));
-};
-exports.ImageBackdrop = ImageBackdrop;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+    __read = function (o, n) {
+        var m = typeof Symbol === "function" && o[Symbol.iterator];
+        if (!m) return o;
+        var i = m.call(o), r, ar = [], e;
+        try {
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+        }
+        catch (error) { e = { error: error }; }
+        finally {
+            try {
+                if (r && !r.done && (m = i["return"])) m.call(i);
+            }
+            finally { if (e) throw e.error; }
+        }
+        return ar;
+    };
 
-},{"react":29,"styled-components":37}]},{},[1]);
+    __spread = function () {
+        for (var ar = [], i = 0; i < arguments.length; i++)
+            ar = ar.concat(__read(arguments[i]));
+        return ar;
+    };
+
+    __spreadArrays = function () {
+        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+        for (var r = Array(s), k = 0, i = 0; i < il; i++)
+            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+                r[k] = a[j];
+        return r;
+    };
+
+    __await = function (v) {
+        return this instanceof __await ? (this.v = v, this) : new __await(v);
+    };
+
+    __asyncGenerator = function (thisArg, _arguments, generator) {
+        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+        var g = generator.apply(thisArg, _arguments || []), i, q = [];
+        return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+        function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+        function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+        function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
+        function fulfill(value) { resume("next", value); }
+        function reject(value) { resume("throw", value); }
+        function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+    };
+
+    __asyncDelegator = function (o) {
+        var i, p;
+        return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+        function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+    };
+
+    __asyncValues = function (o) {
+        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+        var m = o[Symbol.asyncIterator], i;
+        return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+        function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+        function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+    };
+
+    __makeTemplateObject = function (cooked, raw) {
+        if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+        return cooked;
+    };
+
+    __importStar = function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+        result["default"] = mod;
+        return result;
+    };
+
+    __importDefault = function (mod) {
+        return (mod && mod.__esModule) ? mod : { "default": mod };
+    };
+
+    exporter("__extends", __extends);
+    exporter("__assign", __assign);
+    exporter("__rest", __rest);
+    exporter("__decorate", __decorate);
+    exporter("__param", __param);
+    exporter("__metadata", __metadata);
+    exporter("__awaiter", __awaiter);
+    exporter("__generator", __generator);
+    exporter("__exportStar", __exportStar);
+    exporter("__values", __values);
+    exporter("__read", __read);
+    exporter("__spread", __spread);
+    exporter("__spreadArrays", __spreadArrays);
+    exporter("__await", __await);
+    exporter("__asyncGenerator", __asyncGenerator);
+    exporter("__asyncDelegator", __asyncDelegator);
+    exporter("__asyncValues", __asyncValues);
+    exporter("__makeTemplateObject", __makeTemplateObject);
+    exporter("__importStar", __importStar);
+    exporter("__importDefault", __importDefault);
+});
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}]},{},[1]);
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIiwic291cmNlcyI6WyJtYXJrdXAudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyB1c2VTdGF0ZSwgdXNlRWZmZWN0LCB1c2VSZWYgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgUmVhY3RET00gZnJvbSAncmVhY3QtZG9tJztcbmltcG9ydCB7SGVsbWV0fSBmcm9tICdyZWFjdC1oZWxtZXQnO1xuaW1wb3J0IGFuaW1lIGZyb20gJ2FuaW1lanMnO1xuXG4vKiBhc3NldHMgKi9cbmltcG9ydCB7IEJhY2tkcm9wQ29udGFpbmVyLCBCYWNrZHJvcFpvbmUsIEJhY2tkcm9wQ29udGV4dCB9IGZyb20gJy4uLy4uL2xpYi9pbmRleC5qcyc7XG5cbi8qID09PT09PT09PT09PT09PT09PT09PVxuICogICBsYXlvdXQgY29tcG9uZW50c1xuICogPT09PT09PT09PT09PT09PT09PT09Ki9cblxuaW50ZXJmYWNlIElNUHJvcHMge1xuICBhY3RpdmU/OiBib29sZWFuO1xuICBpbWFnZTogc3RyaW5nO1xuICBjb2xvcj86IHN0cmluZztcbiAgcG9zaXRpb246ICdyaWdodCcgfCAnbGVmdCdcbiAgdGhlbWU6IHN0cmluZztcbn1cblxuaW50ZXJmYWNlIENQcm9wcyB7XG4gIGNoaWxkcmVuOiBhbnk7XG4gIHBvc2l0aW9uOiAnJyB8ICdjZW50ZXInO1xufVxuXG5pbnRlcmZhY2UgU1Byb3BzIHtcbiAgaXNBY3RpdmU/OiBib29sZWFuO1xuICBiYWNrZHJvcFZhbHVlPzoge1xuICAgIHZhbHVlOiBzdHJpbmcsXG4gICAgdHlwZTogc3RyaW5nXG4gIH07XG4gIGJhY2tkcm9wVGhlbWU/OiBzdHJpbmc7XG59XG5cbmNvbnN0IENvbnRhaW5lcjogUmVhY3QuRkM8Q1Byb3BzPiA9ICh7IGNoaWxkcmVuLCBwb3NpdGlvbiA9ICcnIH0pID0+IHtcblxuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPXsgYGRlbW9fX2NvbnRhaW5lciAke3Bvc2l0aW9ufWAgfT5cbiAgICAgIHtjaGlsZHJlbn1cbiAgICA8L2Rpdj5cbiAgKVxufVxuXG5jb25zdCBJbWFnZUZyYW1lOiBSZWFjdC5GQzxJTVByb3BzPiA9ICh7IGFjdGl2ZSwgaW1hZ2UsIHBvc2l0aW9uLCBjb2xvciwgdGhlbWUgfSkgPT4ge1xuXG4gIGNvbnN0IGNvbnRhaW5lckNsYXNzZXMgPSBbXG4gICAgJ2RlbW9fX2ltYWdlRnJhbWVfY29udGFpbmVyJyxcbiAgICBwb3NpdGlvbiA9PT0gJ3JpZ2h0JyA/ICdyaWdodCcgOiAnbGVmdCcsXG4gICAgYWN0aXZlID8gJ2FjdGl2ZScgOiAnJyxcbiAgXS5qb2luKCcgJyk7XG5cbiAgY29uc3QgZGVjb3JDb250YWluZXJDbGFzc2VzID0gW1xuICAgICdkZW1vX19pbWFnZUZyYW1lX2RlY29yYXRpdmUnLFxuICAgIHRoZW1lLFxuICBdLmpvaW4oJyAnKTtcblxuICBjb25zdCBiYWNrZ3JvdW5kQ29sb3JTdHlsZSA9IHtcbiAgICBiYWNrZ3JvdW5kQ29sb3I6IGAke2NvbG9yID8gY29sb3IgOiAndHJhbnNwYXJlbnQnfWAsXG4gIH1cblxuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPXtjb250YWluZXJDbGFzc2VzfT5cbiAgICAgIDxmaWd1cmU+XG4gICAgICAgIDxpbWdcbiAgICAgICAgICBjbGFzc05hbWU9XCJkZW1vX19pbWFnZUZyYW1lX2ltYWdlXCJcbiAgICAgICAgICBzcmM9e2ltYWdlfVxuICAgICAgICAgIGFsdD1cIlwiXG4gICAgICAgIC8+XG4gICAgICA8L2ZpZ3VyZT5cbiAgICAgIDxkaXYgY2xhc3NOYW1lPXtkZWNvckNvbnRhaW5lckNsYXNzZXN9IC8+XG4gICAgPC9kaXY+XG4gIClcbn1cblxuLyogPT09PT09PT09PT09PT09PVxuICogICAgUGxhbnQgZGVtb1xuICogPT09PT09PT09PT09PT09PSovXG5cbmNvbnN0IFNwbGFzaFNlY3Rpb24gPSAoKSA9PiB7XG4gIHJldHVybiAoXG4gICAgPHNlY3Rpb24gY2xhc3NOYW1lPVwiZGVtb19fc3BsYXNoX2NvbnRhaW5lclwiPlxuICAgICAgPENvbnRhaW5lciBwb3NpdGlvbj1cImNlbnRlclwiPlxuICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJkZW1vX19zcGxhc2hfdGl0bGVcIj5cbiAgICAgICAgICBTY3JvbGwgRG93blxuICAgICAgICA8L3NwYW4+XG4gICAgICAgIDxpbWdcbiAgICAgICAgICBzcmM9XCJhc3NldHMvYXJyb3cuc3ZnXCJcbiAgICAgICAgICBhbHQ9XCJcIlxuICAgICAgICAvPlxuICAgICAgPC9Db250YWluZXI+XG4gICAgPC9zZWN0aW9uPlxuICApXG59XG5cbmNvbnN0IFBsYW50U2VjdGlvbjogUmVhY3QuRkM8U1Byb3BzPiA9ICh7aXNBY3RpdmUsIGJhY2tkcm9wVmFsdWUsIGJhY2tkcm9wVGhlbWV9KSA9PiB7XG4gIHJldHVybiAoXG4gICAgPHNlY3Rpb24gY2xhc3NOYW1lPVwiZGVtb19fcGxhbnRfY29udGFpbmVyXCI+XG4gICAgICA8Q29udGFpbmVyIHBvc2l0aW9uPVwiY2VudGVyXCI+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZGVtb19fcGxhbnRfdGV4dEJveFwiPlxuICAgICAgICAgIDxoNCBjbGFzc05hbWU9XCJkZW1vX19wbGFudF9zbWFsbEhlYWRlclwiPlNtYWxsIGhlYWRlcjwvaDQ+XG4gICAgICAgICAgPGgxIGNsYXNzTmFtZT1cImRlbW9fX3BsYW50X3RpdGxlXCI+SGVhZGVyPC9oMT5cbiAgICAgICAgICA8aDMgY2xhc3NOYW1lPVwiZGVtb19fcGxhbnRfc3VidGl0bGVcIj5zdWJ0aXRsZTwvaDM+XG4gICAgICAgICAgPHAgY2xhc3NOYW1lPVwiZGVtb19fcGxhbnRfYm9keVwiPlxuICAgICAgICAgICAgQmFjb24gaXBzdW0gZG9sb3IgYW1ldCBidWZmYWxvIG5pc2kgYW5kb3VpbGxlIGJhbGxcbiAgICAgICAgICAgIHRpcCBraWVsYmFzYSBwb3JrIGxvaW4sIGV4ZXJjaXRhdGlvbiBqZXJreSBmaWxldFxuICAgICAgICAgICAgbWlnbm9uIGV4Y2VwdGV1ciBkb25lciBkbyBwb3JrIGNob3AuXG4gICAgICAgICAgPC9wPlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZGVtb19fcGxhbnRfYnV0dG9uXCI+XG4gICAgICAgICAgICBMZWFybiBtb3JlXG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9Db250YWluZXI+XG4gICAgICA8aW1nXG4gICAgICAgIGNsYXNzTmFtZT1cImRlbW9fX3BsYW50X2ltZ1wiXG4gICAgICAgIHNyYz1cImFzc2V0cy9wbGFudC5zdmdcIlxuICAgICAgICBhbHQ9XCJcIlxuICAgICAgLz5cbiAgICA8L3NlY3Rpb24+XG4gIClcbn1cblxuY29uc3QgUGlua0JyaWNrczogUmVhY3QuRkM8U1Byb3BzPiA9ICh7IGlzQWN0aXZlLCBiYWNrZHJvcFZhbHVlLCBiYWNrZHJvcFRoZW1lfSkgPT4ge1xuICByZXR1cm4gKFxuICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cImRlbW9fX3BpbmtCcmlja3NfY29udGFpbmVyXCI+XG4gICAgICA8Q29udGFpbmVyIHBvc2l0aW9uPSdjZW50ZXInPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImRlbW9fX3BpbmtCcmlja3NfdGV4dEJveFwiPlxuICAgICAgICAgIDxoMSBjbGFzc05hbWU9XCJkZW1vX19waW5rQnJpY2tzX3RpdGxlXCI+VGhlIG91dHNpZGUgdmlldyBpcyBiZXR0ZXI8L2gxPlxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cImRlbW9fX3BpbmtCcmlja3NfYm9keVwiPi4uLkJ1dCB5b3UgYWxyZWFkeSBrbm93IHRoYXQ8L3A+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8SW1hZ2VGcmFtZVxuICAgICAgICAgIGFjdGl2ZT17aXNBY3RpdmV9XG4gICAgICAgICAgaW1hZ2U9XCJhc3NldHMvcGlua0JyaWNrcy5qcGdcIlxuICAgICAgICAgIHBvc2l0aW9uPSdsZWZ0J1xuICAgICAgICAgIGNvbG9yPXtiYWNrZHJvcFZhbHVlLnZhbHVlfVxuICAgICAgICAgIHRoZW1lPXtiYWNrZHJvcFRoZW1lfVxuICAgICAgICAvPlxuICAgICAgPC9Db250YWluZXI+XG4gICAgPC9zZWN0aW9uPlxuICApXG59XG5cbmNvbnN0IEdyYXlTa2llczogUmVhY3QuRkM8U1Byb3BzPiA9ICh7IGlzQWN0aXZlLCBiYWNrZHJvcFZhbHVlLCBiYWNrZHJvcFRoZW1lfSkgPT4ge1xuICByZXR1cm4gKFxuICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cImRlbW9fX2dyYXlTa2llc19jb250YWluZXJcIj5cbiAgICAgIDxDb250YWluZXIgcG9zaXRpb249J2NlbnRlcic+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZGVtb19fZ3JheVNraWVzX3RleHRCb3hcIj5cbiAgICAgICAgICA8aDEgY2xhc3NOYW1lPVwiZGVtb19fZ3JheVNraWVzX3RpdGxlXCI+VGhlIG91dHNpZGUgdmlldyBpcyBiZXR0ZXI8L2gxPlxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cImRlbW9fX2dyYXlTa2llc19ib2R5XCI+Li4uQnV0IHlvdSBhbHJlYWR5IGtub3cgdGhhdDwvcD5cbiAgICAgICAgPC9kaXY+XG4gICAgICAgIDxJbWFnZUZyYW1lXG4gICAgICAgICAgYWN0aXZlPXtpc0FjdGl2ZX1cbiAgICAgICAgICBpbWFnZT1cImFzc2V0cy9jbG91ZENvdmVyLmpwZ1wiXG4gICAgICAgICAgcG9zaXRpb249J3JpZ2h0J1xuICAgICAgICAgIGNvbG9yPXtiYWNrZHJvcFZhbHVlLnZhbHVlfVxuICAgICAgICAgIHRoZW1lPXtiYWNrZHJvcFRoZW1lfVxuICAgICAgICAvPlxuICAgICAgPC9Db250YWluZXI+XG4gICAgPC9zZWN0aW9uPlxuICApXG59XG5cbmNvbnN0IFJlZEhhbmRzOiBSZWFjdC5GQzxTUHJvcHM+ID0gKHtpc0FjdGl2ZSwgYmFja2Ryb3BWYWx1ZSwgYmFja2Ryb3BUaGVtZX0pID0+IHtcbiAgcmV0dXJuICAoXG4gICAgPHNlY3Rpb24gY2xhc3NOYW1lPVwiZGVtb19fcmVkSGFuZHNfY29udGFpbmVyXCI+XG4gICAgICA8Q29udGFpbmVyIHBvc2l0aW9uPVwiY2VudGVyXCI+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZGVtb19fcmVkSGFuZHNfdGV4dEJveFwiPlxuICAgICAgICAgIDxoMSBjbGFzc05hbWU9XCJkZW1vX19yZWRIYW5kc190aXRsZVwiPlRoZSBvdXRzaWRlIHZpZXcgaXMgYmV0dGVyPC9oMT5cbiAgICAgICAgICA8cCBjbGFzc05hbWU9XCJkZW1vX19yZWRIYW5kc19ib2R5XCI+Li4uQnV0IHlvdSBhbHJlYWR5IGtub3cgdGhhdDwvcD5cbiAgICAgICAgPC9kaXY+XG4gICAgICAgIDxJbWFnZUZyYW1lXG4gICAgICAgICAgYWN0aXZlPXtpc0FjdGl2ZX1cbiAgICAgICAgICBpbWFnZT1cImFzc2V0cy9oYW5kcy5qcGdcIlxuICAgICAgICAgIHBvc2l0aW9uPSdsZWZ0J1xuICAgICAgICAgIGNvbG9yPXtiYWNrZHJvcFZhbHVlLnZhbHVlfVxuICAgICAgICAgIHRoZW1lPXtiYWNrZHJvcFRoZW1lfVxuICAgICAgICAvPlxuICAgICAgPC9Db250YWluZXI+XG4gICAgPC9zZWN0aW9uPlxuICApXG59XG5cbmNvbnN0IEJyaWRnZTogUmVhY3QuU0ZDPFNQcm9wcz4gPSAoe2lzQWN0aXZlLCBiYWNrZHJvcFZhbHVlLCBiYWNrZHJvcFRoZW1lfSkgPT4ge1xuXG4gIGNvbnN0IHRleHRDbGFzc05hbWVzID0gW1xuICAgICdkZW1vX19icmlkZ2VfdGV4dCcsXG4gICAgaXNBY3RpdmUgPyAnYWN0aXZlJyA6ICcnLFxuICBdLmpvaW4oJyAnKTtcblxuICBsZXQgdGV4dE5vZGUgPSB1c2VSZWYobnVsbCk7XG5cbiAgY29uc3QgW2xvYWRlZCwgZGVjbGFyZUxvYWRlZF0gPSB1c2VTdGF0ZShmYWxzZSk7XG5cbiAgaWYoIWxvYWRlZCkgZGVjbGFyZUxvYWRlZCh0cnVlKTtcblxuICBpZihsb2FkZWQgJiYgdGV4dE5vZGUuY3VycmVudCkge1xuICAgIGNvbnN0IGVsID0gdGV4dE5vZGUuY3VycmVudDtcblxuICAgIGVsLmlubmVySFRNTCA9IGVsXG4gICAgICAudGV4dENvbnRlbnRcbiAgICAgIC5yZXBsYWNlKC9cXFMvZywgXCI8c3BhbiBjbGFzcz0nbGV0dGVyJz4kJjwvc3Bhbj5cIik7XG5cbiAgICBhbmltZS50aW1lbGluZSh7bG9vcDogZmFsc2V9KVxuICAgICAgLmFkZCh7XG4gICAgICAgIHRhcmdldHM6ICcuZGVtb19fYnJpZGdlX3RleHQgLmxldHRlcicsXG4gICAgICAgIHRyYW5zbGF0ZVg6IFs0MCwwXSxcbiAgICAgICAgdHJhbnNsYXRlWjogMCxcbiAgICAgICAgb3BhY2l0eTogWzAsMV0sXG4gICAgICAgIGVhc2luZzogXCJlYXNlT3V0RXhwb1wiLFxuICAgICAgICBkdXJhdGlvbjogMTIwMCxcbiAgICAgICAgZGVsYXk6IChlbCwgaSkgPT4gNTAwICsgMzAgKiBpXG4gICAgICB9KS5hZGQoe1xuICAgICAgICB0YXJnZXRzOiAnLmRlbW9fX2JyaWRnZV90ZXh0IC5sZXR0ZXInLFxuICAgICAgICB0cmFuc2xhdGVYOiBbMCwtMzBdLFxuICAgICAgICBvcGFjaXR5OiBbMSwxXSxcbiAgICAgICAgZWFzaW5nOiBcImVhc2VJbkV4cG9cIixcbiAgICAgICAgZHVyYXRpb246IDExMDAsXG4gICAgICAgIGRlbGF5OiAoZWwsIGkpID0+IDEwMCArIDMwICogaVxuICAgICAgfSk7XG4gIH1cblxuICByZXR1cm4gKFxuICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cImRlbW9fX2JyaWRnZV9jb250YWluZXJcIj5cbiAgICAgIDxDb250YWluZXIgcG9zaXRpb249XCJjZW50ZXJcIj5cbiAgICAgICAgPGRpdiByZWY9e3RleHROb2RlfSBjbGFzc05hbWU9e3RleHRDbGFzc05hbWVzfT5UaGUgb3V0c2lkZSB2aWV3IGlzIGJldHRlci4uLjwvZGl2PlxuICAgICAgPC9Db250YWluZXI+XG4gICAgPC9zZWN0aW9uPlxuICApXG59XG5cbmludGVyZmFjZSBMUHJvcHMge1xuICBjaGlsZHJlbjogYW55O1xufVxuXG5pbnRlcmZhY2UgTFN0YXRlIHtcbiAgaGFzTG9hZGVkOiBib29sZWFuO1xufVxuXG5jbGFzcyBMYXlvdXQgZXh0ZW5kcyBSZWFjdC5Db21wb25lbnQ8TFByb3BzLCBMU3RhdGU+IHtcbiAgY29uc3RydWN0b3IocHJvcHMpIHtcbiAgICBzdXBlcihwcm9wcylcbiAgICB0aGlzLnN0YXRlID0ge1xuICAgICAgaGFzTG9hZGVkOiBmYWxzZSxcbiAgICB9XG4gIH1cblxuICBjb21wb25lbnREaWRNb3VudCgpIHtcbiAgICB0aGlzLnNldFN0YXRlKHtoYXNMb2FkZWQ6IHRydWV9KTtcbiAgfVxuXG4gIHJlbmRlcigpIHtcbiAgICBjb25zdCB7IGNoaWxkcmVuIH0gPSB0aGlzLnByb3BzO1xuXG4gICAgcmV0dXJuIChcbiAgICAgICAgPEJhY2tkcm9wQ29udGFpbmVyXG4gICAgICAgICAgZGVmYXVsdFZhbHVlPXt7IHZhbHVlOiBcInRyYW5zcGFyZW50XCIsIHR5cGU6ICdjb2xvcicgfX1cbiAgICAgICAgICBmcm9tVG9wPXszNTB9XG4gICAgICAgICAgYW5pbWF0aW9uRHVyYXRpb249ezgwMH1cbiAgICAgICAgPlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSdsYXlvdXQnPlxuICAgICAgICAgICAgPEhlbG1ldD5cbiAgICAgICAgICAgICAgPGxpbmtcbiAgICAgICAgICAgICAgICBocmVmPVwiaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVBsYXlmYWlyK0Rpc3BsYXk6NDAwLDcwMHxSYW1hcmFqYSZkaXNwbGF5PXN3YXBcIlxuICAgICAgICAgICAgICAgIHJlbD1cInN0eWxlc2hlZXRcIlxuICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgICA8bGlua1xuICAgICAgICAgICAgICAgIGhyZWY9XCJodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2Nzcz9mYW1pbHk9UGVybWFuZW50K01hcmtlciZkaXNwbGF5PXN3YXBcIlxuICAgICAgICAgICAgICAgIHJlbD1cInN0eWxlc2hlZXRcIlxuICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgPC9IZWxtZXQ+XG4gICAgICAgICAgICB7Y2hpbGRyZW59XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvQmFja2Ryb3BDb250YWluZXI+XG4gICAgKVxuICB9XG59XG5cbmNvbnN0IENvbnRlbnQgPSAoKSA9PiB7XG4gIHJldHVybiAoXG4gICAgPExheW91dD5cblxuICAgICAgICA8QmFja2Ryb3Bab25lIGNvbG9yPVwiIzI1MjYyOVwiIGluc3RhbnQ9e3RydWV9PlxuICAgICAgICAgIDxTcGxhc2hTZWN0aW9uIC8+XG4gICAgICAgIDwvQmFja2Ryb3Bab25lPlxuXG4gICAgICAgIDxCYWNrZHJvcFpvbmUgY29sb3I9XCIjQ0Q5Q0FFXCIgdGhlbWU9XCJkYXJrXCI+XG4gICAgICAgICAgeyggYWN0aXZlLCBjdXJyZW50VGhlbWUsIGN1cnJlbnRWYWx1ZSApID0+XG4gICAgICAgICAgICA8UGlua0JyaWNrc1xuICAgICAgICAgICAgICBpc0FjdGl2ZT17YWN0aXZlfVxuICAgICAgICAgICAgICBiYWNrZHJvcFZhbHVlPXtjdXJyZW50VmFsdWV9XG4gICAgICAgICAgICAgIGJhY2tkcm9wVGhlbWU9e2N1cnJlbnRUaGVtZX1cbiAgICAgICAgICAgIC8+fVxuICAgICAgICA8L0JhY2tkcm9wWm9uZT5cblxuICAgICAgICA8QmFja2Ryb3Bab25lIGNvbG9yPVwiIzQxNDk1M1wiIHRoZW1lPVwibGlnaHRcIj5cbiAgICAgICAgICB7KCBhY3RpdmUsIGN1cnJlbnRUaGVtZSwgY3VycmVudFZhbHVlICkgPT5cbiAgICAgICAgICAgIDxHcmF5U2tpZXMgXG4gICAgICAgICAgICAgIGlzQWN0aXZlPXthY3RpdmV9XG4gICAgICAgICAgICAgIGJhY2tkcm9wVmFsdWU9e2N1cnJlbnRWYWx1ZX1cbiAgICAgICAgICAgICAgYmFja2Ryb3BUaGVtZT17Y3VycmVudFRoZW1lfVxuICAgICAgICAgICAgLz59XG4gICAgICAgIDwvQmFja2Ryb3Bab25lPlxuXG4gICAgICAgIDxCYWNrZHJvcFpvbmUgY29sb3I9XCIjQkIxNzAyXCIgdGhlbWU9XCJsaWdodFwiPlxuICAgICAgICAgIHsoIGFjdGl2ZSwgY3VycmVudFRoZW1lLCBjdXJyZW50VmFsdWUgKSA9PlxuICAgICAgICAgICAgPFJlZEhhbmRzXG4gICAgICAgICAgICAgIGlzQWN0aXZlPXthY3RpdmV9XG4gICAgICAgICAgICAgIGJhY2tkcm9wVmFsdWU9e2N1cnJlbnRWYWx1ZX1cbiAgICAgICAgICAgICAgYmFja2Ryb3BUaGVtZT17Y3VycmVudFRoZW1lfVxuICAgICAgICAgICAgLz59XG4gICAgICAgIDwvQmFja2Ryb3Bab25lPlxuXG4gICAgICAgIDxCYWNrZHJvcFpvbmUgaW1hZ2U9eydhc3NldHMvYnJpZGdlLmpwZyd9IHRoZW1lPVwiZGFya1wiPlxuICAgICAgICAgIHsoIGFjdGl2ZSwgY3VycmVudFRoZW1lLCBjdXJyZW50VmFsdWUgKSA9PlxuICAgICAgICAgICAgPEJyaWRnZVxuICAgICAgICAgICAgICBpc0FjdGl2ZT17YWN0aXZlfVxuICAgICAgICAgICAgICBiYWNrZHJvcFZhbHVlPXtjdXJyZW50VmFsdWV9XG4gICAgICAgICAgICAgIGJhY2tkcm9wVGhlbWU9e2N1cnJlbnRUaGVtZX1cbiAgICAgICAgICAgIC8+fVxuICAgICAgICA8L0JhY2tkcm9wWm9uZT5cblxuICAgIDwvTGF5b3V0PlxuICApXG59XG4vKiAgKi9cblJlYWN0RE9NLnJlbmRlcig8Q29udGVudC8+LCBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnYXBwJykpOyBcbiJdLCJmaWxlIjoibWFya3VwLmpzIn0=

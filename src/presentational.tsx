@@ -143,7 +143,6 @@ const ColorBackdrop: React.SFC<ISProps> = ({store, current, previous, durationTi
   )
 }
 
-
 /* ========================
 *   Image backdrop container
 *  ==========================*/
