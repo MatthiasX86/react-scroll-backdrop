@@ -4,7 +4,7 @@ import {Helmet} from 'react-helmet';
 import anime from 'animejs';
 
 /* assets */
-import { BackdropContainer, BackdropZone, BackdropContext } from '../../src/index';
+import { BackdropContainer, BackdropZone, BackdropContext } from '../../lib/index.js';
 
 /* =====================
  *   layout components

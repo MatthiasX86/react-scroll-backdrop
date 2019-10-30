@@ -1,11 +1,15 @@
 /* developement utilities */
 const browserify = require('browserify');
-const tsify = require('tsify');
+// const tsify = require('tsify');
 const browserSync = require('browser-sync').create();
 
 /* gulp plugins */
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
+
+/* gulp utilities */
+const tsify = require('tsify');
+const merge = require('merge2');
 
 /* source and distrobution paths */
 const paths = {
@@ -13,8 +17,10 @@ const paths = {
     all: 'src/**/*.tsx',
     main: 'src/index.tsx',
   },
-  dis: {
-    main: 'dist/',
+  lib: {
+    main: 'lib/',
+    file: 'lib/index.js',
+    types: 'types/',
   },
   demo: {
     compiled: 'docs/',
@@ -23,42 +29,27 @@ const paths = {
   }
 }
 
+const tsProject = plugins.typescript.createProject('tsconfig.json');
+
 /* ===================
  *    Gulp subtasks
  * ==================*/
 
 /* Compile function for react-backdrop */
-function compileJSFunction(location) {
-  
-  const compileLocation = {
-    build: paths.dis.main,
-    demo: paths.demo.compiled,
-  }[location];
+gulp.task('js', () => {
+  const tsResult = gulp.src(paths.src.all)
+    .pipe(tsProject())
 
-  const isBuild = location === 'build';
-
-  function compileBackdropLogic() {
-    return gulp.src(paths.src.main)
-      .pipe(plugins.tap((file) => {
-          file.contents = browserify()
-            .add(file.path)
-            .plugin(tsify)
-            .bundle()
-            .on('error', function (error) { console.error(error.toString()); })
-        }
-      ))
-      .pipe(plugins.buffer())
-      .pipe(plugins.rename('index.js'))
-      .pipe(plugins.if(isBuild, plugins.uglify()))
-      .pipe(gulp.dest(compileLocation))
-  }
-
-  return compileBackdropLogic;
-}
+  return merge([
+    tsResult.dts.pipe(gulp.dest(paths.lib.types)),
+    tsResult.js.pipe(gulp.dest(paths.lib.main))
+  ]);
+})
 
 /* For React demo components */
 gulp.task('markup', () => {
   return gulp.src(paths.demo.markup)
+    .pipe(plugins.sourcemaps.init())
     .pipe(plugins.tap((file) => {
         file.contents = browserify()
           .add(file.path)
@@ -69,7 +60,7 @@ gulp.task('markup', () => {
     ))
     .pipe(plugins.buffer())
     .pipe(plugins.rename('markup.js'))
-    .pipe(plugins.sourcemaps.init())
+    .pipe(plugins.sourcemaps.write())
     .pipe(gulp.dest(paths.demo.compiled))
 });
 
@@ -82,32 +73,28 @@ gulp.task('styles', () => {
     .pipe(gulp.dest(paths.demo.compiled))
 });
 
+
 /* ===================
  *    Gulp main tasks
  * ==================*/
 
 /* build process for package distribution */
-gulp.task('build', () => {
-  const compileJS = compileJSFunction('build');
-  return compileJS();
-});
+gulp.task('build', gulp.series('js'));
 
 
 /* development process for demo */
 gulp.task('develop', () => {
-  const compileJS = compileJSFunction('demo');
 
   browserSync.init({
-    server: {
-    baseDir: "./docs"
+      server: {
+      baseDir: "./docs"
     }
   });
 
   gulp.watch(paths.src.all)
     .on('change',
       gulp.series(
-        compileJS,
-        'markup',
+        'js',
         browserSync.reload
       )
     )
