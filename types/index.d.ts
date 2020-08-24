@@ -1,63 +1,40 @@
 import React from 'react';
-interface CCmembers {
-    registerColor: any;
-    currentValueType?: any;
-    currentTheme?: any;
+import { BackdropValue, RegisterFn, RegistrationProps } from './logic';
+interface ContextValues {
+    register: RegisterFn;
+    current: BackdropValue;
+    previous: BackdropValue;
 }
-interface VT {
-    value: string;
-    type: string;
-}
-declare const BackdropContext: React.Context<CCmembers>;
-interface BDProps {
-    children: any;
-    defaultValue?: VT;
-    defaultTheme?: string;
+declare const BackdropContext: React.Context<ContextValues>;
+interface BCProps {
     fromTop?: number;
+    defaultValues?: BackdropValue;
     animationDuration?: number;
 }
-interface BDState {
-    activeValueType: undefined | VT;
-    activeTheme: undefined | string;
-    previousValueType: undefined | VT;
-    previousTheme: undefined | string;
+interface BCState {
+    current: BackdropValue;
+    previous: BackdropValue;
     isLoaded: boolean;
 }
-declare class BackdropContainer extends React.Component<BDProps, BDState> {
-    private colorState;
-    constructor(props: BDProps);
-    setColor(newValueType: VT, newTheme: string): void;
+declare class BackdropContainer extends React.Component<BCProps, BCState> {
+    private backdropState;
+    constructor(props: BCProps);
+    updateState(newValue: BackdropValue): void;
     componentDidMount(): void;
-    render(): JSX.Element;
+    render(): false | JSX.Element;
 }
-declare type imagePolicyString = 'stretch' | 'contain';
-interface imagePolicyObject {
-    backgroundSize?: 'string';
-    backgroundPosition?: 'string';
-    backgroundRepeat?: 'string';
-    backgroundClip?: 'string';
-}
-interface BDZProps {
-    children: any;
-    color?: string;
-    image?: string;
-    imagePolicy?: imagePolicyString | imagePolicyObject;
-    video?: string;
-    theme?: string;
-    off?: boolean;
-    instant?: boolean;
-}
-interface BDZState {
+interface BZState {
     didRender: boolean;
     hasRegistered: boolean;
-    isActiveZone: boolean;
-    zoneValueType: VT | undefined;
+    isActive: boolean;
 }
-declare class BackdropZone extends React.Component<BDZProps, BDZState> {
-    static contextType: React.Context<CCmembers>;
-    private DOMRef;
-    constructor(props: BDZProps);
-    setZoneActiveState(valueType: VT): void;
+declare class BackdropZone extends React.Component<RegistrationProps, BZState> {
+    static contextType: React.Context<ContextValues>;
+    context: React.ContextType<typeof BackdropContext>;
+    private Element;
+    constructor(props: RegistrationProps);
+    id: string;
+    setZoneActiveState(): void;
     componentDidUpdate(): void;
     componentDidMount(): void;
     render(): JSX.Element;

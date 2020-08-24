@@ -1,71 +1,84 @@
+import shortid from 'shortid';
+
 /* ======= Color Container ========
  * =============================*/
 
-interface VT {
+export interface BackdropValue {
+  type: 'color' | 'image';
   value: string;
-  type: string;
+  theme?: string;
+  id?: string;
 }
 
-type CCB = (valueType: VT, theme: string) => void;
-type ZCB = (valueTypeState: VT) => void;
+export interface AddtionalProps {
+  off?: boolean;
+  instant?: boolean;
+}
+
+
+export type RegistrationProps = BackdropValue & AddtionalProps;
+
+export type CallbackType = (arg: BackdropValue) => void;
+export type ListenerType = () => void;
+
+export interface RegisterFn {
+  (entry: RegistrationProps, element: HTMLDivElement, listener: ListenerType): void;
+}
 
 interface zoneObj {
+  value: BackdropValue;
   element: HTMLDivElement;
-  theme: string;
-  valueType: VT;
-  callback: ZCB;
+  listener: ListenerType;
 }
 
-interface cacheValue {
-  value: string
-}
+const defaultValues: BackdropValue = {
+  type: 'color',
+  value: 'transparent',
+  theme: 'default',
+  id: 'default',
+};
 
-interface cache {
-  'image': { [ uniqueID: string ]: cacheValue | undefined; };
-  'color': { [ uniqueID: string ]: cacheValue | undefined; };
-}
+class Backdrop {
+  private store: zoneObj[] = [];
 
-class globalBackdrop {
-  /* state & storage */
-  private zoneCollections: zoneObj[] = [];
-  public currentValueType: VT;
-  public currentTheme: string;
-  public valuesCache: cache;
-
-  /* arguments */
-  private fromTop: number;
-  private defaultValueType: VT;
-  private defaultTheme: string;
-  private setStateCallback: CCB;
+  public current: BackdropValue;
+  public previous: BackdropValue;
+  public default: BackdropValue;
 
   constructor(
-    fromTop: number,
-    defaultValueType: VT,
-    defaultTheme: string,
-    setStateCallback: CCB,
+    private fromTop: number = 0,
+    private userDefaultValues: BackdropValue = defaultValues,
+    private renderCallback?: CallbackType
   ) {
-    this.fromTop = fromTop;
-    this.defaultValueType = defaultValueType;
-    this.defaultTheme = defaultTheme;
-    this.setStateCallback = setStateCallback;
-    this.valuesCache = {
-      'image': {},
-      'color': {},
+    const {
+      type = defaultValues.type,
+      value = defaultValues.value,
+      theme =  defaultValues.theme,
+      id = defaultValues.id,
+    } = userDefaultValues;
+
+    this.default = {
+      type,
+      value,
+      theme,
+      id,
     };
 
-    this.registerColor = this.registerColor.bind(this);
     this.init();
+    this.register = this.register.bind(this);
   }
 
   /*
    * */
-  public init() {
-    /* initializing current and previous value/type */
-    this.currentValueType = this.defaultValueType;
-    /* initialize current and previous theme */
-    this.currentTheme = this.defaultTheme;
+  public get [Symbol.toStringTag](): string {
+    return JSON.stringify(this.store.map(item => item.value)) + '\n';
+  }
 
-    this.setStateCallback(this.currentValueType, this.currentTheme);
+  /*
+   * */
+  private init(): void {
+    this.current = this.default;
+    this.render(this.current);
 
     window.addEventListener('scroll', () => {
       window.requestAnimationFrame(() => {
@@ -76,83 +89,71 @@ class globalBackdrop {
 
   /*
    * */
-  private logic() {
-    const currentUniqueID = JSON.stringify(this.currentValueType);
-    const defaultUniqueID = JSON.stringify(this.defaultValueType);
+  private logic(): void {
     let inZoneRange = false;
 
-    this.zoneCollections.forEach((zoneItem: zoneObj) => {
-      const zoneUniqueID = JSON.stringify(zoneItem.valueType);
-      const zoneElement = zoneItem.element.getBoundingClientRect();
+    this.store.forEach((zoneItem: zoneObj) => {
+      const { top, bottom } = zoneItem.element.getBoundingClientRect();
 
-      if (zoneElement.top <= this.fromTop && zoneElement.bottom >= this.fromTop) {
+      if (( top <= this.fromTop ) && ( bottom >= this.fromTop )) {
         inZoneRange = true;
-        if (currentUniqueID !== zoneUniqueID) {
-          this.setValue(zoneItem.valueType, zoneItem.theme);
-        }
+        const { value } = zoneItem;
+
+        if (this.current.id !== value.id) { this.set(value) }
       }
     });
 
-    /* if not in any backdrop registered zone and the current color
-     * is not the default color set color and theme back to their default */
-    if (!inZoneRange && currentUniqueID !== defaultUniqueID ) {
-      this.setValue(this.defaultValueType, this.defaultTheme);
+    if (!inZoneRange && ( this.current.id !== 'default' ) ) {
+      this.set(this.default);
     }
   }
 
   /*
    * */
-  private setValue(newValueType: VT, newTheme: string) {
-    /* set value/type to current value */
-    this.currentValueType = newValueType;
-    /* set theme  to current value */
-    this.currentTheme = newTheme;
-    /* send information to React component */
-    this.setStateCallback(this.currentValueType, this.currentTheme);
+  private set(newValue: BackdropValue): void {
+    this.previous = this.current;
+    this.current = newValue;
+    this.render(newValue);
+  }
+
+  private render(setValue: BackdropValue): void {
+    if (typeof this.renderCallback === 'function') {
+      this.renderCallback(setValue);
+    }
   }
 
   /*
    * */
-  public registerColor(
-    valueType: VT = this.defaultValueType,
-    theme: string = this.defaultTheme,
-    instant: boolean,
-    domRef: HTMLDivElement,
-    zoneCallback: ZCB
-  ): void {
-    this.zoneCollections.push({
-      element: domRef,
-      theme: theme,
-      valueType: valueType,
-      callback: zoneCallback,
-    });
+  public register: RegisterFn = (entryProps: RegistrationProps, element: HTMLDivElement, listener: ListenerType)  => {
+    const { instant = false, off = false, ...standardValues } = entryProps;
 
-    if(instant) {
-      this.setValue(valueType, theme);
-      zoneCallback(valueType);
+    const newEntry = { ...standardValues };
+
+    console.log(`new entry values are: `, newEntry);
+
+    if (!newEntry.id) {
+      newEntry.id = shortid.generate();
     }
 
-    const key = JSON.stringify(valueType);
+    if (!newEntry.theme) {
+      newEntry.theme = 'default';
+    }
 
-    switch(valueType.type) {
+    console.log(`new entry values are NOW: `, newEntry);
 
-      case 'image':
-        /* preload images */
-        new Image().src = valueType.value;
+    if (!off) {
+      this.store.push({
+        element: element,
+        value: standardValues,
+        listener: listener,
+      });
 
-        /* load assets into cache */
-        this.valuesCache.image[key] = {
-          value: valueType.value,
-        };
-        break;
-
-      case 'color':
-        this.valuesCache.color[key] = {
-          value: valueType.value,
-        };
-        break;
+      if(instant) {
+        this.set(standardValues);
+        listener();
+      }
     }
   }
 }
 
-export default globalBackdrop;
+export default Backdrop;
