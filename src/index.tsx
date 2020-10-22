@@ -26,12 +26,11 @@ interface ContextValues {
   previous: BackdropValue;
 }
 
-const { register, current, previous } = new Backdrop();
 
 const BackdropContext = React.createContext<ContextValues>({
-  register,
-  current,
-  previous,
+  register: undefined,
+  current: undefined,
+  previous: undefined,
 });
 
 /* ======= React Color Component ========
@@ -182,15 +181,8 @@ class BackdropZone extends React.Component<RegistrationProps, BZState> {
 
   componentDidUpdate() {
     const { type, value, theme, off, instant } = this.props;
-
-    const {
-      hasRegistered,
-    } = this.state;
-
-    const {
-      register,
-      current,
-    } = this.context;
+    const { hasRegistered } = this.state;
+    const { register } = this.context;
 
     if (!hasRegistered) {
       if (typeof register === 'function') {

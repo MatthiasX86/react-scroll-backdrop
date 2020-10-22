@@ -25,7 +25,7 @@ declare class Backdrop {
     constructor(fromTop?: number, userDefaultValues?: BackdropValue, renderCallback?: CallbackType);
     get [Symbol.toStringTag](): string;
     private init;
-    private logic;
+    private calculate;
     private set;
     private render;
     register: RegisterFn;

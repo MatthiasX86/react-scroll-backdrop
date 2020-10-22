@@ -82,14 +82,14 @@ class Backdrop {
 
     window.addEventListener('scroll', () => {
       window.requestAnimationFrame(() => {
-        this.logic();
+        this.calculate();
       });
     });
   }
 
   /*
    * */
-  private logic(): void {
+  private calculate(): void {
     let inZoneRange = false;
 
     this.store.forEach((zoneItem: zoneObj) => {
@@ -129,8 +129,6 @@ class Backdrop {
 
     const newEntry = { ...standardValues };
 
-    console.log(`new entry values are: `, newEntry);
-
     if (!newEntry.id) {
       newEntry.id = shortid.generate();
     }
@@ -139,17 +137,15 @@ class Backdrop {
       newEntry.theme = 'default';
     }
 
-    console.log(`new entry values are NOW: `, newEntry);
-
     if (!off) {
       this.store.push({
         element: element,
-        value: standardValues,
+        value: newEntry,
         listener: listener,
       });
 
       if(instant) {
-        this.set(standardValues);
+        this.set(newEntry);
         listener();
       }
     }

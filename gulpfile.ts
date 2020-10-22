@@ -85,6 +85,9 @@ gulp.task('watch', () => {
         'js',
       )
     )
+    // .on('error',
+      // function (error) { console.error(error.toString()); }
+    // )
 });
 
 /* development process for demo */
