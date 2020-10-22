@@ -1,15 +1,11 @@
-/* developement utilities */
-const browserify = require('browserify');
-// const tsify = require('tsify');
-const browserSync = require('browser-sync').create();
+import gulp from 'gulp';
+import browserify from 'browserify'
+import browserSync from 'browser-sync';
+import tsify from 'tsify';
+import merge from 'merge2';
+import loadPlugins from 'gulp-load-plugins';
 
-/* gulp plugins */
-const gulp = require('gulp');
-const plugins = require('gulp-load-plugins')();
-
-/* gulp utilities */
-const tsify = require('tsify');
-const merge = require('merge2');
+const $ = loadPlugins();
 
 /* source and distrobution paths */
 const paths = {
@@ -29,7 +25,7 @@ const paths = {
   }
 }
 
-const tsProject = plugins.typescript.createProject('tsconfig.json');
+const tsProject = $.typescript.createProject('tsconfig.json');
 
 /* ===================
  *    Gulp subtasks
@@ -49,8 +45,8 @@ gulp.task('js', () => {
 /* For React demo components */
 gulp.task('markup', () => {
   return gulp.src(paths.demo.markup)
-    .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.tap((file) => {
+    .pipe($.sourcemaps.init())
+    .pipe($.tap(file => {
         file.contents = browserify()
           .add(file.path)
           .plugin(tsify)
@@ -58,18 +54,18 @@ gulp.task('markup', () => {
           .on('error', function (error) { console.error(error.toString()); })
       }
     ))
-    .pipe(plugins.buffer())
-    .pipe(plugins.rename('markup.js'))
-    .pipe(plugins.sourcemaps.write())
+    .pipe($.buffer())
+    .pipe($.rename('markup.js'))
+    .pipe($.sourcemaps.write())
     .pipe(gulp.dest(paths.demo.compiled))
 });
 
 /* For React demo component styles */
 gulp.task('styles', () => {
   return gulp.src(paths.demo.styles)
-    .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.sass().on('error', plugins.sass.logError))
-    .pipe(plugins.sourcemaps.write())
+    .pipe($.sourcemaps.init())
+    .pipe($.sass().on('error', $.sass.logError))
+    .pipe($.sourcemaps.write())
     .pipe(gulp.dest(paths.demo.compiled))
 });
 
@@ -81,6 +77,18 @@ gulp.task('styles', () => {
 /* build process for package distribution */
 gulp.task('build', gulp.series('js'));
 
+/* development w/o browserSync */
+gulp.task('watch', () => {
+  gulp.watch(paths.src.all)
+    .on('change',
+      gulp.series(
+        'js',
+      )
+    )
+    // .on('error',
+      // function (error) { console.error(error.toString()); }
+    // )
+});
 
 /* development process for demo */
 gulp.task('develop', () => {

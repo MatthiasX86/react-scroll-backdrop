@@ -1,33 +1,33 @@
-interface VT {
+export interface BackdropValue {
+    type: 'color' | 'image';
     value: string;
-    type: string;
+    theme?: string;
+    id?: string;
 }
-declare type CCB = (valueType: VT, theme: string) => void;
-declare type ZCB = (valueTypeState: VT) => void;
-interface cacheValue {
-    value: string;
+export interface AddtionalProps {
+    off?: boolean;
+    instant?: boolean;
 }
-interface cache {
-    'image': {
-        [uniqueID: string]: cacheValue | undefined;
-    };
-    'color': {
-        [uniqueID: string]: cacheValue | undefined;
-    };
+export declare type RegistrationProps = BackdropValue & AddtionalProps;
+export declare type CallbackType = (arg: BackdropValue) => void;
+export declare type ListenerType = () => void;
+export interface RegisterFn {
+    (entry: RegistrationProps, element: HTMLDivElement, listener: ListenerType): void;
 }
-declare class globalBackdrop {
-    private zoneCollections;
-    currentValueType: VT;
-    currentTheme: string;
-    valuesCache: cache;
+declare class Backdrop {
     private fromTop;
-    private defaultValueType;
-    private defaultTheme;
-    private setStateCallback;
-    constructor(fromTop: number, defaultValueType: VT, defaultTheme: string, setStateCallback: CCB);
-    init(): void;
-    private logic;
-    private setValue;
-    registerColor(valueType: VT, theme: string, instant: boolean, domRef: HTMLDivElement, zoneCallback: ZCB): void;
+    private userDefaultValues;
+    private renderCallback?;
+    private store;
+    current: BackdropValue;
+    previous: BackdropValue;
+    default: BackdropValue;
+    constructor(fromTop?: number, userDefaultValues?: BackdropValue, renderCallback?: CallbackType);
+    get [Symbol.toStringTag](): string;
+    private init;
+    private calculate;
+    private set;
+    private render;
+    register: RegisterFn;
 }
-export default globalBackdrop;
+export default Backdrop;
