@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
-// import shortid from 'shortid';
-// import { Transition, TransitionGroup } from 'react-transition-group';
+/* eslint react/prop-types: 0 */
 
+import React, { FC } from 'react';
+import styled from 'styled-components';
+import BackdropValue from './logic';
 
 /* ========================
 *     General components
 *  ==========================*/
 
-interface ISProps {
-  durationTime: number;
-  store: any;
+export interface ISProps {
+  animationDuration: number;
   current: any;
   previous: any;
 }
@@ -41,10 +40,9 @@ const ViewportContainer = styled.div`
 
 interface WCProps {
   className: string;
-  children: any;
 }
 
-const WithChildren: React.SFC<WCProps> = ({children, className}) =>
+const WithChildren: React.FC<WCProps> = ({children, className}) =>
   <div className={className}>
     {children}
   </div>;
@@ -54,6 +52,14 @@ const ParentContainer = styled(WithChildren)`
   overflow:hidden;
 `;
 
+/* ========================
+*   Content container
+*  ==========================*/
+
+const ContentContainer = styled.div`
+  position: relative;
+  z-index: 10;
+`;
 
 /* ========================
 *   Previous slide
@@ -66,7 +72,6 @@ function constructPreviousSlide(prevVal: VT) {
 
     case 'color':
       return `background-color: ${prevVal.value};`
-      break;
 
     case 'image':
       return `
@@ -75,7 +80,6 @@ function constructPreviousSlide(prevVal: VT) {
         background-repeat: no-repeat;
         background-size: cover;
       `
-      break;
 
     default:
       return `background-color: rgba(0,0,0,0.5);`
@@ -96,13 +100,12 @@ const PreviousSlide = styled(ViewportContainer)<PSProps>`
       100% { opacity:0 }
     }
 
-    content:'';
     opacity:1;
     animation-name: fadeIn;
     will-change:opacity;
     opacity:0;
     transition:opacity ${({duration}) => duration + 'ms'} ease-out;
-    animation-fill-mode:both;
+    animation-fill-mode: backwards;
     animation-duration: ${({duration}) => duration + 'ms'};
     animation-timing-function:ease-out;
 
@@ -126,18 +129,18 @@ const ColorComponent = styled.div<CProps>`
   transition:background-color ${({duration}) => duration + 'ms'} ease-out;
 `;
 
-const ColorBackdrop: React.SFC<ISProps> = ({store, current, previous, durationTime}) => {
+const ColorBackdrop: React.SFC<ISProps> = ({ current, previous, animationDuration}) => {
 
   return (
     <>
       <ColorComponent
         sourceMain={current.value}
         sourceSecondary={previous}
-        duration={durationTime}
+        duration={animationDuration}
       />
       <PreviousSlide
         previousContent={previous}
-        duration={durationTime}
+        duration={animationDuration}
       />
     </>
   )
@@ -161,7 +164,7 @@ const ImageComponent = styled.div<CProps>`
   background-size:cover;
 `;
 
-const ImageBackdrop: React.SFC<ISProps> = ({store, current, previous, durationTime}) => {
+const ImageBackdrop: React.SFC<ISProps> = ({current, previous, animationDuration}) => {
   
   return (
     <>
@@ -173,10 +176,10 @@ const ImageBackdrop: React.SFC<ISProps> = ({store, current, previous, durationTi
       </ViewportContainer>
       <PreviousSlide
         previousContent={previous}
-        duration={durationTime}
+        duration={animationDuration}
       />
     </>
   )
 };
 
-export { ParentContainer, ColorBackdrop, ImageBackdrop }
+export { ParentContainer, ContentContainer , ColorBackdrop, ImageBackdrop }
