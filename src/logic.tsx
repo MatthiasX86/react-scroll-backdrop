@@ -15,12 +15,9 @@ export interface AddtionalProps {
   instant?: boolean;
 }
 
-
 export type RegistrationProps = BackdropValue & AddtionalProps;
-
 export type CallbackType = (arg: BackdropValue) => void;
 export type ListenerType = () => void;
-
 export interface RegisterFn {
   (entry: RegistrationProps, element: HTMLDivElement, listener: ListenerType): void;
 }
@@ -99,7 +96,9 @@ class Backdrop {
         inZoneRange = true;
         const { value } = zoneItem;
 
-        if (this.current.id !== value.id) { this.set(value) }
+        if (this.current.id !== value.id) {
+          this.set(value)
+        }
       }
     });
 
@@ -144,7 +143,7 @@ class Backdrop {
         listener: listener,
       });
 
-      if(instant) {
+      if (instant) {
         this.set(newEntry);
         listener();
       }

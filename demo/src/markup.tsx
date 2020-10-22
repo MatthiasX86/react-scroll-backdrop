@@ -4,7 +4,7 @@ import {Helmet} from 'react-helmet';
 import anime from 'animejs';
 
 /* assets */
-import { BackdropContainer, BackdropZone, BackdropContext } from '../../lib/index.js';
+import { BackdropContainer, BackdropZone, BackdropColor, BackdropImage, BackdropContext } from '../../lib/index.js';
 
 /* =====================
  *   layout components
@@ -278,36 +278,37 @@ const Content = () => {
   return (
     <Layout>
 
-        <BackdropZone color="#252629" instant={true}>
+        <BackdropColor value="#252629" instant={true}>
+          this is a test
           <SplashSection />
-        </BackdropZone>
+        </BackdropColor>
 
-        <BackdropZone color="#CD9CAE" theme="dark">
+        <BackdropColor value="#CD9CAE" theme="dark">
           {( active, currentTheme, currentValue ) =>
             <PinkBricks
               isActive={active}
               backdropValue={currentValue}
               backdropTheme={currentTheme}
             />}
-        </BackdropZone>
+        </BackdropColor>
 
-        <BackdropZone color="#414953" theme="light">
+        <BackdropColor value="#414953" theme="light">
           {( active, currentTheme, currentValue ) =>
             <GraySkies 
               isActive={active}
               backdropValue={currentValue}
               backdropTheme={currentTheme}
             />}
-        </BackdropZone>
+        </BackdropColor>
 
-        <BackdropZone color="#BB1702" theme="light">
+        <BackdropColor color="#BB1702" theme="light">
           {( active, currentTheme, currentValue ) =>
             <RedHands
               isActive={active}
               backdropValue={currentValue}
               backdropTheme={currentTheme}
             />}
-        </BackdropZone>
+        </BackdropColor>
 
         <BackdropZone image={'assets/bridge.jpg'} theme="dark">
           {( active, currentTheme, currentValue ) =>
