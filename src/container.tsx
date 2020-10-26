@@ -1,20 +1,17 @@
 import React from 'react';
+import shortid from 'shortid';
 
-import Backdrop, {
-  BackdropValue,
-  // RegisterFn,
-  // RegistrationProps
-} from './logic';
+import { BackdropContext } from './context';
+import Backdrop, { BackdropValue, RegistrationProps } from './app';
 
 import {
   ParentContainer,
   ContentContainer,
-  ColorBackdrop,
-  ImageBackdrop,
+  Color,
+  Image,
   ISProps
 } from './presentational';
 
-import { BackdropContext } from './context';
 
 /* ======= React Color Component ========
  * ======================================*/
@@ -32,6 +29,7 @@ interface BCState {
 }
 
 export class BackdropContainer extends React.PureComponent<BCProps, BCState> {
+
   private backdropState: Backdrop;
 
   constructor(props: BCProps) {
@@ -96,8 +94,8 @@ export class BackdropContainer extends React.PureComponent<BCProps, BCState> {
     }
 
     const template = {
-      image: <ImageBackdrop {...templateProps} />,
-      color: <ColorBackdrop {...templateProps} />,
+      image: <Image {...templateProps} />,
+      color: <Color {...templateProps} />,
     }[current.type]
 
     return isLoaded && (
