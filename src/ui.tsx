@@ -1,5 +1,4 @@
 /* eslint react/prop-types: 0 */
-
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import BackdropValue from './logic';
@@ -129,7 +128,7 @@ const ColorComponent = styled.div<CProps>`
   transition:background-color ${({duration}) => duration + 'ms'} ease-out;
 `;
 
-const ColorBackdrop: React.SFC<ISProps> = ({ current, previous, animationDuration}) => {
+const Color: React.SFC<ISProps> = ({ current, previous, animationDuration}) => {
 
   return (
     <>
@@ -164,7 +163,7 @@ const ImageComponent = styled.div<CProps>`
   background-size:cover;
 `;
 
-const ImageBackdrop: React.SFC<ISProps> = ({current, previous, animationDuration}) => {
+const Image: React.SFC<ISProps> = ({current, previous, animationDuration}) => {
   
   return (
     <>
@@ -182,4 +181,4 @@ const ImageBackdrop: React.SFC<ISProps> = ({current, previous, animationDuration
   )
 };
 
-export { ParentContainer, ContentContainer , ColorBackdrop, ImageBackdrop }
+export { ParentContainer, ContentContainer , Color, Image }
