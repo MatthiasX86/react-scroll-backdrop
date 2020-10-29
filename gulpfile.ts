@@ -3,6 +3,7 @@ import browserify from 'browserify'
 import browserSync from 'browser-sync';
 // import source from 'vinyl-source-stream';
 import tsify from 'tsify';
+import babelify from 'babelify';
 import loadPlugins from 'gulp-load-plugins';
 
 // Need to use
@@ -14,7 +15,7 @@ const $ = loadPlugins();
 /* source paths */
 const paths = {
   src: {
-    all: 'src/**/*.tsx',
+    all: 'src/**/*{.tsx,.ts}',
     main: 'src/index.tsx',
   },
   lib: {
@@ -36,12 +37,13 @@ const tsProject = $.typescript.createProject('tsconfig.json');
  * ==================*/
 
 gulp.task('types', () => {
-  const tsResult = gulp
+  const tsProjectResult = gulp
     .src(paths.src.all)
     .pipe(tsProject())
 
-  return tsResult.dts.pipe(gulp.dest(paths.lib.types));
+  return tsProjectResult.dts.pipe(gulp.dest(paths.lib.types));
 });
+
 
 gulp.task('js', () => {
   return gulp
@@ -54,18 +56,19 @@ gulp.task('js', () => {
 /* For React demo components */
 gulp.task('markup', () => {
   return gulp.src(paths.demo.markup)
-    .pipe($.sourcemaps.init())
+    .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.tap(file => {
         file.contents = browserify()
           .add(file.path)
           .plugin(tsify)
+          .transform(babelify)
           .bundle()
           .on('error', function (error) { console.error(error.toString()); })
       }
     ))
     .pipe($.buffer())
-    // .pipe($.rename('demo.js'))
     .pipe($.sourcemaps.write())
+    .pipe($.rename('demo.js'))
     .pipe(gulp.dest(paths.demo.compiled))
 });
 
@@ -114,6 +117,7 @@ gulp.task('develop', () => {
     .on('change',
       gulp.series(
         'js',
+        'markup',
         browserSync.reload
       )
     );

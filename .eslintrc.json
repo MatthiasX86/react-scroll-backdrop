@@ -21,5 +21,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+      "react/prop-types": "off",
+      "react/forbid-prop-types": 0
     }
 }
