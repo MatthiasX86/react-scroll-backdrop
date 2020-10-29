@@ -1,11 +1,11 @@
 Arguments: 
-  /Users/matthew/.nvm/versions/node/v12.16.2/bin/node /Users/matthew/.nvm/versions/node/v12.16.2/bin/yarn add @babel/presets-es2015 --dev
+  /Users/matthew/.nvm/versions/node/v12.16.2/bin/node /Users/matthew/.nvm/versions/node/v12.16.2/bin/yarn add @types/tsify --dev
 
 PATH: 
   /usr/local/opt/openjdk@11/bin:/Users/matthew/.nvm/versions/node/v12.16.2/bin:/usr/local/opt/python@3.8/bin:/usr/local/opt/imagemagick@6/bin:/usr/local/opt/ncurses/bin:/usr/local/opt/ruby/bin:/Users/matthew/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/lib:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/heroku:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/pip:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/lein:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/command-not-found:/Users/matthew/.antigen/bundles/wwilsman/zsh-clean-project:/Users/matthew/.antigen/bundles/chrissicool/zsh-256color:/Users/matthew/.antigen/bundles/zsh-users/zsh-syntax-highlighting:/Users/matthew/.fzf/bin:/Users/matthew/go/bin:/usr/local/opt/go/libexec/bin
 
 Yarn version: 
-  1.22.4
+  1.22.10
 
 Node version: 
   12.16.2
@@ -14,13 +14,13 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@babel%2fpresets-es2015: Not found
-      at Request.params.callback [as _callback] (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:66987:18)
-      at Request.self.callback (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:140748:22)
+  Error: https://registry.yarnpkg.com/@types%2ftsify: Not found
+      at Request.params.callback [as _callback] (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:140662:22)
       at Request.emit (events.js:310:20)
-      at Request.<anonymous> (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:141720:10)
+      at Request.<anonymous> (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:141634:10)
       at Request.emit (events.js:310:20)
-      at IncomingMessage.<anonymous> (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:141642:12)
+      at IncomingMessage.<anonymous> (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:141556:12)
       at Object.onceWrapper (events.js:416:28)
       at IncomingMessage.emit (events.js:322:22)
       at endReadableNT (_stream_readable.js:1187:12)
@@ -42,6 +42,7 @@ npm manifest:
       "animejs": "3.2.1",
       "react": "17.0.1",
       "react-dom": "17.0.1",
+      "react-helmet": "6.1.0",
       "react-transition-group": "4.4.1",
       "shortid": "2.2.16",
       "styled-components": "5.2.0"
@@ -53,6 +54,7 @@ npm manifest:
       "@babel/plugin-transform-react-jsx": "7.12.1",
       "@babel/plugin-transform-typescript": "7.12.1",
       "@babel/preset-env": "7.12.1",
+      "@babel/preset-react": "7.12.1",
       "@babel/preset-typescript": "7.12.1",
       "@types/animejs": "3.1.2",
       "@types/babelify": "7.3.6",
@@ -62,8 +64,9 @@ npm manifest:
       "@types/gulp-babel": "6.1.29",
       "@types/gulp-concat": "0.0.32",
       "@types/gulp-uglify": "3.0.6",
-      "@types/react": "16.9.53",
+      "@types/react": "16.9.54",
       "@types/react-dom": "16.9.8",
+      "@types/react-helmet": "6.1.0",
       "@types/react-transition-group": "4.4.0",
       "@types/shortid": "0.0.29",
       "@types/styled-components": "5.1.4",
@@ -784,7 +787,37 @@ Lockfile:
     dependencies:
       "@babel/helper-plugin-utils" "^7.10.4"
   
-  "@babel/plugin-transform-react-jsx@7.12.1":
+  "@babel/plugin-transform-react-display-name@^7.12.1":
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-display-name/-/plugin-transform-react-display-name-7.12.1.tgz#1cbcd0c3b1d6648c55374a22fc9b6b7e5341c00d"
+    integrity sha512-cAzB+UzBIrekfYxyLlFqf/OagTvHLcVBb5vpouzkYkBclRPraiygVnafvAoipErZLI8ANv8Ecn6E/m5qPXD26w==
+    dependencies:
+      "@babel/helper-plugin-utils" "^7.10.4"
+  
+  "@babel/plugin-transform-react-jsx-development@^7.12.1":
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx-development/-/plugin-transform-react-jsx-development-7.12.1.tgz#0b8f8cd531dcf7991f1e5f2c10a2a4f1cfc78e36"
+    integrity sha512-IilcGWdN1yNgEGOrB96jbTplRh+V2Pz1EoEwsKsHfX1a/L40cUYuD71Zepa7C+ujv7kJIxnDftWeZbKNEqZjCQ==
+    dependencies:
+      "@babel/helper-builder-react-jsx-experimental" "^7.12.1"
+      "@babel/helper-plugin-utils" "^7.10.4"
+      "@babel/plugin-syntax-jsx" "^7.12.1"
+  
+  "@babel/plugin-transform-react-jsx-self@^7.12.1":
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.12.1.tgz#ef43cbca2a14f1bd17807dbe4376ff89d714cf28"
+    integrity sha512-FbpL0ieNWiiBB5tCldX17EtXgmzeEZjFrix72rQYeq9X6nUK38HCaxexzVQrZWXanxKJPKVVIU37gFjEQYkPkA==
+    dependencies:
+      "@babel/helper-plugin-utils" "^7.10.4"
+  
+  "@babel/plugin-transform-react-jsx-source@^7.12.1":
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.12.1.tgz#d07de6863f468da0809edcf79a1aa8ce2a82a26b"
+    integrity sha512-keQ5kBfjJNRc6zZN1/nVHCd6LLIHq4aUKcVnvE/2l+ZZROSbqoiGFRtT5t3Is89XJxBQaP7NLZX2jgGHdZvvFQ==
+    dependencies:
+      "@babel/helper-plugin-utils" "^7.10.4"
+  
+  "@babel/plugin-transform-react-jsx@7.12.1", "@babel/plugin-transform-react-jsx@^7.12.1":
     version "7.12.1"
     resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.12.1.tgz#c2d96c77c2b0e4362cc4e77a43ce7c2539d478cb"
     integrity sha512-RmKejwnT0T0QzQUzcbP5p1VWlpnP8QHtdhEtLG55ZDQnJNalbF3eeDyu3dnGKvGzFIQiBzFhBYTwvv435p9Xpw==
@@ -793,6 +826,14 @@ Lockfile:
       "@babel/helper-builder-react-jsx-experimental" "^7.12.1"
       "@babel/helper-plugin-utils" "^7.10.4"
       "@babel/plugin-syntax-jsx" "^7.12.1"
+  
+  "@babel/plugin-transform-react-pure-annotations@^7.12.1":
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-pure-annotations/-/plugin-transform-react-pure-annotations-7.12.1.tgz#05d46f0ab4d1339ac59adf20a1462c91b37a1a42"
+    integrity sha512-RqeaHiwZtphSIUZ5I85PEH19LOSzxfuEazoY7/pWASCAIBuATQzpSVD+eT6MebeeZT2F4eSL0u4vw6n4Nm0Mjg==
+    dependencies:
+      "@babel/helper-annotate-as-pure" "^7.10.4"
+      "@babel/helper-plugin-utils" "^7.10.4"
   
   "@babel/plugin-transform-regenerator@^7.12.1":
     version "7.12.1"
@@ -952,6 +993,19 @@ Lockfile:
       "@babel/types" "^7.4.4"
       esutils "^2.0.2"
   
+  "@babel/preset-react@7.12.1":
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.12.1.tgz#7f022b13f55b6dd82f00f16d1c599ae62985358c"
+    integrity sha512-euCExymHCi0qB9u5fKw7rvlw7AZSjw/NaB9h7EkdTt5+yHRrXdiRTh7fkG3uBPpJg82CqLfp1LHLqWGSCrab+g==
+    dependencies:
+      "@babel/helper-plugin-utils" "^7.10.4"
+      "@babel/plugin-transform-react-display-name" "^7.12.1"
+      "@babel/plugin-transform-react-jsx" "^7.12.1"
+      "@babel/plugin-transform-react-jsx-development" "^7.12.1"
+      "@babel/plugin-transform-react-jsx-self" "^7.12.1"
+      "@babel/plugin-transform-react-jsx-source" "^7.12.1"
+      "@babel/plugin-transform-react-pure-annotations" "^7.12.1"
+  
   "@babel/preset-typescript@7.12.1":
     version "7.12.1"
     resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.12.1.tgz#86480b483bb97f75036e8864fe404cc782cc311b"
@@ -1031,9 +1085,9 @@ Lockfile:
     integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
   
   "@eslint/eslintrc@^0.2.0":
-    version "0.2.0"
-    resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.2.0.tgz#bc7e3c4304d4c8720968ccaee793087dfb5fe6b4"
-    integrity sha512-+cIGPCBdLCzqxdtwppswP+zTsH9BOIGzAeKfBIbtb4gW/giMlfMwP0HUSFfhzh20f9u8uZ8hOp62+4GPquTbwQ==
+    version "0.2.1"
+    resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.2.1.tgz#f72069c330461a06684d119384435e12a5d76e3c"
+    integrity sha512-XRUeBZ5zBWLYgSANMpThFddrZZkEbGHgUdt5UJjZfnlN9BGCiUBrf+nvbRupSjMvqzwnQN0qwCmOxITt1cfywA==
     dependencies:
       ajv "^6.12.4"
       debug "^4.1.1"
@@ -1257,9 +1311,9 @@ Lockfile:
     integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
   
   "@types/node@*":
-    version "14.14.2"
-    resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.2.tgz#d25295f9e4ca5989a2c610754dc02a9721235eeb"
-    integrity sha512-jeYJU2kl7hL9U5xuI/BhKPZ4vqGM/OmK6whiFAXVhlstzZhVamWhDSmHyGLIp+RVyuF9/d0dqr2P85aFj4BvJg==
+    version "14.14.5"
+    resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.5.tgz#e92d3b8f76583efa26c1a63a21c9d3c1143daa29"
+    integrity sha512-H5Wn24s/ZOukBmDn03nnGTp18A60ny9AmCwnEcgJiTgSGsCO7k+NWP7zjCCbhlcnVCoI+co52dUAt9GMhOSULw==
   
   "@types/parse-glob@*":
     version "3.0.29"
@@ -1278,6 +1332,13 @@ Lockfile:
     dependencies:
       "@types/react" "*"
   
+  "@types/react-helmet@6.1.0":
+    version "6.1.0"
+    resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-6.1.0.tgz#af586ed685f4905e2adc7462d1d65ace52beee7a"
+    integrity sha512-PYRoU1XJFOzQ3BHvWL1T8iDNbRjdMDJMT5hFmZKGbsq09kbSqJy61uwEpTrbTNWDopVphUT34zUSVLK9pjsgYQ==
+    dependencies:
+      "@types/react" "*"
+  
   "@types/react-native@*":
     version "0.63.30"
     resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.30.tgz#a0bd61e61b7a020a538ea22901be2f5d178fe02f"
@@ -1292,10 +1353,10 @@ Lockfile:
     dependencies:
       "@types/react" "*"
   
-  "@types/react@*", "@types/react@16.9.53":
-    version "16.9.53"
-    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.53.tgz#40cd4f8b8d6b9528aedd1fff8fcffe7a112a3d23"
-    integrity sha512-4nW60Sd4L7+WMXH1D6jCdVftuW7j4Za6zdp6tJ33Rqv0nk1ZAmQKML9ZLD4H0dehA3FZxXR/GM8gXplf82oNGw==
+  "@types/react@*", "@types/react@16.9.54":
+    version "16.9.54"
+    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.54.tgz#140280c31825287ee74e9da95285b91c5a2e471d"
+    integrity sha512-GhawhYraQZpGFO2hVMArjPrYbnA/6+DS8SubK8IPhhVClmKqANihsRenOm5E0mvqK0m/BKoqVktA1O1+Xvlz9w==
     dependencies:
       "@types/prop-types" "*"
       csstype "^3.0.2"
@@ -1324,9 +1385,9 @@ Lockfile:
       csstype "^3.0.2"
   
   "@types/uglify-js@*":
-    version "3.11.0"
-    resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.11.0.tgz#2868d405cc45cd9dc3069179052103032c33afbc"
-    integrity sha512-I0Yd8TUELTbgRHq2K65j8rnDPAzAP+DiaF/syLem7yXwYLsHZhPd+AM2iXsWmf9P2F2NlFCgl5erZPQx9IbM9Q==
+    version "3.11.1"
+    resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.11.1.tgz#97ff30e61a0aa6876c270b5f538737e2d6ab8ceb"
+    integrity sha512-7npvPKV+jINLu1SpSYVWG8KvyJBhBa8tmzMMdDoVc2pWUYHN8KIXlPJhjJ4LT97c4dXJA2SHL/q6ADbDriZN+Q==
     dependencies:
       source-map "^0.6.1"
   
@@ -3150,9 +3211,9 @@ Lockfile:
     integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
   
   electron-to-chromium@^1.3.571:
-    version "1.3.583"
-    resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.583.tgz#47a9fde74740b1205dba96db2e433132964ba3ee"
-    integrity sha512-L9BwLwJohjZW9mQESI79HRzhicPk1DFgM+8hOCfGgGCFEcA3Otpv7QK6SGtYoZvfQfE3wKLh0Hd5ptqUFv3gvQ==
+    version "1.3.584"
+    resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.584.tgz#506cf7ba5895aafa8241876ab028654b61fd9ceb"
+    integrity sha512-NB3DzrTzJFhWkUp+nl2KtUtoFzrfGXTir2S+BU4tXGyXH9vlluPuFpE3pTKeH7+PY460tHLjKzh6K2+TWwW+Ww==
   
   elliptic@^6.5.3:
     version "6.5.3"
@@ -4042,9 +4103,9 @@ Lockfile:
       globule "^1.0.0"
   
   gensync@^1.0.0-beta.1:
-    version "1.0.0-beta.1"
-    resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.1.tgz#58f4361ff987e5ff6e1e7a210827aa371eaac269"
-    integrity sha512-r8EC6NO1sngH/zdD9fiRDLdcgnbayXah+mLgManTaIZJqEC1MZstmnox8KpnI2/fxQwrp5OpCOYWLp4rBl4Jcg==
+    version "1.0.0-beta.2"
+    resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
+    integrity sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
   
   get-assigned-identifiers@^1.2.0:
     version "1.2.0"
@@ -4565,9 +4626,9 @@ Lockfile:
       safer-buffer ">= 2.1.2 < 3"
   
   ieee754@^1.1.4:
-    version "1.1.13"
-    resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
-    integrity sha512-4vf7I2LYV/HaWerSo3XmlMkp5eZ83i+/CDluXi/IGTs/O1sejBNhTtnxzmRZfvOUqj7lZjqHkeTvpgSFDlWZTg==
+    version "1.2.1"
+    resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
+    integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
   
   ignore@^4.0.6:
     version "4.0.6"
@@ -5141,9 +5202,9 @@ Lockfile:
       stream-splicer "^2.0.0"
   
   language-subtag-registry@~0.3.2:
-    version "0.3.20"
-    resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.20.tgz#a00a37121894f224f763268e431c55556b0c0755"
-    integrity sha512-KPMwROklF4tEx283Xw0pNKtfTj1gZ4UByp4EsIFWLgBavJltF4TiYPc39k06zSTsLzxTVXXDSpbwaQXaFB4Qeg==
+    version "0.3.21"
+    resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.21.tgz#04ac218bea46f04cb039084602c6da9e788dd45a"
+    integrity sha512-L0IqwlIXjilBVVYKFT37X9Ih11Um5NEl9cbJIuU/SwP/zEEAbBPOnEeeuxVMf45ydWQRDQN3Nqc96OgbH1K+Pg==
   
   language-tags@^1.0.5:
     version "1.0.5"
@@ -6309,10 +6370,30 @@ Lockfile:
       object-assign "^4.1.1"
       scheduler "^0.20.1"
   
+  react-fast-compare@^3.1.1:
+    version "3.2.0"
+    resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
+    integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
+  
+  react-helmet@6.1.0:
+    version "6.1.0"
+    resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
+    integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==
+    dependencies:
+      object-assign "^4.1.1"
+      prop-types "^15.7.2"
+      react-fast-compare "^3.1.1"
+      react-side-effect "^2.1.0"
+  
   react-is@^16.7.0, react-is@^16.8.1:
     version "16.13.1"
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
     integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+  
+  react-side-effect@^2.1.0:
+    version "2.1.0"
+    resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
+    integrity sha512-IgmcegOSi5SNX+2Snh1vqmF0Vg/CbkycU9XZbOHJlZ6kMzTmi3yc254oB1WCkgA7OQtIAoLmcSFuHTc/tlcqXg==
   
   react-transition-group@4.4.1:
     version "4.4.1"
@@ -6678,9 +6759,9 @@ Lockfile:
       inherits "^2.0.1"
   
   run-parallel@^1.1.9:
-    version "1.1.9"
-    resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"
-    integrity sha512-DEqnSRTDw/Tc3FXf49zedI638Z9onwUotBMiUFKmrO2sdFKIbXamXGQ3Axd4qgphxKB4kw/qP1w5kTxnfU1B9Q==
+    version "1.1.10"
+    resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.10.tgz#60a51b2ae836636c81377df16cb107351bcd13ef"
+    integrity sha512-zb/1OuZ6flOlH6tQyMPUrE3x3Ulxjlo9WIVXR4yVYi4H9UXQaeIsPbLn2R3O3vQCnDKkAl2qHiuocKKX4Tz/Sw==
   
   rx@4.1.0:
     version "4.1.0"
@@ -7712,9 +7793,9 @@ Lockfile:
     integrity sha512-YUxzMjJ5T71w6a8WWVcMGM6YWOTX27rCoIQgLXiWaxqXSx9D7DNjiGWn1aJIRSQ5qr0xuhra77bSIh6voR/46Q==
   
   uglify-js@^3.0.5:
-    version "3.11.3"
-    resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.11.3.tgz#b2f8c87826344f091ba48c417c499d6cba5d5786"
-    integrity sha512-wDRziHG94mNj2n3R864CvYw/+pc9y/RNImiTyrrf8BzgWn75JgFSwYvXrtZQMnMnOp/4UTrf3iCSQxSStPiByA==
+    version "3.11.4"
+    resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.11.4.tgz#b47b7ae99d4bd1dca65b53aaa69caa0909e6fadf"
+    integrity sha512-FyYnoxVL1D6+jDGQpbK5jW6y/2JlVfRfEeQ67BPCUg5wfCjaKOpr2XeceE4QL+MkhxliLtf5EbrMDZgzpt2CNw==
   
   ultron@~1.1.0:
     version "1.1.1"
