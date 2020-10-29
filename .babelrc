@@ -1,0 +1,23 @@
+{
+  "presets": [
+    [
+      "@babel/preset-react"
+    ],
+    [ 
+      "@babel/preset-typescript"
+    ],
+    [
+      "@babel/env",
+      {
+        "modules": "commonjs"
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-typescript",
+      { "allowDeclareFields": true }
+    ],
+    ["@babel/plugin-proposal-class-properties"]
+  ]
+}

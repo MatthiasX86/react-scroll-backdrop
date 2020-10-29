@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import * as React from "react"
+import * as ReactDOM from "react-dom"
+import { useState, useRef } from 'react';
 import {Helmet} from 'react-helmet';
-import anime from 'animejs';
+const anime = require('animejs');
 
 /* assets */
-import { BackdropContainer, BackdropZone, BackdropContext } from '../../lib/index.js';
+import { BackdropContainer, ImageBackdrop, ColorBackdrop } from '../../src/index';
 
 /* =====================
  *   layout components
@@ -33,7 +34,6 @@ interface SProps {
 }
 
 const Container: React.FC<CProps> = ({ children, position = '' }) => {
-
   return (
     <div className={ `demo__container ${position}` }>
       {children}
@@ -186,7 +186,7 @@ const Bridge: React.SFC<SProps> = ({isActive, backdropValue, backdropTheme}) => 
     isActive ? 'active' : '',
   ].join(' ');
 
-  let textNode = useRef(null);
+  const textNode = useRef(null);
 
   const [loaded, declareLoaded] = useState(false);
 
@@ -250,10 +250,15 @@ class Layout extends React.Component<LProps, LState> {
   render() {
     const { children } = this.props;
 
+    const defaultBackdrop  = {
+      type: 'color',
+      value: 'transparent',
+    }
+
     return (
         <BackdropContainer
-          defaultValue={{ value: "transparent", type: 'color' }}
-          fromTop={350}
+          defaultValues={defaultBackdrop}
+          scrollPosition={350}
           animationDuration={800}
         >
           <div className='layout'>
@@ -277,47 +282,54 @@ class Layout extends React.Component<LProps, LState> {
 const Content = () => {
   return (
     <Layout>
+      <ColorBackdrop value="#252629" instant={true}>
+        <SplashSection />
+      </ColorBackdrop>
 
-        <BackdropZone color="#252629" instant={true}>
-          <SplashSection />
-        </BackdropZone>
+      <ColorBackdrop value="#CD9CAE" theme="dark">
+        {( active, currentTheme, currentValue ) =>
+          <PinkBricks
+            isActive={active}
+            backdropValue={currentValue}
+            backdropTheme={currentTheme}
+          />}
+      </ColorBackdrop>
 
-        <BackdropZone color="#CD9CAE" theme="dark">
-          {( active, currentTheme, currentValue ) =>
-            <PinkBricks
-              isActive={active}
-              backdropValue={currentValue}
-              backdropTheme={currentTheme}
-            />}
-        </BackdropZone>
+      <ColorBackdrop value="#414953" theme="light">
+        {( active, currentTheme, currentValue ) =>
+          <GraySkies 
+            isActive={active}
+            backdropValue={currentValue}
+            backdropTheme={currentTheme}
+          />}
+      </ColorBackdrop>
 
-        <BackdropZone color="#414953" theme="light">
-          {( active, currentTheme, currentValue ) =>
-            <GraySkies 
-              isActive={active}
-              backdropValue={currentValue}
-              backdropTheme={currentTheme}
-            />}
-        </BackdropZone>
+      <ColorBackdrop value="#BB1702" theme="light">
+        {( active, currentTheme, currentValue ) =>
+          <RedHands
+            isActive={active}
+            backdropValue={currentValue}
+            backdropTheme={currentTheme}
+          />}
+      </ColorBackdrop>
 
-        <BackdropZone color="#BB1702" theme="light">
-          {( active, currentTheme, currentValue ) =>
-            <RedHands
-              isActive={active}
-              backdropValue={currentValue}
-              backdropTheme={currentTheme}
-            />}
-        </BackdropZone>
+      <ImageBackdrop value={'assets/bridge.jpg'} theme="dark">
+        {( active, currentTheme, currentValue ) =>
+          <Bridge
+            isActive={active}
+            backdropValue={currentValue}
+            backdropTheme={currentTheme}
+          />}
+      </ImageBackdrop>
 
-        <BackdropZone image={'assets/bridge.jpg'} theme="dark">
-          {( active, currentTheme, currentValue ) =>
-            <Bridge
-              isActive={active}
-              backdropValue={currentValue}
-              backdropTheme={currentTheme}
-            />}
-        </BackdropZone>
-
+      <ImageBackdrop value={'assets/water.jpg'} theme="light">
+        {( active, currentTheme, currentValue ) =>
+          <Bridge
+            isActive={active}
+            backdropValue={currentValue}
+            backdropTheme={currentTheme}
+          />}
+      </ImageBackdrop>
     </Layout>
   )
 }
