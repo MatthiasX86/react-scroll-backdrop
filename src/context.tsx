@@ -1,10 +1,10 @@
-import {createContext} from "react";
-import { BackdropValue, RegisterFn } from './logic';
+import { createContext } from "react";
+import { BDMinValues, BDValues, BDOptions } from './app';
 
 export interface ContextValues {
-  register: RegisterFn | undefined;
-  current: BackdropValue | undefined;
-  previous: BackdropValue | undefined;
+  register: (values: BDValues, options: BDOptions) => void | undefined;
+  current:  BDMinValues | undefined;
+  previous: BDMinValues | undefined;
 }
 
 export const BackdropContext = createContext<ContextValues>({

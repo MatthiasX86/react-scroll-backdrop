@@ -1,184 +1,125 @@
 /* eslint react/prop-types: 0 */
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import BackdropValue from './logic';
+import * as React from 'react';
+import { PureComponent } from 'react';
+import styled, {css} from 'styled-components';
+import { BDValues } from './app';
 
-/* ========================
-*     General components
-*  ==========================*/
 
-export interface ISProps {
-  animationDuration: number;
-  current: any;
-  previous: any;
-}
-
-interface CProps {
-  sourceMain: string;
-  sourceSecondary: string;
-  hasLoaded: boolean;
-}
-
-interface VT {
-  value: string;
-  type: string;
-}
-
-const ViewportContainer = styled.div`
-  position:fixed;
-  top:0;
-  right:0;
-  left:0;
-  height:100vh;
-  width:100vw;
-`;
-
-/* ========================
-*   Parent container
-*  ==========================*/
-
-interface WCProps {
-  className: string;
-}
-
-const WithChildren: React.FC<WCProps> = ({children, className}) =>
-  <div className={className}>
-    {children}
-  </div>;
-
-const ParentContainer = styled(WithChildren)`
+const ParentContainer = styled.div`
   position:relative;
-  overflow:hidden;
 `;
-
-/* ========================
-*   Content container
-*  ==========================*/
 
 const ContentContainer = styled.div`
   position: relative;
-  z-index: 10;
 `;
 
-/* ========================
-*   Previous slide
-*  ==========================*/
+const SlidesContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+`
 
-function constructPreviousSlide(prevVal: VT) {
-  if(!prevVal) return `background-color: rgba(0,0,0,0.5);`
+type ValueType = { value: string };
 
-  switch(prevVal.type) {
+type ActiveType = { active: boolean };
 
+type SlideStyles = { animationTiming: number } & ActiveType;
+
+const SlideStyles = css<( SlideStyles & ActiveType )>`
+  opacity: ${({active}) => active ? 1 : 0}};
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: all ${({animationTiming}) => 
+    animationTiming 
+      ? animationTiming
+      : 700
+      }ms ease-out;
+`;
+
+type SlideType = SlideStyles & ValueType;
+
+const ImageSlide = styled.div<SlideType>`
+  ${SlideStyles}
+  background-image: url(" ${({value}) => value} ");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+`
+
+const ColorSlide = styled.div<SlideType>`
+  ${SlideStyles}
+  background-color: ${({value}) => value};
+`;
+
+interface CSOptions {
+  animationTiming: number;
+  active: boolean;
+}
+
+function constructSlide(backdrop: BDValues, options: CSOptions): JSX.Element {
+
+  const { active, animationTiming } = options;
+
+  const componentProps = {
+    key: backdrop.id,
+    value: backdrop.value,
+    active,
+    animationTiming,
+  }
+
+  switch (backdrop.type) {
     case 'color':
-      return `background-color: ${prevVal.value};`
-
+      return <ColorSlide {...componentProps} />;
     case 'image':
-      return `
-        background-image: url(${prevVal.value});
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      `
-
-    default:
-      return `background-color: rgba(0,0,0,0.5);`
+      return <ImageSlide {...componentProps} />;
   }
 }
 
-interface PSProps {
-  content: {
-    value: string;
-    type: string;
+interface SProps {
+  store: Map<string, BDValues>;
+  current: string;
+  animationTiming: number;
+}
+
+class Slides extends PureComponent<SProps, unknown> {
+  constructor(props: SProps) {
+    super(props);
+  }
+
+  // eslint-disable-next-line
+  render() {
+    const {
+      store = new Map<string, BDValues>(),
+      animationTiming = 700,
+      current,
+    } = this.props;
+
+    const slidesList: JSX.Element[] = [];
+
+    store.forEach(backdrop => {
+      const options = {
+        active: current === backdrop.id,
+        animationTiming,
+      };
+
+      slidesList.push(constructSlide(backdrop, options));
+    });
+
+    return (
+      <SlidesContainer>
+        {slidesList}
+      </SlidesContainer>
+    )
   }
 }
 
-const PreviousSlide = styled(ViewportContainer)<PSProps>`
-
-    @keyframes fadeIn {
-      0% { opacity:1 }
-      100% { opacity:0 }
-    }
-
-    opacity:1;
-    animation-name: fadeIn;
-    will-change:opacity;
-    opacity:0;
-    transition:opacity ${({duration}) => duration + 'ms'} ease-out;
-    animation-fill-mode: backwards;
-    animation-duration: ${({duration}) => duration + 'ms'};
-    animation-timing-function:ease-out;
-
-    ${({previousContent}) => constructPreviousSlide(previousContent)}
-`;
-
-/* ========================
-*   Color backdrop container
-*  ==========================*/
-
-const ColorComponent = styled.div<CProps>`
-  position:absolute;
-  top:0;
-  bottom:0;
-  right:0;
-  left:0;
-  height:100%;
-  width:100%;
-  will-change:background-color;
-  background-color: ${({ sourceMain }) => sourceMain };
-  transition:background-color ${({duration}) => duration + 'ms'} ease-out;
-`;
-
-const Color: React.SFC<ISProps> = ({ current, previous, animationDuration}) => {
-
-  return (
-    <>
-      <ColorComponent
-        sourceMain={current.value}
-        sourceSecondary={previous}
-        duration={animationDuration}
-      />
-      <PreviousSlide
-        previousContent={previous}
-        duration={animationDuration}
-      />
-    </>
-  )
-}
-
-/* ========================
-*   Image backdrop container
-*  ==========================*/
-
-const ImageComponent = styled.div<CProps>`
-  position:absolute;
-  top:0;
-  bottom:0;
-  right:0;
-  left:0;
-  height:100%;
-  width:100%;
-  background-image:url(${ ({sourceMain}) => sourceMain} );
-  background-position:center;
-  background-repeat:no-repeat;
-  background-size:cover;
-`;
-
-const Image: React.SFC<ISProps> = ({current, previous, animationDuration}) => {
-  
-  return (
-    <>
-      <ViewportContainer>
-        <ImageComponent
-          sourceMain={current.value}
-          sourceSecondary={previous}
-        />
-      </ViewportContainer>
-      <PreviousSlide
-        previousContent={previous}
-        duration={animationDuration}
-      />
-    </>
-  )
-};
-
-export { ParentContainer, ContentContainer , Color, Image }
+export { ParentContainer, ContentContainer, Slides }

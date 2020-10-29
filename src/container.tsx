@@ -1,30 +1,21 @@
 import React from 'react';
-import shortid from 'shortid';
-
 import { BackdropContext } from './context';
-import Backdrop, { BackdropValue, RegistrationProps } from './app';
-
-import {
-  ParentContainer,
-  ContentContainer,
-  Color,
-  Image,
-  ISProps
-} from './presentational';
+import Backdrop, { BDMinValues } from './app';
+import { ParentContainer, ContentContainer, Slides } from './ui';
 
 
 /* ======= React Color Component ========
  * ======================================*/
 
 interface BCProps {
-  fromTop?: number;
-  defaultValues?: BackdropValue;
+  scrollPosition?: number;
+  defaultValues?: BDMinValues;
   animationDuration?: number;
 }
 
 interface BCState {
-  current: BackdropValue;
-  previous: BackdropValue;
+  current: BDMinValues;
+  previous: BDMinValues;
   isLoaded: boolean;
 }
 
@@ -44,34 +35,45 @@ export class BackdropContainer extends React.PureComponent<BCProps, BCState> {
     this.updateState = this.updateState.bind(this);
   }
 
-  /* TODO: remove arg and update from backdrop instance */
-  public updateState(newValue: BackdropValue): void {
-    const { current: previousValue } = this.state;
+  public updateState(): void {
+    const { isLoaded } = this.state;
 
-    this.setState({
-      previous: previousValue,
-      current: newValue
-    });
+    if (isLoaded) {
+      const { current, previous } = this.backdropState;
+
+      this.setState({
+        previous,
+        current,
+      });
+    }
   }
 
+  // eslint-disable-next-line 
   componentDidMount() {
-    const { fromTop = 0, defaultValues } = this.props;
+    const { scrollPosition, defaultValues } = this.props;
     const { isLoaded } = this.state;
 
     if (!isLoaded) {
       this.backdropState = new Backdrop(
-        fromTop,
+        scrollPosition,
         defaultValues,
         this.updateState,
       );
 
       this.setState({
         current: this.backdropState.current,
+        previous: this.backdropState.previous,
         isLoaded: true,
       });
     }
   }
 
+  // eslint-disable-next-line 
+  componentWillUnmount() {
+    this.backdropState.kill();
+  }
+
+  // eslint-disable-next-line 
   render() {
 
     if (!this.state.isLoaded) return false;
@@ -80,32 +82,24 @@ export class BackdropContainer extends React.PureComponent<BCProps, BCState> {
     const { children, animationDuration = 600 } = this.props;
     const { register } = this.backdropState;
 
-
     const contextValues = {
       register,
       current,
       previous,
     };
 
-    const templateProps: ISProps  = {
-      animationDuration,
-      current,
-      previous,
-    }
-
-    const template = {
-      image: <Image {...templateProps} />,
-      color: <Color {...templateProps} />,
-    }[current.type]
-
     return isLoaded && (
         <ParentContainer className='reactBackdrop__container'>
+          <Slides
+            store={this.backdropState.store}
+            current={current.id}
+            animationTiming={animationDuration}
+          />
           <BackdropContext.Provider value={{ ...contextValues }}>
             <ContentContainer>
               {children}
             </ContentContainer>
           </BackdropContext.Provider>
-          {template}
         </ParentContainer>
     );
   }
