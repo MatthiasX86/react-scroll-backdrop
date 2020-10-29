@@ -1,20 +1,21 @@
 import React from 'react';
-import { BackdropValue } from './logic';
+import { BDMinValues } from './app';
 interface BCProps {
-    fromTop?: number;
-    defaultValues?: BackdropValue;
+    scrollPosition?: number;
+    defaultValues?: BDMinValues;
     animationDuration?: number;
 }
 interface BCState {
-    current: BackdropValue;
-    previous: BackdropValue;
+    current: BDMinValues;
+    previous: BDMinValues;
     isLoaded: boolean;
 }
 export declare class BackdropContainer extends React.PureComponent<BCProps, BCState> {
     private backdropState;
     constructor(props: BCProps);
-    updateState(newValue: BackdropValue): void;
+    updateState(): void;
     componentDidMount(): void;
+    componentWillUnmount(): void;
     render(): false | JSX.Element;
 }
 export {};

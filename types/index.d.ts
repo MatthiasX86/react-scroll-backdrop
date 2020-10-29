@@ -1,3 +1,3 @@
 export { BackdropContainer } from './container';
-export { BackdropZone, BackdropColor, BackdropImage } from './zone';
+export { ColorBackdrop, ImageBackdrop } from './media';
 export { BackdropContext } from './context';
