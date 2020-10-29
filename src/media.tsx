@@ -1,7 +1,8 @@
-import React, { createRef } from 'react';
+import * as React from "react"
+import { createRef } from 'react';
 import shortid from 'shortid';
-import { BackdropContext } from '.';
-import { RegistrationProps } from './app';
+import { BackdropContext } from './context';
+import { BDValues, BDOptions } from './app';
 
 /* ======= Zone HOC ========
  * ========================*/
@@ -12,9 +13,11 @@ interface BZState {
   isActive: boolean;
 }
 
-function createZoneComponent(componentType: 'color' | 'image') {
-  // eslint-disable-next-line 
-  return class extends React.PureComponent<RegistrationProps, BZState> {
+type ZoneProps = { value: string; theme?: string; id?: string } & BDOptions;
+
+function createZoneComponent(backdropType: 'color' | 'image'): React.ComponentType<ZoneProps> {
+
+  return class BackdropZone extends React.PureComponent<ZoneProps, BZState> {
 
     static contextType = BackdropContext;
 
@@ -22,7 +25,7 @@ function createZoneComponent(componentType: 'color' | 'image') {
 
     public Element: React.RefObject<HTMLDivElement>;
 
-    constructor(props: RegistrationProps) {
+    constructor(props: ZoneProps) {
       super(props);
 
       this.state = {
@@ -41,16 +44,12 @@ function createZoneComponent(componentType: 'color' | 'image') {
       const { isActive } = this.state;
       const { current } = this.context;
 
-      if (this.id !== current.id) {
-        if (isActive !== false) {
-          this.setState({ isActive: false });
-        }
+      if (this.id !== current.id && isActive !== false) {
+        this.setState({ isActive: false });
       }
 
-      if (this.id === current.id) {
-        if (isActive !== true) {
-          this.setState({ isActive: true });
-        }
+      if (this.id === current.id && isActive !== true) {
+        this.setState({ isActive: true });
       }
     }
 
@@ -62,20 +61,21 @@ function createZoneComponent(componentType: 'color' | 'image') {
       if (!hasRegistered) {
         if (typeof register === 'function') {
 
-          const registerProps = {
-            type: componentType,
+          const registerValues: BDValues = {
+            type: backdropType,
             value,
             theme,
             id: this.id,
+            element: this.Element.current,
+            renderCallback: this.setZoneActiveState
+          }
+
+          const registerOptions: BDOptions = {
             off,
             instant,
           }
 
-          register(
-            registerProps,
-            this.Element.current,
-            this.setZoneActiveState
-          );
+          register( registerValues, registerOptions );
 
           this.setState({ hasRegistered: true });
         }
@@ -85,10 +85,7 @@ function createZoneComponent(componentType: 'color' | 'image') {
     }
 
     componentDidMount() {
-
-      this.setState({
-        didRender: true,
-      });
+      this.setState({ didRender: true });
     }
 
     render() {
@@ -117,9 +114,11 @@ function createZoneComponent(componentType: 'color' | 'image') {
   }
 }
 
+
 /* ======= Media Components ========
  * ================================*/
 
+const ColorBackdrop = createZoneComponent('color');
+const ImageBackdrop = createZoneComponent('image');
 
-export const BackdropColor = createZoneComponent('color');
-export const BackdropImage = createZoneComponent('image');
+export { ColorBackdrop, ImageBackdrop };
