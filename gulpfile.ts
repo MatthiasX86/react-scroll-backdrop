@@ -2,15 +2,16 @@ import gulp from 'gulp';
 import browserify from 'browserify'
 import browserSync from 'browser-sync';
 import tsify from 'tsify';
-import merge from 'merge2';
+import babelify from 'babelify';
 import loadPlugins from 'gulp-load-plugins';
+import babel from 'gulp-babel';
 
 const $ = loadPlugins();
 
-/* source and distrobution paths */
+/* source paths */
 const paths = {
   src: {
-    all: 'src/**/*.tsx',
+    all: 'src/**/*{.tsx,.ts}',
     main: 'src/index.tsx',
   },
   lib: {
@@ -31,40 +32,49 @@ const tsProject = $.typescript.createProject('tsconfig.json');
  *    Gulp subtasks
  * ==================*/
 
-/* Compile function for react-backdrop */
-gulp.task('js', () => {
-  const tsResult = gulp.src(paths.src.all)
+gulp.task('types', () => {
+  const tsProjectResult = gulp
+    .src(paths.src.all)
     .pipe(tsProject())
 
-  return merge([
-    tsResult.dts.pipe(gulp.dest(paths.lib.types)),
-    tsResult.js.pipe(gulp.dest(paths.lib.main))
-  ]);
-})
+  return tsProjectResult.dts.pipe(gulp.dest(paths.lib.types));
+});
+
+
+gulp.task('js', () => {
+  return gulp
+    .src(paths.src.all)
+    .pipe(babel())
+    .pipe(gulp.dest(paths.lib.main))
+});
+
 
 /* For React demo components */
 gulp.task('markup', () => {
   return gulp.src(paths.demo.markup)
-    .pipe($.sourcemaps.init())
+    .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.tap(file => {
         file.contents = browserify()
           .add(file.path)
           .plugin(tsify)
+          .transform(babelify)
           .bundle()
           .on('error', function (error) { console.error(error.toString()); })
       }
     ))
     .pipe($.buffer())
-    .pipe($.rename('markup.js'))
     .pipe($.sourcemaps.write())
+    .pipe($.rename('demo.js'))
     .pipe(gulp.dest(paths.demo.compiled))
 });
 
 /* For React demo component styles */
 gulp.task('styles', () => {
-  return gulp.src(paths.demo.styles)
+  return gulp
+    .src(paths.demo.styles)
     .pipe($.sourcemaps.init())
     .pipe($.sass().on('error', $.sass.logError))
+    .pipe($.concat('styles.css'))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest(paths.demo.compiled))
 });
@@ -74,10 +84,13 @@ gulp.task('styles', () => {
  *    Gulp main tasks
  * ==================*/
 
-/* build process for package distribution */
-gulp.task('build', gulp.series('js'));
+gulp.task('build',
+  gulp.series([
+    'js',
+    'types'
+  ])
+);
 
-/* development w/o browserSync */
 gulp.task('watch', () => {
   gulp.watch(paths.src.all)
     .on('change',
@@ -85,9 +98,6 @@ gulp.task('watch', () => {
         'js',
       )
     )
-    // .on('error',
-      // function (error) { console.error(error.toString()); }
-    // )
 });
 
 /* development process for demo */
@@ -103,9 +113,10 @@ gulp.task('develop', () => {
     .on('change',
       gulp.series(
         'js',
+        'markup',
         browserSync.reload
       )
-    )
+    );
 
   gulp.watch(paths.demo.markup)
     .on('change',
@@ -113,7 +124,7 @@ gulp.task('develop', () => {
         'markup',
         browserSync.reload
       )
-    )
+    );
 
   gulp.watch(paths.demo.styles)
     .on('change',
@@ -121,5 +132,5 @@ gulp.task('develop', () => {
         'styles',
         browserSync.reload
       )
-    )
+    );
 });
