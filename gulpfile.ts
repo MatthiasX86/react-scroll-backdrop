@@ -1,14 +1,10 @@
 import gulp from 'gulp';
 import browserify from 'browserify'
 import browserSync from 'browser-sync';
-// import source from 'vinyl-source-stream';
 import tsify from 'tsify';
 import babelify from 'babelify';
 import loadPlugins from 'gulp-load-plugins';
-
-// Need to use
 import babel from 'gulp-babel';
-// import babelify from 'babelify';
 
 const $ = loadPlugins();
 

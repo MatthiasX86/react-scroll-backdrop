@@ -1,5 +1,10 @@
 # react-scroll-backdrop
 
+### Notes
+
+> * Please don't use this package at the moment... this is an early release. A **significant** amount of refactoring is needed
+> * Test coverage will to come
+
 [![npm version](https://badge.fury.io/js/react-scroll-backdrop.svg)](https://badge.fury.io/js/react-scroll-backdrop)
 [![npm downloads](https://img.shields.io/npm/dm/react-scroll-backdrop.svg)](https://www.npmjs.com/package/react-scroll-backdrop)
 
@@ -26,11 +31,6 @@ On component mount, transition zones will be registered with their respective co
 - backdrop component context as named export for reuse in other react components
 </br>
 </br>
-
-## Notes / Known issues
-* This is an early release of this package at the moment. a **significant** amount of refactoring is needed!
-* *Known issues*: transition animation does not work image based backdrop zones for the moment. It works well between color -> image, image -> color, but not image -> image. 
-* Test coverage will be included soon
 
 ## Installation
 
