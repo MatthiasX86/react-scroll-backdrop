@@ -1,6 +1,6 @@
 import React from 'react';
 import { BackdropContext } from './context';
-import Backdrop, { BDMinValues } from './app';
+import Backdrop, { BDMinValues, BDValues } from './app';
 import { ParentContainer, ContentContainer, Slides } from './ui';
 
 
@@ -14,8 +14,8 @@ interface BCProps {
 }
 
 interface BCState {
-  current: BDMinValues;
-  previous: BDMinValues;
+  current: BDValues;
+  previous: BDValues;
   isLoaded: boolean;
 }
 
@@ -70,7 +70,7 @@ export class BackdropContainer extends React.PureComponent<BCProps, BCState> {
 
   // eslint-disable-next-line 
   componentWillUnmount() {
-    this.backdropState.kill();
+    this.backdropState.removeScrollEvent();
   }
 
   // eslint-disable-next-line 
@@ -80,12 +80,13 @@ export class BackdropContainer extends React.PureComponent<BCProps, BCState> {
 
     const { isLoaded, current, previous } = this.state;
     const { children, animationDuration = 600 } = this.props;
-    const { register } = this.backdropState;
+    const { register, remove } = this.backdropState;
 
     const contextValues = {
       register,
       current,
       previous,
+      remove,
     };
 
     return isLoaded && (

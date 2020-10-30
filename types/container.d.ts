@@ -1,13 +1,13 @@
 import React from 'react';
-import { BDMinValues } from './app';
+import { BDMinValues, BDValues } from './app';
 interface BCProps {
     scrollPosition?: number;
     defaultValues?: BDMinValues;
     animationDuration?: number;
 }
 interface BCState {
-    current: BDMinValues;
-    previous: BDMinValues;
+    current: BDValues;
+    previous: BDValues;
     isLoaded: boolean;
 }
 export declare class BackdropContainer extends React.PureComponent<BCProps, BCState> {
