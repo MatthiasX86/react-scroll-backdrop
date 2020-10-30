@@ -35701,20 +35701,61 @@ var __createBinding;
 },{}],46:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const shortid_1 = tslib_1.__importDefault(require("shortid"));
 class Backdrop {
-    constructor(scrollPosition = 0, defaultBackdrop, renderCallback) {
+    constructor(
+    /**
+     *  scroll position from top of viewport that will be used to trigger backdrop zones
+     *
+     *  @param {number} scrollPosition
+     *  @default
+     */
+    scrollPosition = 0, 
+    /**
+     *  scroll position that will trigger backdrop zone. backdrop zones will trigger
+     *  if scroll position falls in between top and bottom of registered zone
+     *
+     *  @type {Object}
+     *  @param
+     */
+    defaultBackdrop, 
+    /**
+     *  callback to render changes to Backdrop container component
+     *
+     *  @type {() => void}
+     *  @callback
+     *  @param
+     */
+    renderCallback) {
         this.scrollPosition = scrollPosition;
         this.defaultBackdrop = defaultBackdrop;
         this.renderCallback = renderCallback;
+        /**
+         *  Backdrop zones will be registered into map using string-based, uniqueIDs as keys.
+         *
+         *  @property {Map<string, BDValues>}
+         *  @private
+         *  @default {Map}
+         */
         this._store = new Map();
-        /*
-         * */
-        this.kill = () => { window.removeEventListener('scroll', this.scrollEvent); };
-        /*
-         * */
+        /**
+         *  remove scroll event from window
+         *
+         *  @method
+         */
+        this.removeScrollEvent = () => { window.removeEventListener('scroll', this.scrollEvent); };
+        /**
+         *  attach scroll event to window on init.
+         *
+         *  @method
+         */
         this.scrollEvent = () => { window.requestAnimationFrame(this.calculate); };
+        /**
+         *  remove backdrop from store {Map<string, DBValues>}
+         *
+         *  @param {string} id - UniqueID used when registering backdrop zone
+         *  @method
+         */
+        this.remove = (id) => { this._store.delete(id); };
         if (!defaultBackdrop) {
             this.default = {
                 type: defaultBackdrop.type || 'color',
@@ -35738,15 +35779,32 @@ class Backdrop {
         this.init();
         this.register = this.register.bind(this);
         this.calculate = this.calculate.bind(this);
+        this.remove = this.remove.bind(this);
     }
+    /**
+     *  public facing getter property for backdrop zone store. Keeps private store
+     *  untouched by returning new Map containing backdrop key/value pairs from private store
+     *
+     *  @return {Map<string, object>}
+     *  @public
+     */
     get store() { return new Map([...this._store]); }
-    /*
-     * */
+    /**
+     *
+     */
     get [Symbol.toStringTag]() {
         return JSON.stringify(this.store);
     }
-    /*
-     * */
+    /**
+     *  invoked within the constructor. Couple of things happen here:
+     *    - sets the current & previous to default vales to avoid errors when setting
+     *      current and previous property methods within the set method
+     *    - loads the store with default values under the 'default' key
+     *    - fires the render callback to flush those changes to container component
+     *    - attaches scroll event to window
+     *
+     *  @method
+     */
     init() {
         this.current = this.default;
         this.previous = this.default;
@@ -35754,8 +35812,13 @@ class Backdrop {
         this.render();
         window.addEventListener('scroll', this.scrollEvent);
     }
-    /*
-     * */
+    /**
+     *  callback attached to window scroll event to listen for backdrop zones
+     *
+     *  @event
+     *  @callback
+     *  @this Backdrop instance
+     */
     calculate() {
         let inZoneRange = false;
         this._store.forEach(backdropItem => {
@@ -35774,32 +35837,43 @@ class Backdrop {
             this.set(this.default);
         }
     }
-    /*
-     * */
+    /**
+     *  sets pass in backdrop value object to current property, sets prior current
+     *  backdrop value object to previous property, and fires container render callback
+     *
+     *  @param {Object} newValue - value object taken from backdrop store to be set as new current
+     *  @method
+     */
     set(newValue) {
         this.previous = this.current;
         this.current = newValue;
         this.render();
     }
-    /*
-     * */
+    /**
+     *  render fires callback passed on init
+     *
+     *  @method
+     */
     render() {
         if (typeof this.renderCallback === 'function') {
             this.renderCallback();
         }
     }
-    /*
-     * */
+    /**
+     *  @param {Object} backdrop - backdrop value object to register
+     *  @param {Object} options - options for registered backdrop zones
+     *  @method
+     */
     register(backdrop, options) {
-        const { id = shortid_1.default.generate(), theme = 'default', ...required } = backdrop;
+        const { theme = 'default', ...required } = backdrop;
         const { instant = false, off = false } = options;
-        const newEntry = { ...required, id, theme };
+        const newEntry = { ...required, theme };
         if (!off) {
             if (backdrop.type === 'image') {
                 const preloadedImage = (new Image()).src = newEntry.value;
                 newEntry.value = preloadedImage;
             }
-            this._store.set(id, newEntry);
+            this._store.set(backdrop.id, newEntry);
             if (instant) {
                 this.set(newEntry);
             }
@@ -35808,7 +35882,7 @@ class Backdrop {
 }
 exports.default = Backdrop;
 
-},{"shortid":35,"tslib":45}],47:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BackdropContainer = void 0;
@@ -35852,7 +35926,7 @@ class BackdropContainer extends react_1.default.PureComponent {
     }
     // eslint-disable-next-line 
     componentWillUnmount() {
-        this.backdropState.kill();
+        this.backdropState.removeScrollEvent();
     }
     // eslint-disable-next-line 
     render() {
@@ -35860,11 +35934,12 @@ class BackdropContainer extends react_1.default.PureComponent {
             return false;
         const { isLoaded, current, previous } = this.state;
         const { children, animationDuration = 600 } = this.props;
-        const { register } = this.backdropState;
+        const { register, remove } = this.backdropState;
         const contextValues = {
             register,
             current,
             previous,
+            remove,
         };
         return isLoaded && (react_1.default.createElement(ui_1.ParentContainer, { className: 'reactBackdrop__container' },
             react_1.default.createElement(ui_1.Slides, { store: this.backdropState.store, current: current.id, animationTiming: animationDuration }),
@@ -35881,6 +35956,7 @@ exports.BackdropContext = void 0;
 const react_1 = require("react");
 exports.BackdropContext = react_1.createContext({
     register: undefined,
+    remove: undefined,
     current: undefined,
     previous: undefined,
 });
@@ -35957,6 +36033,10 @@ function createZoneComponent(backdropType) {
             componentDidMount() {
                 this.setState({ didRender: true });
             }
+            componentWillUnmount() {
+                const { remove } = this.context;
+                remove(this.id);
+            }
             render() {
                 const { children } = this.props;
                 const { current: { theme, value } } = this.context;
@@ -35995,6 +36075,7 @@ const ParentContainer = styled_components_1.default.div `
 exports.ParentContainer = ParentContainer;
 const ContentContainer = styled_components_1.default.div `
   position: relative;
+  z-index: 10;
 `;
 exports.ContentContainer = ContentContainer;
 const SlidesContainer = styled_components_1.default.div `

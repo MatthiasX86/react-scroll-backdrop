@@ -11,6 +11,7 @@ const ParentContainer = styled.div`
 
 const ContentContainer = styled.div`
   position: relative;
+  z-index: 10;
 `;
 
 const SlidesContainer = styled.div`
