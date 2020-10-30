@@ -88,6 +88,11 @@ function createZoneComponent(backdropType: 'color' | 'image'): React.ComponentTy
       this.setState({ didRender: true });
     }
 
+    componentWillUnmount() {
+      const { remove } = this.context;
+      remove(this.id);
+    }
+
     render() {
       const { children } = this.props;
       const { current: { theme, value} } = this.context;
