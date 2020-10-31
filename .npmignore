@@ -1,4 +1,12 @@
+Session.vim
 tags
 demo/
+__test__/
 docs/
 prototype/
+src
+tsconfig.json
+yarn.lock
+yarn-error.log
+.github
+.DS_Store
