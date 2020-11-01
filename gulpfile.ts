@@ -108,7 +108,8 @@ gulp.task('styles', () => {
 gulp.task('build',
   gulp.series([
     'js',
-    'types'
+    'types',
+    'test',
   ])
 );
 

@@ -1,5 +1,3 @@
-// const jsdom = require("jsdom");
-// const { JSDOM } = jsdom;
 import Backdrop, { BDOptions, BDValues } from "../src/app";
 
 test('Initial values are properly set', () => {
@@ -53,17 +51,3 @@ test('Initial values are properly set', () => {
   expect(BackdropApp.store.get('default'))
     .toMatchObject<BDValues>(defaultValueObject)
 });
-
-// test('events register and detach', () => {
-  // const sampleRenderFn = () => null;
-//
-  // const { window } = new JSDOM(`
-    // <body>
-      // <script>
-        // const sampleRenderFn = () => null;
-        // const backdropApp = ${ new Backdrop(sampleRenderFn) };
-      // </script>
-    // </body>
-  // `)
-//
-// })

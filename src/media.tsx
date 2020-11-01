@@ -95,9 +95,8 @@ function createZoneComponent(backdropType: 'color' | 'image'): React.ComponentTy
 
     render() {
       const { children } = this.props;
-      const { current: { theme, value} } = this.context;
+      const { current: { theme, value, type} } = this.context;
       const { didRender, isActive } = this.state;
-
 
       const containerClassNames = [
         'reactBackdrop__zone',
@@ -109,7 +108,7 @@ function createZoneComponent(backdropType: 'color' | 'image'): React.ComponentTy
           {didRender && (
             <div className={containerClassNames} ref={this.Element}>
               {typeof children === 'function'
-                ? children(isActive, theme, value)
+                ? children(isActive, { type, value }, theme )
                 : children}
             </div>
           )}

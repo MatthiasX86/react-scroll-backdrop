@@ -35749,6 +35749,7 @@ class Backdrop {
          *  @method
          */
         this.remove = (id) => { this._store.delete(id); };
+        this.validateOptions();
         this.options = {
             defaultBackdrop: { type: 'color', value: 'transparent' },
             scrollPosition: 0,
@@ -35761,7 +35762,6 @@ class Backdrop {
             element: null,
             renderCallback: null
         };
-        this.validateOptions();
         this.init();
         this.register = this.register.bind(this);
         this.scan = this.scan.bind(this);
@@ -35870,9 +35870,7 @@ class Backdrop {
      *
      *  @method
      */
-    render() {
-        this.renderCallback();
-    }
+    render() { this.renderCallback(); }
     /**
      *  @param {Object} backdrop - backdrop value object to register
      *  @param {Object} options - options for registered backdrop zones
@@ -36057,14 +36055,14 @@ function createZoneComponent(backdropType) {
             }
             render() {
                 const { children } = this.props;
-                const { current: { theme, value } } = this.context;
+                const { current: { theme, value, type } } = this.context;
                 const { didRender, isActive } = this.state;
                 const containerClassNames = [
                     'reactBackdrop__zone',
                     isActive ? 'active' : '',
                 ].join(' ');
                 return (React.createElement(React.Fragment, null, didRender && (React.createElement("div", { className: containerClassNames, ref: this.Element }, typeof children === 'function'
-                    ? children(isActive, theme, value)
+                    ? children(isActive, theme, { type, value })
                     : children))));
             }
         },
