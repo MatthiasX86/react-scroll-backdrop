@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { BDMinValues, BDValues, BDOptions } from './app';
+import { BDMinValues, BDValues, BDZoneOptions } from './app';
 
 export interface ContextValues {
-  register: (values: BDValues, options: BDOptions) => void | undefined;
+  register: (values: BDValues, options: BDZoneOptions) => void | undefined;
   remove: (id: string) => void | undefined;
   current:  BDValues | undefined;
   previous: BDValues | undefined;
