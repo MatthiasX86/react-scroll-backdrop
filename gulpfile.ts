@@ -135,6 +135,8 @@ gulp.task('develop', () => {
       gulp.series(
         'js',
         'test',
+        // 'markup',
+        // browserSync.reload,
       )
     );
 

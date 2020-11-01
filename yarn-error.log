@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/matthew/.nvm/versions/node/v12.16.2/bin/node /Users/matthew/.nvm/versions/node/v12.16.2/bin/yarn unlink gulp-jest
+  /Users/matthew/.nvm/versions/node/v12.16.2/bin/node /Users/matthew/.nvm/versions/node/v12.16.2/bin/yarn add global-jsdom @types/global-jsdom --dev
 
 PATH: 
-  /usr/local/opt/openjdk@11/bin:/Users/matthew/.nvm/versions/node/v12.16.2/bin:/usr/local/opt/python@3.8/bin:/usr/local/opt/imagemagick@6/bin:/usr/local/opt/ncurses/bin:/usr/local/opt/ruby/bin:/Users/matthew/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/lib:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/heroku:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/pip:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/lein:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/command-not-found:/Users/matthew/.antigen/bundles/wwilsman/zsh-clean-project:/Users/matthew/.antigen/bundles/chrissicool/zsh-256color:/Users/matthew/.antigen/bundles/zsh-users/zsh-syntax-highlighting:/Users/matthew/.fzf/bin:/Users/matthew/go/bin:/usr/local/opt/go/libexec/bin
+  /usr/local/opt/openjdk@11/bin:/usr/local/opt/python@3.8/bin:/usr/local/opt/imagemagick@6/bin:/usr/local/opt/ncurses/bin:/usr/local/opt/ruby/bin:/usr/local/opt/openjdk@11/bin:/Users/matthew/.nvm/versions/node/v12.16.2/bin:/usr/local/opt/python@3.8/bin:/usr/local/opt/imagemagick@6/bin:/usr/local/opt/ncurses/bin:/usr/local/opt/ruby/bin:/Users/matthew/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/lib:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/heroku:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/pip:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/lein:/Users/matthew/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/command-not-found:/Users/matthew/.antigen/bundles/wwilsman/zsh-clean-project:/Users/matthew/.antigen/bundles/chrissicool/zsh-256color:/Users/matthew/.antigen/bundles/zsh-users/zsh-syntax-highlighting:/Users/matthew/.fzf/bin:/Users/matthew/go/bin:/usr/local/opt/go/libexec/bin:/Users/matthew/go/bin:/usr/local/opt/go/libexec/bin
 
 Yarn version: 
   1.22.10
@@ -14,7 +14,17 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/matthew/Documents/React-backdrop/node_modules/gulp-jest'
+  Error: https://registry.yarnpkg.com/@types%2fglobal-jsdom: Not found
+      at Request.params.callback [as _callback] (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:140662:22)
+      at Request.emit (events.js:310:20)
+      at Request.<anonymous> (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:141634:10)
+      at Request.emit (events.js:310:20)
+      at IncomingMessage.<anonymous> (/Users/matthew/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:141556:12)
+      at Object.onceWrapper (events.js:416:28)
+      at IncomingMessage.emit (events.js:322:22)
+      at endReadableNT (_stream_readable.js:1187:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -53,6 +63,7 @@ npm manifest:
       "@types/gulp-babel": "6.1.29",
       "@types/gulp-concat": "0.0.32",
       "@types/gulp-uglify": "3.0.6",
+      "@types/jest": "26.0.15",
       "@types/react": "16.9.54",
       "@types/react-dom": "16.9.8",
       "@types/react-helmet": "6.1.0",
@@ -77,7 +88,7 @@ npm manifest:
       "gulp-babel": "8.0.0",
       "gulp-buffer": "0.0.2",
       "gulp-concat": "2.6.1",
-      "gulp-jest": "4.0.3",
+      "gulp-jest": "MatthiasX86/gulp-jest",
       "gulp-load-plugins": "2.0.5",
       "gulp-rename": "2.0.0",
       "gulp-sass": "4.1.0",
@@ -96,7 +107,8 @@ npm manifest:
       "load": "nvim -S Session.vim",
       "start": "gulp develop",
       "watch": "gulp watch",
-      "build": "gulp build"
+      "build": "gulp build",
+      "test": "gulp test"
     }
   }
 
@@ -1555,6 +1567,14 @@ Lockfile:
     dependencies:
       "@types/istanbul-lib-report" "*"
   
+  "@types/jest@26.0.15":
+    version "26.0.15"
+    resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.15.tgz#12e02c0372ad0548e07b9f4e19132b834cb1effe"
+    integrity sha512-s2VMReFXRg9XXxV+CW9e5Nz8fH2K1aEhwgjUqPPbQd7g95T0laAcvLv032EhFHIa5GHsZ8W7iJEQVaJq6k3Gog==
+    dependencies:
+      jest-diff "^26.0.0"
+      pretty-format "^26.0.0"
+  
   "@types/json-schema@^7.0.3":
     version "7.0.6"
     resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
@@ -2239,9 +2259,9 @@ Lockfile:
     integrity sha1-tG6JCTSpWR8tL2+G1+ap8bP+dqg=
   
   aws4@^1.8.0:
-    version "1.10.1"
-    resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428"
-    integrity sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==
+    version "1.11.0"
+    resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
+    integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
   
   axe-core@^3.5.4:
     version "3.5.5"
@@ -2777,6 +2797,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/cached-path-relative/-/cached-path-relative-1.0.2.tgz#a13df4196d26776220cc3356eb147a52dba2c6db"
     integrity sha512-5r2GqsoEb4qMTTN9J+WzXfjov+hjxT+j3u5K+kIVNIwAd99DLCJE9pBIMP1qVeybV6JiijL385Oz0DcYxfbOIg==
   
+  call-bind@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/call-bind/-/call-bind-1.0.0.tgz#24127054bb3f9bdcb4b1fb82418186072f77b8ce"
+    integrity sha512-AEXsYIyyDY3MCzbwdhzG3Jx1R0J2wetQyUynn6dYHAO+bg8l1k7jwZtRv4ryryFs7EP+NDlikJlVe59jr0cM2w==
+    dependencies:
+      function-bind "^1.1.1"
+      get-intrinsic "^1.0.0"
+  
   callsite@1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/callsite/-/callsite-1.0.0.tgz#280398e5d664bd74038b6f0905153e6e8af1bc20"
@@ -2821,9 +2849,9 @@ Lockfile:
     integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
   
   caniuse-lite@^1.0.30001135:
-    version "1.0.30001151"
-    resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001151.tgz#1ddfde5e6fff02aad7940b4edb7d3ac76b0cb00b"
-    integrity sha512-Zh3sHqskX6mHNrqUerh+fkf0N72cMxrmflzje/JyVImfpknscMnkeJrlFGJcqTmaa0iszdYptGpWMJCRQDkBVw==
+    version "1.0.30001154"
+    resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001154.tgz#f3bbc245ce55e4c1cd20fa731b097880181a7f17"
+    integrity sha512-y9DvdSti8NnYB9Be92ddMZQrcOe04kcQtcxtBx4NkB04+qZ+JUWotnXBJTmxlKudhxNTQ3RRknMwNU2YQl/Org==
   
   capture-exit@^2.0.0:
     version "2.0.0"
@@ -3664,9 +3692,9 @@ Lockfile:
     integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
   
   electron-to-chromium@^1.3.571:
-    version "1.3.584"
-    resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.584.tgz#506cf7ba5895aafa8241876ab028654b61fd9ceb"
-    integrity sha512-NB3DzrTzJFhWkUp+nl2KtUtoFzrfGXTir2S+BU4tXGyXH9vlluPuFpE3pTKeH7+PY460tHLjKzh6K2+TWwW+Ww==
+    version "1.3.585"
+    resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.585.tgz#71cdb722c73488b9475ad1c572cf43a763ef9081"
+    integrity sha512-xoeqjMQhgHDZM7FiglJAb2aeOxHZWFruUc3MbAGTgE7GB8rr5fTn1Sdh5THGuQtndU3GuXlu91ZKqRivxoCZ/A==
   
   elliptic@^6.5.3:
     version "6.5.3"
@@ -4649,6 +4677,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
     integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
   
+  get-intrinsic@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/get-intrinsic/-/get-intrinsic-1.0.0.tgz#035ccf14a00ae2eb3d110a00fcd10e74706a8fe7"
+    integrity sha512-EMuu0ud8uAP4Zs6tQqMeHiY1PbIBDcZ92QVxqeLfqTMbyvqcDbrtHjfu0RWh8QaUNJ3lP1DSX3J2okgj9JE47g==
+  
   get-package-type@^0.1.0:
     version "0.1.0"
     resolved "https://registry.yarnpkg.com/get-package-type/-/get-package-type-0.1.0.tgz#8de2d803cff44df3bc6c456e6668b36c3926e11a"
@@ -4861,13 +4894,12 @@ Lockfile:
       through2 "^2.0.0"
       vinyl "^2.0.0"
   
-  gulp-jest@4.0.3:
+  gulp-jest@MatthiasX86/gulp-jest:
     version "4.0.3"
-    resolved "https://registry.yarnpkg.com/gulp-jest/-/gulp-jest-4.0.3.tgz#4cecf904585ba434d3cb8ef400ba83b5dc388f05"
-    integrity sha512-kTlnq4jNCPwoz9wcvU1cajbBwRNoWY/KiTLOfKrbYkobgItImgTB13D68917iIPd9I+LMBCH0Wza7O99BrO9SQ==
+    resolved "https://codeload.github.com/MatthiasX86/gulp-jest/tar.gz/8924bce82cd14fcca64e85fb853dc77a2a7b9bc5"
     dependencies:
       plugin-error "^1.0.1"
-      through2 "^2.0.1"
+      through2 "^3.0.1"
   
   gulp-load-plugins@2.0.5:
     version "2.0.5"
@@ -5764,7 +5796,7 @@ Lockfile:
       micromatch "^4.0.2"
       pretty-format "^26.6.1"
   
-  jest-diff@^26.6.1:
+  jest-diff@^26.0.0, jest-diff@^26.6.1:
     version "26.6.1"
     resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-26.6.1.tgz#38aa194979f454619bb39bdee299fb64ede5300c"
     integrity sha512-BBNy/zin2m4kG5In126O8chOBxLLS/XMTuuM2+YhgyHk87ewPzKTuTJcqj3lOWOi03NNgrl+DkMeV/exdvG9gg==
@@ -6800,9 +6832,9 @@ Lockfile:
       which "^2.0.2"
   
   node-releases@^1.1.61:
-    version "1.1.64"
-    resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.64.tgz#71b4ae988e9b1dd7c1ffce58dd9e561752dfebc5"
-    integrity sha512-Iec8O9166/x2HRMJyLLLWkd0sFFLrFNy+Xf+JQfSQsdBJzPcHpNl3JQ9gD4j+aJxmCa25jNsIbM4bmACtSbkSg==
+    version "1.1.65"
+    resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.65.tgz#52d9579176bd60f23eba05c4438583f341944b81"
+    integrity sha512-YpzJOe2WFIW0V4ZkJQd/DGR/zdVwc/pI4Nl1CZrBO19FdRcSTmsuhdttw9rsTzzJLrNcSloLiBbEYx1C4f6gpA==
   
   node-sass@^4.8.3:
     version "4.14.1"
@@ -6944,12 +6976,12 @@ Lockfile:
       isobject "^3.0.0"
   
   object.assign@^4.0.4, object.assign@^4.1.0, object.assign@^4.1.1:
-    version "4.1.1"
-    resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.1.tgz#303867a666cdd41936ecdedfb1f8f3e32a478cdd"
-    integrity sha512-VT/cxmx5yaoHSOTSyrCygIDFco+RsibY2NM0a4RdEeY/4KgqezwFtK1yr3U67xYhqJSlASm2pKhLVzPj2lr4bA==
+    version "4.1.2"
+    resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.2.tgz#0ed54a342eceb37b38ff76eb831a0e788cb63940"
+    integrity sha512-ixT2L5THXsApyiUPYKmW+2EHpXXe5Ii3M+f4e+aJFAHao5amFRW6J0OO6c/LU8Be47utCx2GL89hxGB6XSmKuQ==
     dependencies:
+      call-bind "^1.0.0"
       define-properties "^1.1.3"
-      es-abstract "^1.18.0-next.0"
       has-symbols "^1.0.1"
       object-keys "^1.1.1"
   
@@ -7451,7 +7483,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
     integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
   
-  pretty-format@^26.6.1:
+  pretty-format@^26.0.0, pretty-format@^26.6.1:
     version "26.6.1"
     resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-26.6.1.tgz#af9a2f63493a856acddeeb11ba6bcf61989660a8"
     integrity sha512-MeqqsP5PYcRBbGMvwzsyBdmAJ4EFX7pWFyl7x4+dMVg5pE0ZDdBIvEH2ergvIO+Gvwv1wh64YuOY9y5LuyY/GA==
@@ -8959,7 +8991,7 @@ Lockfile:
       through2 "~2.0.0"
       xtend "~4.0.0"
   
-  through2@2.X, through2@^2.0.0, through2@^2.0.1, through2@^2.0.3, through2@~2.0.0:
+  through2@2.X, through2@^2.0.0, through2@^2.0.3, through2@~2.0.0:
     version "2.0.5"
     resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.5.tgz#01c1e39eb31d07cb7d03a96a70823260b23132cd"
     integrity sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==

@@ -1,7 +1,7 @@
 /// <reference types="react" />
-import { BDValues, BDOptions } from './app';
+import { BDValues, BDZoneOptions } from './app';
 export interface ContextValues {
-    register: (values: BDValues, options: BDOptions) => void | undefined;
+    register: (values: BDValues, options: BDZoneOptions) => void | undefined;
     remove: (id: string) => void | undefined;
     current: BDValues | undefined;
     previous: BDValues | undefined;

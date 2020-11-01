@@ -2,7 +2,7 @@ import * as React from "react"
 import { createRef } from 'react';
 import shortid from 'shortid';
 import { BackdropContext } from './context';
-import { BDValues, BDOptions } from './app';
+import { BDValues, BDZoneOptions } from './app';
 
 /* ======= Zone HOC ========
  * ========================*/
@@ -13,7 +13,7 @@ interface BZState {
   isActive: boolean;
 }
 
-type ZoneProps = { value: string; theme?: string; id?: string } & BDOptions;
+type ZoneProps = { value: string; theme?: string; id?: string } & BDZoneOptions;
 
 function createZoneComponent(backdropType: 'color' | 'image'): React.ComponentType<ZoneProps> {
 
@@ -70,7 +70,7 @@ function createZoneComponent(backdropType: 'color' | 'image'): React.ComponentTy
             renderCallback: this.setZoneActiveState
           }
 
-          const registerOptions: BDOptions = {
+          const registerOptions: BDZoneOptions = {
             off,
             instant,
           }
