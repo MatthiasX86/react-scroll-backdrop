@@ -8,34 +8,30 @@ export interface BDValues extends BDMinValues {
     element: null | HTMLDivElement;
     renderCallback: null | (() => void);
 }
-export interface BDOptions {
+export interface BDZoneOptions {
     off?: boolean;
     instant?: boolean;
 }
+export interface BDOptions {
+    defaultBackdrop?: BDMinValues;
+    scrollPosition?: number;
+}
 export default class Backdrop {
-    /**
-     *  scroll position from top of viewport that will be used to trigger backdrop zones
-     *
-     *  @param {number} scrollPosition
-     *  @default
-     */
-    private scrollPosition;
-    /**
-     *  scroll position that will trigger backdrop zone. backdrop zones will trigger
-     *  if scroll position falls in between top and bottom of registered zone
-     *
-     *  @type {Object}
-     *  @param
-     */
-    private defaultBackdrop;
     /**
      *  callback to render changes to Backdrop container component
      *
-     *  @type {() => void}
+     *  @param {() => void}
      *  @callback
-     *  @param
      */
     private renderCallback;
+    /**
+     * Assign options to backdrop container.
+     *
+     * @param {Object} options - Options set for the backdrop container on init.
+     * @param {Object} options.default - Default backdrop for scroll position outside of backdrop zone.
+     * @param {number} options.scrollPosition - Scroll position from top to scan for & trigger backdrop zone.
+     */
+    options?: BDOptions;
     /**
      *  Backdrop zones will be registered into map using string-based, uniqueIDs as keys.
      *
@@ -68,28 +64,37 @@ export default class Backdrop {
     default: BDValues;
     constructor(
     /**
-     *  scroll position from top of viewport that will be used to trigger backdrop zones
-     *
-     *  @param {number} scrollPosition
-     *  @default
-     */
-    scrollPosition: number, 
-    /**
-     *  scroll position that will trigger backdrop zone. backdrop zones will trigger
-     *  if scroll position falls in between top and bottom of registered zone
-     *
-     *  @type {Object}
-     *  @param
-     */
-    defaultBackdrop: BDMinValues, 
-    /**
      *  callback to render changes to Backdrop container component
      *
-     *  @type {() => void}
+     *  @param {() => void}
      *  @callback
-     *  @param
      */
-    renderCallback: () => void);
+    renderCallback: () => void, 
+    /**
+     * Assign options to backdrop container.
+     *
+     * @param {Object} options - Options set for the backdrop container on init.
+     * @param {Object} options.default - Default backdrop for scroll position outside of backdrop zone.
+     * @param {number} options.scrollPosition - Scroll position from top to scan for & trigger backdrop zone.
+     */
+    options?: BDOptions);
+    /**
+     *  validate user options & throw errors when needed
+     *
+     *  @method
+     */
+    private validateOptions;
+    /**
+     *  invoked within the constructor. Couple of things happen here:
+     *    - sets the current & previous to default vales to avoid errors when setting
+     *      current and previous property methods within the set method
+     *    - loads the store with default values under the 'default' key
+     *    - fires the render callback to flush those changes to container component
+     *    - attaches scroll event to window
+     *
+     *  @method
+     */
+    private init;
     /**
      *  public facing getter property for backdrop zone store. Keeps private store
      *  untouched by returning new Map containing backdrop key/value pairs from private store
@@ -102,17 +107,6 @@ export default class Backdrop {
      *
      */
     get [Symbol.toStringTag](): string;
-    /**
-     *  invoked within the constructor. Couple of things happen here:
-     *    - sets the current & previous to default vales to avoid errors when setting
-     *      current and previous property methods within the set method
-     *    - loads the store with default values under the 'default' key
-     *    - fires the render callback to flush those changes to container component
-     *    - attaches scroll event to window
-     *
-     *  @method
-     */
-    private init;
     /**
      *  remove scroll event from window
      *
@@ -139,7 +133,7 @@ export default class Backdrop {
      *  @callback
      *  @this Backdrop instance
      */
-    private calculate;
+    private scan;
     /**
      *  sets pass in backdrop value object to current property, sets prior current
      *  backdrop value object to previous property, and fires container render callback
@@ -159,5 +153,5 @@ export default class Backdrop {
      *  @param {Object} options - options for registered backdrop zones
      *  @method
      */
-    register(backdrop: BDValues, options: BDOptions): void;
+    register(backdrop: BDValues, options: BDZoneOptions): void;
 }

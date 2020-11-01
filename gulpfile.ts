@@ -5,6 +5,8 @@ import tsify from 'tsify';
 import babelify from 'babelify';
 import loadPlugins from 'gulp-load-plugins';
 import babel from 'gulp-babel';
+// @ts-ignore
+import jest from 'gulp-jest';
 
 const $ = loadPlugins();
 
@@ -13,6 +15,7 @@ const paths = {
   src: {
     all: 'src/**/*{.tsx,.ts}',
     main: 'src/index.tsx',
+    tests: '__test__/**/*.ts'
   },
   lib: {
     main: 'lib/',
@@ -32,6 +35,7 @@ const tsProject = $.typescript.createProject('tsconfig.json');
  *    Gulp subtasks
  * ==================*/
 
+/* Generate types */
 gulp.task('types', () => {
   const tsProjectResult = gulp
     .src(paths.src.all)
@@ -40,7 +44,24 @@ gulp.task('types', () => {
   return tsProjectResult.dts.pipe(gulp.dest(paths.lib.types));
 });
 
+gulp.task('test', () => {
+  const config = {
+    preprocessorIgnorePatterns: [
+      "<rootDir>/dist/", "<rootDir>/node_modules/"
+    ],
+    // "automock": false
+    name: 'React Scroll Backdrop',
+    jest: {
+      verbose: true
+    }
+  }
 
+  return gulp
+    .src(paths.src.tests)
+    .pipe(jest(config))
+});
+
+/* Compile source code */
 gulp.task('js', () => {
   return gulp
     .src(paths.src.all)
@@ -113,10 +134,18 @@ gulp.task('develop', () => {
     .on('change',
       gulp.series(
         'js',
-        'markup',
-        browserSync.reload
+        'test',
+        // 'markup',
+        // browserSync.reload,
       )
     );
+
+  gulp.watch(paths.src.tests)
+    .on('change',
+      gulp.series(
+        'test'
+      )
+    )
 
   gulp.watch(paths.demo.markup)
     .on('change',

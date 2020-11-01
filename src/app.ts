@@ -1,5 +1,3 @@
-import shortid from 'shortid';
-
 /* ======= Color Container ========
  * =============================*/
 
@@ -15,9 +13,14 @@ export interface BDValues extends BDMinValues {
   renderCallback: null | ( () => void );
 }
 
-export interface BDOptions {
+export interface BDZoneOptions {
   off?: boolean;
   instant?: boolean;
+}
+
+export interface BDOptions {
+  defaultBackdrop?: BDMinValues;
+  scrollPosition?: number;
 }
 
 
@@ -57,59 +60,104 @@ export default class Backdrop {
    */
   public default: BDValues;
 
-  constructor(
-  /**
-   *  scroll position from top of viewport that will be used to trigger backdrop zones
-   *
-   *  @param {number} scrollPosition
-   *  @default
-   */
-    private scrollPosition: number = 0,
 
-  /**
-   *  scroll position that will trigger backdrop zone. backdrop zones will trigger
-   *  if scroll position falls in between top and bottom of registered zone
-   *  
-   *  @type {Object}
-   *  @param
-   */
-    private defaultBackdrop: BDMinValues,
+  constructor(
 
   /**
    *  callback to render changes to Backdrop container component
    *  
-   *  @type {() => void}
+   *  @param {() => void}
    *  @callback 
-   *  @param
    */
     private renderCallback: () => void,
+
+  /**
+   * Assign options to backdrop container.
+   *
+   * @param {Object} options - Options set for the backdrop container on init.
+   * @param {Object} options.default - Default backdrop for scroll position outside of backdrop zone.
+   * @param {number} options.scrollPosition - Scroll position from top to scan for & trigger backdrop zone.
+   */
+    public options?: BDOptions
   ) {
 
-    if (!defaultBackdrop) {
-      this.default = {
-        type: defaultBackdrop.type || 'color',
-        value: defaultBackdrop.value || 'transparent',
-        theme: 'default',
-        id: 'default',
-        element: null,
-        renderCallback: null
-      }
-    } else {
-      this.default = {
-        type: 'color',
-        value: 'transparent',
-        theme: 'default',
-        id: 'default',
-        element: null,
-        renderCallback: null
-      }
+    this.validateOptions();
+
+    this.options = {
+      defaultBackdrop: { type: 'color', value: 'transparent' },
+      scrollPosition: 0,
+      ...options
+    }
+
+    this.default = {
+      ...this.options.defaultBackdrop,
+      theme: 'default',
+      id: 'default',
+      element: null,
+      renderCallback: null
     }
 
     this.init();
 
     this.register = this.register.bind(this);
-    this.calculate = this.calculate.bind(this);
+    this.scan = this.scan.bind(this);
     this.remove = this.remove.bind(this);
+  }
+
+  /**
+   *  validate user options & throw errors when needed
+   *
+   *  @method
+   */
+  private validateOptions(): void {
+
+    if (typeof this.renderCallback !== 'function') {
+      throw `renderCallback must be typeof function`
+    }
+
+    if (this.options) {
+      const { defaultBackdrop, scrollPosition } = this.options;
+
+      if (defaultBackdrop) {
+        const requiredKeys = ['type', 'value']
+
+        requiredKeys.forEach(key => {
+          if (!(key in defaultBackdrop)) {
+            throw `Missing key: ${key} in default option`
+          }
+        });
+      }
+
+      if (scrollPosition) {
+        if (typeof scrollPosition !== 'number') {
+          throw `scrollPosition must be typeof number`
+        }
+
+        if (scrollPosition < 0) {
+          throw `scrollPosition must be greater than 0`
+        }
+      }
+    }
+  }
+
+  /**
+   *  invoked within the constructor. Couple of things happen here:
+   *    - sets the current & previous to default vales to avoid errors when setting
+   *      current and previous property methods within the set method
+   *    - loads the store with default values under the 'default' key
+   *    - fires the render callback to flush those changes to container component
+   *    - attaches scroll event to window
+   *
+   *  @method
+   */
+  private init(): void {
+
+    this.current = this.default;
+    this.previous = this.default;
+    this._store.set('default', this.default);
+    this.render();
+
+    window.addEventListener('scroll', this.scrollEvent);
   }
 
   /**
@@ -129,25 +177,6 @@ export default class Backdrop {
   }
 
   /**
-   *  invoked within the constructor. Couple of things happen here:
-   *    - sets the current & previous to default vales to avoid errors when setting
-   *      current and previous property methods within the set method
-   *    - loads the store with default values under the 'default' key
-   *    - fires the render callback to flush those changes to container component
-   *    - attaches scroll event to window
-   *
-   *  @method
-   */
-  private init(): void {
-    this.current = this.default;
-    this.previous = this.default;
-    this._store.set('default', this.default);
-    this.render();
-
-    window.addEventListener('scroll', this.scrollEvent);
-  }
-
-  /**
    *  remove scroll event from window
    *
    *  @method
@@ -159,7 +188,7 @@ export default class Backdrop {
    *
    *  @method
    */
-  public scrollEvent = (): void => { window.requestAnimationFrame(this.calculate) }
+  public scrollEvent = (): void => { window.requestAnimationFrame(this.scan) }
 
 
   /**
@@ -177,7 +206,8 @@ export default class Backdrop {
    *  @callback
    *  @this Backdrop instance
    */
-  private calculate(): void {
+  private scan(): void {
+    const { scrollPosition } = this.options;
     let inZoneRange = false;
 
     this._store.forEach(backdropItem => {
@@ -186,7 +216,7 @@ export default class Backdrop {
 
       const { top, bottom } = backdropItem.element.getBoundingClientRect();
 
-      if (( top <= this.scrollPosition ) && ( bottom >= this.scrollPosition )) {
+      if (( top <= scrollPosition ) && ( bottom >= scrollPosition )) {
         inZoneRange = true;
         const { id, value } = backdropItem;
 
@@ -219,23 +249,20 @@ export default class Backdrop {
    *
    *  @method
    */
-  private render(): void {
-    if (typeof this.renderCallback === 'function') {
-      this.renderCallback();
-    }
-  }
+  private render(): void { this.renderCallback() }
 
   /**
    *  @param {Object} backdrop - backdrop value object to register
    *  @param {Object} options - options for registered backdrop zones
    *  @method
    */
-  public register(backdrop: BDValues, options: BDOptions): void  {
+  public register(backdrop: BDValues, options: BDZoneOptions): void  {
     const { theme = 'default', ...required } = backdrop;
     const { instant = false, off = false } = options;
     const newEntry = { ...required, theme };
 
     if (!off) {
+
       if (backdrop.type === 'image') {
         const preloadedImage = (new Image()).src = newEntry.value;
         newEntry.value = preloadedImage;
@@ -243,9 +270,7 @@ export default class Backdrop {
 
       this._store.set(backdrop.id, newEntry);
 
-      if (instant) {
-        this.set(newEntry);
-      }
+      if (instant) { this.set(newEntry) }
     }
   }
 }
