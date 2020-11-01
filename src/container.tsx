@@ -53,12 +53,13 @@ export class BackdropContainer extends React.PureComponent<BCProps, BCState> {
     const { scrollPosition, defaultValues } = this.props;
     const { isLoaded } = this.state;
 
+    const options = {
+      defaultValues,
+      scrollPosition,
+    };
+
     if (!isLoaded) {
-      this.backdropState = new Backdrop(
-        scrollPosition,
-        defaultValues,
-        this.updateState,
-      );
+      this.backdropState = new Backdrop( this.updateState, options );
 
       this.setState({
         current: this.backdropState.current,

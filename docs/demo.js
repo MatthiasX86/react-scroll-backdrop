@@ -35700,35 +35700,28 @@ var __createBinding;
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],46:[function(require,module,exports){
 "use strict";
+/* ======= Color Container ========
+ * =============================*/
 Object.defineProperty(exports, "__esModule", { value: true });
 class Backdrop {
     constructor(
     /**
-     *  scroll position from top of viewport that will be used to trigger backdrop zones
-     *
-     *  @param {number} scrollPosition
-     *  @default
-     */
-    scrollPosition = 0, 
-    /**
-     *  scroll position that will trigger backdrop zone. backdrop zones will trigger
-     *  if scroll position falls in between top and bottom of registered zone
-     *
-     *  @type {Object}
-     *  @param
-     */
-    defaultBackdrop, 
-    /**
      *  callback to render changes to Backdrop container component
      *
-     *  @type {() => void}
+     *  @param {() => void}
      *  @callback
-     *  @param
      */
-    renderCallback) {
-        this.scrollPosition = scrollPosition;
-        this.defaultBackdrop = defaultBackdrop;
+    renderCallback, 
+    /**
+     * Assign options to backdrop container.
+     *
+     * @param {Object} options - Options set for the backdrop container on init.
+     * @param {Object} options.default - Default backdrop for scroll position outside of backdrop zone.
+     * @param {number} options.scrollPosition - Scroll position from top to scan for & trigger backdrop zone.
+     */
+    options) {
         this.renderCallback = renderCallback;
+        this.options = options;
         /**
          *  Backdrop zones will be registered into map using string-based, uniqueIDs as keys.
          *
@@ -35748,7 +35741,7 @@ class Backdrop {
          *
          *  @method
          */
-        this.scrollEvent = () => { window.requestAnimationFrame(this.calculate); };
+        this.scrollEvent = () => { window.requestAnimationFrame(this.scan); };
         /**
          *  remove backdrop from store {Map<string, DBValues>}
          *
@@ -35756,44 +35749,52 @@ class Backdrop {
          *  @method
          */
         this.remove = (id) => { this._store.delete(id); };
-        if (!defaultBackdrop) {
-            this.default = {
-                type: defaultBackdrop.type || 'color',
-                value: defaultBackdrop.value || 'transparent',
-                theme: 'default',
-                id: 'default',
-                element: null,
-                renderCallback: null
-            };
-        }
-        else {
-            this.default = {
-                type: 'color',
-                value: 'transparent',
-                theme: 'default',
-                id: 'default',
-                element: null,
-                renderCallback: null
-            };
-        }
+        this.options = {
+            defaultBackdrop: { type: 'color', value: 'transparent' },
+            scrollPosition: 0,
+            ...options
+        };
+        this.default = {
+            ...this.options.defaultBackdrop,
+            theme: 'default',
+            id: 'default',
+            element: null,
+            renderCallback: null
+        };
+        this.validateOptions();
         this.init();
         this.register = this.register.bind(this);
-        this.calculate = this.calculate.bind(this);
+        this.scan = this.scan.bind(this);
         this.remove = this.remove.bind(this);
     }
     /**
-     *  public facing getter property for backdrop zone store. Keeps private store
-     *  untouched by returning new Map containing backdrop key/value pairs from private store
+     *  validate user options & throw errors when needed
      *
-     *  @return {Map<string, object>}
-     *  @public
+     *  @method
      */
-    get store() { return new Map([...this._store]); }
-    /**
-     *
-     */
-    get [Symbol.toStringTag]() {
-        return JSON.stringify(this.store);
+    validateOptions() {
+        if (typeof this.renderCallback !== 'function') {
+            throw `renderCallback must be typeof function`;
+        }
+        if (this.options) {
+            const { defaultBackdrop, scrollPosition } = this.options;
+            if (defaultBackdrop) {
+                const requiredKeys = ['type', 'value'];
+                requiredKeys.forEach(key => {
+                    if (!(key in defaultBackdrop)) {
+                        throw `Missing key: ${key} in default option`;
+                    }
+                });
+            }
+            if (scrollPosition) {
+                if (typeof scrollPosition !== 'number') {
+                    throw `scrollPosition must be typeof number`;
+                }
+                if (scrollPosition < 0) {
+                    throw `scrollPosition must be greater than 0`;
+                }
+            }
+        }
     }
     /**
      *  invoked within the constructor. Couple of things happen here:
@@ -35813,19 +35814,34 @@ class Backdrop {
         window.addEventListener('scroll', this.scrollEvent);
     }
     /**
+     *  public facing getter property for backdrop zone store. Keeps private store
+     *  untouched by returning new Map containing backdrop key/value pairs from private store
+     *
+     *  @return {Map<string, object>}
+     *  @public
+     */
+    get store() { return new Map([...this._store]); }
+    /**
+     *
+     */
+    get [Symbol.toStringTag]() {
+        return JSON.stringify(this.store);
+    }
+    /**
      *  callback attached to window scroll event to listen for backdrop zones
      *
      *  @event
      *  @callback
      *  @this Backdrop instance
      */
-    calculate() {
+    scan() {
+        const { scrollPosition } = this.options;
         let inZoneRange = false;
         this._store.forEach(backdropItem => {
             if (backdropItem.id === 'default')
                 return;
             const { top, bottom } = backdropItem.element.getBoundingClientRect();
-            if ((top <= this.scrollPosition) && (bottom >= this.scrollPosition)) {
+            if ((top <= scrollPosition) && (bottom >= scrollPosition)) {
                 inZoneRange = true;
                 const { id, value } = backdropItem;
                 if (this.current.id !== id && this.current.value !== value) {
@@ -35855,9 +35871,7 @@ class Backdrop {
      *  @method
      */
     render() {
-        if (typeof this.renderCallback === 'function') {
-            this.renderCallback();
-        }
+        this.renderCallback();
     }
     /**
      *  @param {Object} backdrop - backdrop value object to register
@@ -35915,8 +35929,12 @@ class BackdropContainer extends react_1.default.PureComponent {
     componentDidMount() {
         const { scrollPosition, defaultValues } = this.props;
         const { isLoaded } = this.state;
+        const options = {
+            defaultValues,
+            scrollPosition,
+        };
         if (!isLoaded) {
-            this.backdropState = new app_1.default(scrollPosition, defaultValues, this.updateState);
+            this.backdropState = new app_1.default(this.updateState, options);
             this.setState({
                 current: this.backdropState.current,
                 previous: this.backdropState.previous,
