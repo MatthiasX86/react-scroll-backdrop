@@ -94,9 +94,9 @@ import { ColorBackdrop, ImageBackdrop } from 'react-scroll-backdrop';
 
 #### ( active, )
 
-Type: Boolean 
+Type: `boolean` 
 
-Default: false
+Default: `false`
 
 will trigger true when the BackdropZone is in scroll position
 
@@ -104,19 +104,15 @@ will trigger true when the BackdropZone is in scroll position
 
 #### ( , value )
 
-Type: { type: 'color' | 'image', value: string } 
+Type: `{ type: 'color' | 'image', value: string }` 
 
-Default: 'Default'
-
-will trigger a new theme string value throughout all backdrop zones when a backdropZone is in scroll position
+will trigger a new backdrop value throughout all backdrop zones when a backdropZone is in scroll position
 
 </br>
 
 #### ( , , theme )
 
-Type: strnig 
-
-Default: 'default'
+Type: `string` 
 
 will trigger a new theme string value throughout all backdrop zones when a backdropZone is in scroll position
 
@@ -127,9 +123,7 @@ will trigger a new theme string value throughout all backdrop zones when a backd
 </br>
 
 ### defaultValue
-Type: { type: 'image' | 'color', value: string } 
-
-Default: { value: 'transparent', type: 'color'}
+Type: `{ type: 'image' | 'color', value: string }` 
 
 When the scroll position is not at an indicated backdrop zone scroll position the backdrop container background will transition to the default values
 
@@ -157,9 +151,9 @@ const DefaultImageValues = {
 </br>
 
 ### animationDuration
-Type: Number 
+Type: `number` 
 
-default: 600
+default: `600`
 
 Animation duration in milliseconds that will be applied to all animation/transitions in between zones
 
@@ -167,9 +161,9 @@ Animation duration in milliseconds that will be applied to all animation/transit
 </br>
 
 ### fromTop
-Type: Number 
+Type: `number` 
 
-Default: 0
+Default: `0`
 
 The value of fromTop is used as the scroll position **in pixels** that will be used to check for and trigger backdrop color/image transitions. When a BackdropZone component reaches 100px from viewport top, for example, it will trigger that BackdropZone's color/image value.
 
@@ -180,9 +174,9 @@ The value of fromTop is used as the scroll position **in pixels** that will be u
 </br>
 
 ### value
-Type: String
+Type: `string`
 
-Default: undefined
+Default: `undefined`
 
 Color backdrop: any acceptable CSS background-color value
 </br>
@@ -191,26 +185,26 @@ Image backdrop: Asset path to image. Accepts any image type acceptable to modern
 </br>
 
 ### theme
-Type: String
+Type: `string`
 
-Default: 'default'
+Default: `'default'`
 
 Theme names are completely arbitrary names that you can provide to backdrop zones. Theme names are registered to a color zone and are triggered when a zone becomes active. When a zone becomes active the theme name is sent to all other backdrop zones and will also available in the backdrop context. Use themes for rendering and events. Ex. change font & UI colors.
 
 </br>
 
 ### instant
-Type: Boolean
+Type: `boolean`
 
-Default: false
+Default: `false`
 
 Because the react-scroll-backdrop is triggered by user scroll, there are going to be times when there is no backdrop color/image because the user hasn't started scrolling. It will remain that way until a scroll in a backdrop zone is triggered. If you need a color/image to be triggered instantly you can provide this prop to the backdrop zone that you would like to trigger instantly.  
 
 </br>
 
 ### off
-Type: Boolean
+Type: `boolean`
 
-Default: false
+Default: `false`
 
 In cases in which react-scroll-backdrop is used in a dynamic environment (Ex. CMS powered builds) you might have use cases in which you might want to have the option to turn a particular zone off. Providing the off property with a value of true prevents the backdrop zone from registering.
