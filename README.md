@@ -7,7 +7,7 @@
 
 **react-scroll-backdrop is a Context API based react component that provides a smooth animation/transition fade-in between color and image backdrops**
 
-On component mount, backdrop transition zones will registered their location on the page. As the `window` scrolls to a specified window scroll position it will scan for backdrop zones to reach that point & trigger backdrop color/images. A zone will remain active as long as the scroll position is within the body of the backdrop zone component 
+On component mount, backdrop transition zones will register their location on the page. As the `window` scrolls to a specified window scroll position it will scan for backdrop zones that reach that point & trigger their respective backdrop color/image. A zone will remain active as long as the scroll position is within the body of the backdrop zone component 
 
 
 
@@ -34,7 +34,7 @@ $ npm install --save react-scroll-backdrop
 
 #### Compositional pattern
 
-Common use case using just BackdropContainer and BackdropZone as parent/child
+Common use case using just BackdropContainer and a BackdropZone as parent/child
 
 </br>
 
@@ -67,13 +67,23 @@ const defaultValue = {
 
 #### Function as a child pattern
 
-Function as children pattern can be used with the BackdropZone to access positional arguments that can be useful when rendering child components to create different states/events.
+Function as children pattern can be used with a BackdropZone to access positional arguments that can be useful when rendering child components to create different states/events.
 
 </br>
 </br>
 
 ```javascript
 import { ColorBackdrop, ImageBackdrop } from 'react-scroll-backdrop';
+
+/*
+ * ex. 
+ *
+ * {
+ *  active: false,
+ *  value: { type: 'color', value: '#dedede' },
+ *  theme: 'light'
+ * }
+ * */
 
 <BackdropContainer>
 
@@ -125,7 +135,7 @@ will trigger a new theme string value throughout all backdrop zones when a backd
 ### defaultValue
 Type: `{ type: 'image' | 'color', value: string }` 
 
-When the scroll position is not at an indicated backdrop zone scroll position the backdrop container background will transition to the default values
+When the scroll position is not at an indicated backdrop zone location the backdrop container background will transition to the default values
 
 
 *for color type. value property accepts any css background-color value*
